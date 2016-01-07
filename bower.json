@@ -1,0 +1,25 @@
+{
+  "name": "feise",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Lazybin <a396887725@hotmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "feise"
+  ],
+  "homepage": "https://github.com/Lazybin/feise",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "resources/assets/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "startbootstrap-sb-admin-2": "~1.0.8"
+  }
+}
