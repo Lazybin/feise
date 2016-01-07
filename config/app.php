@@ -159,7 +159,7 @@ return [
         /*
          * 第三方服务提供者
          */
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        \Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
     ],
 
