@@ -161,6 +161,8 @@ return [
          */
         \Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+        \Riverslei\Swaggervel\SwaggervelServiceProvider::class
+
     ],
 
     /*

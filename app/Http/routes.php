@@ -11,10 +11,18 @@
 |
 */
 
+
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('test','TestController');
+
+
+Route::resource('test1','TestOneController');
 
 /*
 |--------------------------------------------------------------------------
