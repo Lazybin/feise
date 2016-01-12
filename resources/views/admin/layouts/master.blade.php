@@ -1,27 +1,26 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <title>App Name - @yield('title')</title>
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="{{ url('../resources/assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link href="{{ url('../resources/assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
     <link href="{{ url('../resources/assets/vendor/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
 
-    <!-- Timeline CSS -->
-    <link rel="stylesheet" href="{{ url('../resources/assets/vendor/startbootstrap-sb-admin-2/dist/css/timeline.css') }}">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url('../resources/assets/vendor/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css') }}">
-
-    <!-- Morris Charts CSS -->
-    <link href="{{ url('../resources/assets/vendor/morrisjs/morris.css') }}" rel="stylesheet">
-
     @yield("customercss")
 
+    <!-- Custom CSS -->
+    <link href="{{ url('../resources/assets/vendor/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css') }}" rel="stylesheet">
+
     <!-- Custom Fonts -->
-    <link rel="stylesheet" type="text/css" href="{{ url('../resources/assets/vendor/font-awesome/css/font-awesome.css') }}">
+    <link href="{{ url('../resources/assets/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
