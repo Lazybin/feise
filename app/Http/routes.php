@@ -41,7 +41,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/', 'Admin\HomeController@index');
 
-        Route::get('/permission/', 'Admin\PermissionController@index');
+        Route::get('/permission/', 'Admin\PermissionController@show');
+        Route::get('/permission/index', 'Admin\PermissionController@index');
+        Route::post('/permission/store', 'Admin\PermissionController@store');
+        Route::post('/permission/update/{id}', 'Admin\PermissionController@update');
+        Route::get('/permission/detail/{id}', 'Admin\PermissionController@detail');
+        Route::get('/permission/delete/{id}', 'Admin\PermissionController@delete');
     });
 
 
