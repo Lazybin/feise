@@ -34,6 +34,35 @@
             ]
         },
         {
+            "path": "/test1/love",
+            "description": "Operations about pets",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Find pet by ID",
+                    "nickname": "getPetById",
+                    "type": "Pet",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "petId",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "ID of pet that needs to be fetched"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 404,
+                            "message": "Pet not found"
+                        }
+                    ],
+                    "notes": "Returns a pet based on ID"
+                }
+            ]
+        },
+        {
             "path": "/test1/qqq",
             "description": "Operations about pets",
             "operations": [

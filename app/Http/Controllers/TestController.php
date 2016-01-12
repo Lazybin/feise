@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
 /**
  * @SWG\Resource(
  *     apiVersion="0.2",
@@ -37,6 +39,9 @@ class TestController extends Controller
      * )
      */
     public function index(){
+
+        $user = Auth::user();
+        var_dump($user);
         echo 1111;
     }
 }

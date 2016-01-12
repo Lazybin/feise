@@ -39,4 +39,28 @@ class TestOneController extends Controller
     public function index(){
         echo 1111;
     }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/test1/love",
+     *   description="Operations about pets",
+     *   @SWG\Operation(
+     *     method="GET", summary="Find pet by ID", notes="Returns a pet based on ID",
+     *     type="Pet", nickname="getPetById",
+     *     @SWG\ResponseMessage(code=404, message="Pet not found"),
+     *     @SWG\Parameter(
+     *          name="petId",
+     *          description="ID of pet that needs to be fetched",
+     *          paramType="path",
+     *          required=true,
+     *          allowMultiple=false,
+     *          type="string"
+     *      )
+     *   )
+     * )
+     */
+    public function love(){
+        echo 1111;
+    }
 }

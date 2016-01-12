@@ -15,14 +15,12 @@
 
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::resource('test','TestController');
 
 
 Route::resource('test1','TestOneController');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +34,18 @@ Route::resource('test1','TestOneController');
 */
 
 Route::group(['middleware' => ['web']], function () {
+
+    Route::get('admin/login', 'Admin\Auth\AuthController@getLogin');
+    Route::post('admin/login', 'Admin\Auth\AuthController@postLogin');
+    Route::get('admin/logout', 'Admin\Auth\AuthController@logout');
+    Route::group(['middleware' => ['auth']], function () {
+        Route::get('/', 'Admin\HomeController@index');
+
+        Route::get('/permission/', 'Admin\PermissionController@index');
+    });
+
+
+
     //
-    Route::get('auth/login', 'Auth\AuthController@getLogin');
-    Route::post('auth/login', 'Auth\AuthController@postLogin');
-    Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
 });
