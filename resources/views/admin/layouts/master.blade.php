@@ -18,6 +18,8 @@
     <!-- Morris Charts CSS -->
     <link href="{{ url('../resources/assets/vendor/morrisjs/morris.css') }}" rel="stylesheet">
 
+    @yield("customercss")
+
     <!-- Custom Fonts -->
     <link rel="stylesheet" type="text/css" href="{{ url('../resources/assets/vendor/font-awesome/css/font-awesome.css') }}">
 
@@ -27,6 +29,7 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 
 </head>
 <body>
