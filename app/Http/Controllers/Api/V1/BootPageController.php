@@ -14,7 +14,7 @@ use App\Http\Controllers\Controller;
  *     apiVersion="0.2",
  *     swaggerVersion="1.2",
  *     resourcePath="/boot_page",
- *     basePath="http://localhost/feise/public/api/v1"
+ *     basePath="http://120.27.199.121/feise/public/api/v1"
  * )
  */
 class BootPageController extends Controller
