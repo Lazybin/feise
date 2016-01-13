@@ -31,13 +31,22 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="{{url('/')}}"><i class="fa fa-dashboard fa-fw"></i> 控制台</a>
+                        <a href="{{url('/')}}/"><i class="fa fa-dashboard fa-fw"></i> 控制台</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-key fa-fw"></i> 权限管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="{{url('/permission/')}}">管理员管理</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa  fa-gear fa-fw"></i> 系统配置<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{url('/boot_page/')}}">启动页图片配置</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
