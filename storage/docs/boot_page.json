@@ -1,0 +1,26 @@
+{
+    "basePath": "http://localhost/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/boot_page",
+    "apis": [
+        {
+            "path": "/boot_page",
+            "description": "\u53d6\u5f97\u542f\u52a8\u9875\u5e7f\u544a",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u53d6\u5f97\u542f\u52a8\u9875\u5e7f\u544a",
+                    "nickname": "index",
+                    "responseMessages": [
+                        {
+                            "code": 404,
+                            "message": "page not found"
+                        }
+                    ],
+                    "notes": "\u8fd4\u56depath"
+                }
+            ]
+        }
+    ]
+}

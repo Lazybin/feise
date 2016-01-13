@@ -3,12 +3,8 @@
     "swaggerVersion": "1.2",
     "apis": [
         {
-            "path": "/test",
-            "description": "Operations about pets"
-        },
-        {
-            "path": "/test1",
-            "description": "Operations about pets"
+            "path": "/boot_page",
+            "description": "\u53d6\u5f97\u542f\u52a8\u9875\u5e7f\u544a"
         }
     ]
 }

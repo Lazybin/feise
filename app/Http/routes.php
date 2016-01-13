@@ -12,7 +12,9 @@
 */
 
 
-
+Route::group(['middleware' => ['api']], function () {
+    Route::resource('api/v1/boot_page','Api\V1\BootPageController',['only' => ['index']]);
+});
 
 
 
