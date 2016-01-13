@@ -14,4 +14,14 @@ class BootPageController extends Controller
     {
         return view('admin.setting.boot_page');
     }
+
+    public function store(Request $request)
+    {
+        $file = $request->file('input-id');
+
+        if ($file->isValid())
+        {
+            $file->move(base_path().'/public/upload',time().'.'.$file->getClientOriginalExtension());
+        }
+    }
 }

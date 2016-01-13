@@ -51,7 +51,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/permission/delete/{id}', 'Admin\PermissionController@delete');
 
         Route::get('/boot_page/', 'Admin\BootPageController@show');
-
+        Route::post('/boot_page/store', 'Admin\BootPageController@store');
 
     });
 
