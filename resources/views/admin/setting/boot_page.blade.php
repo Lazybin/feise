@@ -12,7 +12,11 @@
             rowseClass: "btn btn-primary btn-block",
             showCaption: false,
             showRemove: false,
-            showUpload: false
+            showUpload: false,
+            initialPreview: [
+                '<img src="{{url('/').$bootPage['path']}}" class="file-preview-image">'
+            ],
+            overwriteInitial: true
         });
     </script>
 @endsection
@@ -35,11 +39,6 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    <img height="121px" id="img_cover" width="166px"  />
-                                </div>
-                            </div>
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <input id="input-id" name="input-id" type="file" class="file" data-preview-file-type="text" >

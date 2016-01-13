@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\BootPage;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -12,7 +13,8 @@ class BootPageController extends Controller
     //
     public function show()
     {
-        return view('admin.setting.boot_page');
+        $data['bootPage']=BootPage::find(1)->toArray();
+        return view('admin.setting.boot_page',$data);
     }
 
     public function store(Request $request)
@@ -21,7 +23,13 @@ class BootPageController extends Controller
 
         if ($file->isValid())
         {
-            $file->move(base_path().'/public/upload',time().'.'.$file->getClientOriginalExtension());
+            $fileName=time().'.'.$file->getClientOriginalExtension();
+            $file->move(base_path().'/public/upload',$fileName);
+
+            $bootPage=BootPage::findOrNew(1);
+            $bootPage->path='/upload/'.$fileName;
+            $bootPage->save();
         }
+        return redirect()->action('Admin\BootPageController@show');
     }
 }
