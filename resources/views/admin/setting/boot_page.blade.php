@@ -47,7 +47,7 @@
                         </div>
                         <!-- /.panel-body -->
                         <div class="panel-footer">
-                            <button type="submit" class="btn btn-primary btn_first" data-dismiss="modal" onclick="onSubmitAdmin()">提交</button>
+                            <button type="submit" class="btn btn-primary btn_first" data-dismiss="modal" >提交</button>
                         </div>
                     </div>
                     <!-- /.panel -->

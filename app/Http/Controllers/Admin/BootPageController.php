@@ -19,10 +19,11 @@ class BootPageController extends Controller
 
     public function store(Request $request)
     {
-        $file = $request->file('input-id');
 
-        if ($file->isValid())
+
+        if ($request->hasFile('input-id'))
         {
+            $file = $request->file('input-id');
             $fileName=time().'.'.$file->getClientOriginalExtension();
             $file->move(base_path().'/public/upload',$fileName);
 

@@ -51,13 +51,20 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/permission/store', 'Admin\PermissionController@store');
         Route::post('/permission/update/{id}', 'Admin\PermissionController@update');
         Route::get('/permission/detail/{id}', 'Admin\PermissionController@detail');
-        Route::get('/permission/delete/{id}', 'Admin\PermissionController@delete');
+        Route::delete('/permission/delete/{id}', 'Admin\PermissionController@delete');
 
         Route::get('/boot_page/', 'Admin\BootPageController@show');
         Route::post('/boot_page/store', 'Admin\BootPageController@store');
 
         Route::get('/gift_token_setting/', 'Admin\GiftTokenSettingController@show');
         Route::get('/gift_token_setting/update/{id}', 'Admin\GiftTokenSettingController@update');
+
+        Route::get('/banner/', 'Admin\BannerController@show');
+        Route::get('/banner/index', 'Admin\BannerController@index');
+        Route::post('/banner/store', 'Admin\BannerController@store');
+        Route::get('/banner/detail/{id}', 'Admin\BannerController@detail');
+        Route::post('/banner/update', 'Admin\BannerController@update');
+        Route::delete('/banner/delete/{id}', 'Admin\BannerController@delete');
 
     });
 

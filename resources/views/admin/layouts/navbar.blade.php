@@ -51,6 +51,9 @@
                             <li>
                                 <a href="{{url('/gift_token_setting/')}}">礼券设置</a>
                             </li>
+                            <li>
+                                <a href="{{url('/banner/')}}">banner设置</a>
+                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>

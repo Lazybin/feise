@@ -121,8 +121,11 @@
         $.ajax({
             url: "{{url('/')}}/permission/delete/"+id,
             async: true,
-            type: "GET",
+            type: "DELETE",
             dataType:'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             success: function(recv){
                 if(recv.meta.code=='0'){
                     var val=recv.meta.error;
@@ -211,13 +214,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="odd gradeX">
-                                    <td>Trident</td>
-                                    <td>Internet Explorer 4.0</td>
-                                    <td>Win 95+</td>
-                                    <td class="center">4</td>
-                                    <td class="center">X</td>
-                                </tr>
 
                                 </tbody>
                             </table>
@@ -255,7 +251,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">密码</label>
-                            <input type="password" class="form-control" id="password" placeholder="请输入如密码">
+                            <input type="password" class="form-control" id="password" placeholder="请输入密码">
                         </div>
                     </form>
                 </div>
