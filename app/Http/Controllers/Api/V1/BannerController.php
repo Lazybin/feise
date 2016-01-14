@@ -25,7 +25,7 @@ class BannerController extends Controller
      *   path="/setting/banner",
      *   description="系统设置",
      *   @SWG\Operation(
-     *     method="GET", summary="取得首页banner", notes="",
+     *     method="GET", summary="取得首页banner", notes="返回的为相对路径，使用时请在前面加上http://120.27.199.121/feise/public",
      *     @SWG\ResponseMessage(code=404, message="page not found")
      *
      *   )

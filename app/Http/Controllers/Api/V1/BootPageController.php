@@ -24,7 +24,7 @@ class BootPageController extends Controller
      * @SWG\Api(
      *   path="/setting/boot_page",
      *   @SWG\Operation(
-     *     method="GET", summary="取得启动页广告", notes="返回path",
+     *     method="GET", summary="取得启动页广告", notes="返回的为相对路径，使用时请在前面加上http://120.27.199.121/feise/public",
      *     @SWG\ResponseMessage(code=404, message="page not found")
      *
      *   )
@@ -35,7 +35,7 @@ class BootPageController extends Controller
         //
         $response=new BaseResponse();
         $path=BootPage::select('path')->find(1);
-        $response->Data=url('/').$path->path;
+        $response->Data=$path->path;
         return $response->toJson();
     }
 
