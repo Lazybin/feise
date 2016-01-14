@@ -48,6 +48,9 @@
                             <li>
                                 <a href="{{url('/boot_page/')}}">启动页图片配置</a>
                             </li>
+                            <li>
+                                <a href="{{url('/gift_token_setting/')}}">礼券设置</a>
+                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>

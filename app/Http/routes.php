@@ -55,6 +55,9 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/boot_page/', 'Admin\BootPageController@show');
         Route::post('/boot_page/store', 'Admin\BootPageController@store');
 
+        Route::get('/gift_token_setting/', 'Admin\GiftTokenSettingController@show');
+        Route::get('/gift_token_setting/update/{id}', 'Admin\GiftTokenSettingController@update');
+
     });
 
 
