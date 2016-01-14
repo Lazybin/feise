@@ -22,7 +22,7 @@ class BannerController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="setting/banner",
+     *   path="/setting/banner",
      *   description="系统设置",
      *   @SWG\Operation(
      *     method="GET", summary="取得首页banner", notes="",
