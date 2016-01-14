@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
  * @SWG\Resource(
  *     apiVersion="0.2",
  *     swaggerVersion="1.2",
- *     resourcePath="/gift_token_setting",
+ *     resourcePath="/setting",
  *     basePath="http://120.27.199.121/feise/public/api/v1"
  * )
  */
@@ -22,8 +22,7 @@ class GiftTokenSettingController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="/gift_token_setting",
-     *   description="礼券管理",
+     *   path="/setting/gift_token_setting",
      *   @SWG\Operation(
      *     method="GET", summary="返回礼券获取开启状态", notes="返回礼券获取开启状态",
      *     @SWG\ResponseMessage(code=404, message="page not found"),

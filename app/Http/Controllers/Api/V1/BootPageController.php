@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
  * @SWG\Resource(
  *     apiVersion="0.2",
  *     swaggerVersion="1.2",
- *     resourcePath="/boot_page",
+ *     resourcePath="/setting",
  *     basePath="http://120.27.199.121/feise/public/api/v1"
  * )
  */
@@ -22,8 +22,7 @@ class BootPageController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="/boot_page",
-     *   description="取得启动页广告",
+     *   path="/setting/boot_page",
      *   @SWG\Operation(
      *     method="GET", summary="取得启动页广告", notes="返回path",
      *     @SWG\ResponseMessage(code=404, message="page not found")

@@ -1,0 +1,70 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/setting",
+    "apis": [
+        {
+            "path": "/setting/boot_page",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u53d6\u5f97\u542f\u52a8\u9875\u5e7f\u544a",
+                    "nickname": "index",
+                    "responseMessages": [
+                        {
+                            "code": 404,
+                            "message": "page not found"
+                        }
+                    ],
+                    "notes": "\u8fd4\u56depath"
+                }
+            ]
+        },
+        {
+            "path": "/setting/gift_token_setting",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u8fd4\u56de\u793c\u5238\u83b7\u53d6\u5f00\u542f\u72b6\u6001",
+                    "nickname": "index",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "1:\u6ce8\u518c\u9886\u53d6 2:\u5b8c\u5584\u8d44\u6599\u9886\u53d6"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 404,
+                            "message": "page not found"
+                        }
+                    ],
+                    "notes": "\u8fd4\u56de\u793c\u5238\u83b7\u53d6\u5f00\u542f\u72b6\u6001"
+                }
+            ]
+        },
+        {
+            "path": "setting/banner",
+            "description": "\u7cfb\u7edf\u8bbe\u7f6e",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u53d6\u5f97\u9996\u9875banner",
+                    "nickname": "index",
+                    "responseMessages": [
+                        {
+                            "code": 404,
+                            "message": "page not found"
+                        }
+                    ],
+                    "notes": ""
+                }
+            ]
+        }
+    ]
+}
