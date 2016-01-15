@@ -35,7 +35,7 @@ class BootPageController extends Controller
         //
         $response=new BaseResponse();
         $path=BootPage::select('path')->find(1);
-        $response->Data=$path->path;
+        $response->Data=$path;
         return $response->toJson();
     }
 
