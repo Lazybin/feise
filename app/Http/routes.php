@@ -70,6 +70,15 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/category/', 'Admin\CategoryController@show');
         Route::get('/category/index', 'Admin\CategoryController@index');
         Route::post('/category/store', 'Admin\CategoryController@store');
+        Route::get('/category/detail/{id}', 'Admin\CategoryController@detail');
+        Route::post('/category/update/{id}', 'Admin\CategoryController@update');
+        Route::delete('/category/delete/{id}', 'Admin\CategoryController@delete');
+
+        Route::get('/category/get_property/{id}', 'Admin\CategoryController@get_property');
+        Route::delete('/category/delete_property/{id}', 'Admin\CategoryController@delete_property');
+        Route::post('/category/store_property', 'Admin\CategoryController@store_property');
+        Route::get('/category/property_detail/{id}', 'Admin\CategoryController@property_detail');
+        Route::post('/category/property_update/{id}', 'Admin\CategoryController@property_update');
 
     });
 

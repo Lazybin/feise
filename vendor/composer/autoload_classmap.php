@@ -9,6 +9,7 @@ return array(
     'CreateBannersTable' => $baseDir . '/database/migrations/2016_01_14_123709_create_banners_table.php',
     'CreateBootPagesTable' => $baseDir . '/database/migrations/2016_01_13_064557_create_boot_pages_table.php',
     'CreateCategoriesTable' => $baseDir . '/database/migrations/2016_01_15_075053_create_categories_table.php',
+    'CreateCategoryPropertiesTable' => $baseDir . '/database/migrations/2016_01_16_073910_create_category_properties_table.php',
     'CreateGiftTokenSettingsTable' => $baseDir . '/database/migrations/2016_01_14_064248_create_gift_token_settings_table.php',
     'CreateOperatorsTable' => $baseDir . '/database/migrations/2016_01_12_025810_create_operators_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
