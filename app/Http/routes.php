@@ -44,6 +44,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('admin/logout', 'Admin\Auth\AuthController@logout');
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/', 'Admin\HomeController@index');
+        Route::get('/home/', 'Admin\HomeController@index');
 
         Route::get('/upload/upload_image', 'Admin\UploadController@upload_image');
 
@@ -79,6 +80,11 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/category/store_property', 'Admin\CategoryController@store_property');
         Route::get('/category/property_detail/{id}', 'Admin\CategoryController@property_detail');
         Route::post('/category/property_update/{id}', 'Admin\CategoryController@property_update');
+
+        Route::get('/goods/', 'Admin\GoodsController@show');
+        Route::get('/goods/index', 'Admin\GoodsController@index');
+        Route::post('/goods/store', 'Admin\GoodsController@store');
+
 
     });
 

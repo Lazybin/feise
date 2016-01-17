@@ -31,11 +31,14 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="{{url('/')}}/"><i class="fa fa-dashboard fa-fw"></i> 控制台</a>
+                        <a href="{{url('/home/')}}/"><i class="fa fa-dashboard fa-fw"></i> 控制台</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa  fa-gift fa-fw"></i> 商品管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{url('/goods/')}}">商品管理</a>
+                            </li>
                             <li>
                                 <a href="{{url('/category/')}}">分类管理</a>
                             </li>
