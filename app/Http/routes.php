@@ -84,6 +84,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/goods/', 'Admin\GoodsController@show');
         Route::get('/goods/index', 'Admin\GoodsController@index');
         Route::post('/goods/store', 'Admin\GoodsController@store');
+        Route::delete('/goods/delete/{id}', 'Admin\GoodsController@delete');
 
 
     });

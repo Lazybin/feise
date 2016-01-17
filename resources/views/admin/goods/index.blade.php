@@ -9,6 +9,7 @@
 
     <!-- DataTables Responsive CSS -->
     <link href="{{ url('../resources/assets/vendor/datatables-responsive/css/dataTables.responsive.css') }}" rel="stylesheet">
+    <link href="{{ url('/css/jquery.tagsinput.min.css') }}" rel="stylesheet">
     @endsection
 
     @section('customerjs')
@@ -17,6 +18,7 @@
     <script src="{{ url('../resources/assets/vendor/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ url('/js/ueditor.config.js') }}"></script>
     <script src="{{ url('/js/ueditor.all.min.js') }}"></script>
+    <script src="{{ url('/js/jquery.tagsinput.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             var ue = UE.getEditor('container',{
@@ -41,7 +43,7 @@
                         "previous":   "上一页"
                     }
                 },
-                "iDisplayLength": 5,
+                "iDisplayLength": 10,
                 "lengthMenu" : [[5, 10, 20, 50, -1], [5, 10, 20, 50, "全部"]],
                 "processing": true,
                 "autoWidth": false,
@@ -121,7 +123,7 @@
             $("#name").val('');
             $("#email").val('');
             $("#password").val('');
-            $("#title").html('添加管理员');
+            $("#title").html('添加商品');
             $("#id").val(-1);
 
             $('#adminModel').modal('show');
@@ -157,7 +159,7 @@
 
         function onDelete(id){
             $.ajax({
-                url: "{{url('/')}}/permission/delete/"+id,
+                url: "{{url('/')}}/goods/delete/"+id,
                 async: true,
                 type: "DELETE",
                 dataType:'json',
@@ -177,44 +179,75 @@
             });
         }
 
-        function onSubmit(){
+        function initCategory(pid){
+            var category = $("#category");
+            var str_html='<option value="-1" selected>请选择分类</option>';
+            if(pid!=0&&pid!=-1) {
+                $.ajax({
+                    url: "{{url('/')}}/category/index?length=100&pid=" + pid,
+                    async: true,
+                    type: "get",
+                    dataType: 'json',
+                    success: function (data) {
+                        var rows=data.data;
+                        $.each(rows, function (key, item) {
+                            str_html += '<option value="' + item['id'] + '">' + item['name'] + '</option>';
+                        });
+                        category.html(str_html);
+                    }
+                });
+            }else{
+                category.html(str_html);
+            }
+        }
+        function initPropertyContainer(category_id){
+            var propertyContainer = $("#propertyContainer");
+            var str_html='';
+            var tags=[];
+            if(category_id!=0&&category_id!=-1) {
+                $.ajax({
+                    url: "{{url('/')}}/category/get_property/" + category_id,
+                    async: true,
+                    type: "get",
+                    dataType: 'json',
+                    success: function (data) {
+                        var rows=data.data;
+                        $.each(rows, function (key, item) {
 
-            var container=$("#container").val();
-            console.log(container);
+                            str_html +='<div class="form-group">';
+                            str_html +='<label class="col-sm-2 control-label">'+item['name']+'</label>';
+                            str_html +='<div class="col-sm-10">';
+                            if(item['type']==0){
+                                str_html+='<input  type="text" id="property_'+item['id']+'" name="property_'+item['id']+'" value="" />';
+                                tags.push("property_"+item['id']);
+                            }else{
+                                str_html +='<input type="text" class="form-control" id="property_'+item['id']+'" name="property_'+item['id']+'" placeholder="请输入'+item['name']+'">';
+                            }
+                            str_html +='</div></div>';
+                        });
+                        propertyContainer.html(str_html);
+                        $.each(tags,function(k,v){
+                            $('#'+v).tagsInput({
+                                'width':'700px',
+                                'height':'42px',
+                                'defaultText':'添加选项'
+                            });
+                        });
+                    }
+                });
+            }else{
+                propertyContainer.html(str_html);
+            }
+        }
 
-            {{--var name=$("#name").val();--}}
-            {{--var email=$("#email").val();--}}
-            {{--var password=$("#password").val();--}}
-            {{--var id=$("#id").val();--}}
-            {{--var subUrl='';--}}
-            {{--if(id!=-1){--}}
-                {{--subUrl= "{{url('/')}}/permission/update/"+id;--}}
-            {{--}else{--}}
-                {{--subUrl= "{{url('/')}}/permission/store";--}}
-            {{--}--}}
-            {{--$.ajax({--}}
-                {{--url: subUrl,--}}
-                {{--async: true,--}}
-                {{--type: "POST",--}}
-                {{--dataType:'json',--}}
-                {{--headers: {--}}
-                    {{--'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-                {{--},--}}
-                {{--data: {name:name, email:email,password:password},--}}
-                {{--success: function(recv){--}}
-                    {{--if(recv.meta.code=='0')--}}
-                    {{--{--}}
-                        {{--var val=recv.meta.error;--}}
-                        {{--bootbox.alert(val, function() {--}}
-                        {{--});--}}
-                    {{--}--}}
-                    {{--else if(recv.meta.code=='1')--}}
-                    {{--{--}}
-                        {{--window.location.reload();--}}
-                    {{--}--}}
-                    {{--return true;--}}
-                {{--}--}}
-            {{--});--}}
+        function onParentCategoryChange(){
+            var pid=$("#parentCategory").val();
+            initCategory(pid);
+        }
+
+        function onCategoryChange(){
+            var category_id=$("#category").val();
+            initPropertyContainer(category_id);
         }
     </script>
 @endsection
@@ -279,7 +312,7 @@
     <div class="modal fade" id="adminModel">
         <form enctype="multipart/form-data" class="row-border form-horizontal" method="post"  action="{{url('/')}}/goods/store">
             {!! csrf_field() !!}
-            <div class="modal-dialog" style="width:720px;">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -293,20 +326,37 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">价格</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="price" name="price" placeholder="请输入商品价格">
+                                <label class="col-sm-2 control-label">类别</label>
+                                <div class="col-sm-4">
+                                    <select id="parentCategory" class="form-control" onchange="onParentCategoryChange()">
+                                        <option value="-1" selected>请选择类别</option>
+                                        @foreach($categories as $c)
+                                        <option value="{{$c['id']}}">{{$c['name']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select name="category" id="category" class="form-control" onchange="onCategoryChange()">
+                                        <option value="-1" selected>请选择类别</option>
+                                    </select>
                                 </div>
                             </div>
+                            <div id="propertyContainer">
+
+                            </div>
                             <div class="form-group">
-                                <label for="inputGoodsName" class="col-sm-2 control-label">原价</label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-2 control-label">价格</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="price" name="price" placeholder="请输入商品价格">
+                                </div>
+                                <label for="inputGoodsName" class="col-sm-1 control-label">原价</label>
+                                <div class="col-sm-4">
                                     <input type="text" class="form-control" id="original_price" name="original_price" placeholder="请输入商品原价">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputGoodsName" class="col-sm-2 control-label">礼券抵用</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-3">
                                     <label class="radio-inline">
                                         <input type="radio"  name="use_coupon" id="useCouponRadios1" value="1">启用
                                     </label>
@@ -314,16 +364,14 @@
                                         <input type="radio" name="use_coupon" id="useCouponRadios2" value="0">禁用
                                     </label>
                                 </div>
-                            </div>
-                            <div class="form-group">
                                 <label for="inputGoodsName" class="col-sm-2 control-label">抵用金额</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-4">
                                     <input type="text" value="0" class="form-control" id="coupon_amount" name="coupon_amount" placeholder="请输入抵用金额">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="inputGoodsName" class="col-sm-2 control-label">快递方式</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-4">
                                     <select class="form-control">
                                         <option value="1">免邮</option>
                                         <option value="2">普通快递</option>
@@ -331,10 +379,8 @@
                                         <option value="4">新疆、青海、西藏等地区</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputGoodsName" class="col-sm-2 control-label">快递费用</label>
-                                <div class="col-sm-10">
+                                <label for="inputGoodsName" class="col-sm-1 control-label">费用</label>
+                                <div class="col-sm-4">
                                     <input type="text" class="form-control" id="express_fee" value="0" name="express_fee" placeholder="请输入快递费用">
                                 </div>
                             </div>

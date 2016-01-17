@@ -16,8 +16,10 @@ class CreateGoodsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');//商品名称
+            $table->unsignedInteger('category_id');//所属分类
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->integer('price');//价格
-            $table->integer('original price')->nullable();//原价
+            $table->integer('original_price')->nullable();//原价
             $table->tinyInteger('use_coupon');//是否启用礼券额外抵用
             $table->integer('coupon_amount')->nullable();//礼券抵用金额
             $table->tinyInteger('express_way');//0:免邮，1:普通快递，2:EMS快递，3:新疆、青海、西藏等地区费用

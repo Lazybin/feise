@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Category;
+use App\Model\CategoryProperty;
 use App\Model\Goods;
+use App\Model\GoodsCategoryProperty;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -12,7 +15,8 @@ class GoodsController extends Controller
 {
     public function show()
     {
-        return view('admin.goods.index');
+        $data['categories']=Category::where('pid',0)->get();
+        return view('admin.goods.index',$data);
     }
     public function index(Request $request)
     {
@@ -34,23 +38,38 @@ class GoodsController extends Controller
     public function store(Request $request)
     {
         $params=$request->all();
-        echo '<pre>';var_dump($params);echo '</pre>';
-//        $banner=new Banner();
-//        $banner->title=$params['title'];
-//        $banner->order=$params['order'];
-//
-//        $banner->action=$params['action'];
-//
-//        $file = $request->file('input-id');
-//
-//        if ($file->isValid())
-//        {
-//            $fileName=time().'.'.$file->getClientOriginalExtension();
-//            $file->move(base_path().'/public/upload',$fileName);
-//
-//            $banner->path='/upload/'.$fileName;
-//        }
-//        $banner->save();
-//        return redirect()->action('Admin\BannerController@show');
+        $properties=[];
+        foreach ($params as $k=>$v){
+            $pos=strpos($k,'property_');
+            if($pos!==false){
+                $id=substr($k,strlen('property_'),strlen($k));
+                if(is_numeric($id))
+                {
+                    $properties[$id]=$v;
+                    unset($params[$k]);
+                }
+            }
+        }
+        $params['category_id']=$params['category'];
+        unset($params['category']);
+        $goods=Goods::create($params);
+        foreach($properties as $key=>$value){
+            $arr=explode(',',$value);
+            foreach($arr as $i){
+                GoodsCategoryProperty::create([
+                    'category_property_id'=>$key,
+                    'goods_id'=>$goods->id,
+                    'value'=>$i
+                ]);
+            }
+        }
+        return redirect()->action('Admin\GoodsController@show');
+    }
+
+    public function delete($id)
+    {
+        Goods::find($id)->delete();
+        $ret['meta']['code']=1;
+        echo json_encode($ret);
     }
 }
