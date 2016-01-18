@@ -10,6 +10,7 @@
     <!-- DataTables Responsive CSS -->
     <link href="{{ url('../resources/assets/vendor/datatables-responsive/css/dataTables.responsive.css') }}" rel="stylesheet">
     <link href="{{ url('/css/jquery.tagsinput.min.css') }}" rel="stylesheet">
+    <link href="{{ url('../resources/assets/vendor/bootstrap-fileinput/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
     @endsection
 
     @section('customerjs')
@@ -19,6 +20,7 @@
     <script src="{{ url('/js/ueditor.config.js') }}"></script>
     <script src="{{ url('/js/ueditor.all.min.js') }}"></script>
     <script src="{{ url('/js/jquery.tagsinput.min.js') }}"></script>
+    <script src="{{ url('../resources/assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
     <script>
         var baseUrl="{{url('/')}}";
         var ue = UE.getEditor('container',{
@@ -27,6 +29,17 @@
             ],
             initialFrameHeight:320  //初始化编辑器高度,默认320
         });
+
+        $("#input-dim-2").fileinput({
+            initialPreview: [
+                "<img style='height:120px' src='http://loremflickr.com/200/150/nature?random=1'>",
+                "<img style='height:120px' src='http://loremflickr.com/200/150/nature?random=2'>",
+                "<img style='height:120px' src='http://loremflickr.com/200/150/nature?random=3'>",
+            ],
+            initialPreviewShowDelete:true,
+            allowedFileExtensions: ["jpg", "png", "gif"]
+        });
+
         $(document).ready(function() {
 
 
@@ -504,6 +517,12 @@
                                     <label class="radio-inline">
                                         <input type="radio" name="returned_goods" id="returnedGoodsRadios2" value="0">不支持
                                     </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputGoodsName" class="col-sm-2 control-label">图片</label>
+                                <div class="col-sm-10">
+                                    <input id="input-dim-2" name="inputdim2[]" type="file" multiple class="file-loading" accept="image/*">
                                 </div>
                             </div>
                             <div class="form-group">
