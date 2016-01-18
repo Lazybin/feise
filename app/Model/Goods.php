@@ -8,10 +8,10 @@ class Goods extends Model
 {
     //
     protected $fillable = [
-        'name','price','category_id','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','description','detailed_introduction'
+        'name','price','category_id','cover','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','description','detailed_introduction'
     ];
 
-    protected $appends=['category','properties'];
+    protected $appends=['category','properties','images'];
 
     public function category()
     {
@@ -37,6 +37,16 @@ class Goods extends Model
                 ->where('goods_id',$this->id)->where('category_property_id',$v['id'])->get()->toArray();
         }
         return $categoryProperties;
+    }
+
+    public function getImagesAttribute()
+    {
+        $images=GoodsImages::join('images','images.id','=','goods_images.image_id')
+            ->where('goods_id',$this->id)
+            ->select('goods_images.image_id','images.path')
+            ->get()->toArray();
+
+        return $images;
     }
 
 }

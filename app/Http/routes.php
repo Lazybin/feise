@@ -20,9 +20,8 @@ Route::group(['middleware' => ['api']], function () {
 
 
 
-Route::resource('test','TestController');
-
-
+Route::post('upload_file','UploadFileController@upload');
+Route::post('upload_file/delete','UploadFileController@delete');
 Route::resource('test1','TestOneController');
 
 

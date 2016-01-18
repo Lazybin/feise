@@ -30,15 +30,41 @@
             initialFrameHeight:320  //初始化编辑器高度,默认320
         });
 
-        $("#input-dim-2").fileinput({
-            initialPreview: [
-                "<img style='height:120px' src='http://loremflickr.com/200/150/nature?random=1'>",
-                "<img style='height:120px' src='http://loremflickr.com/200/150/nature?random=2'>",
-                "<img style='height:120px' src='http://loremflickr.com/200/150/nature?random=3'>",
-            ],
-            initialPreviewShowDelete:true,
-            allowedFileExtensions: ["jpg", "png", "gif"]
+        var $input = $("#uploadImages");
+        $input.fileinput({
+            uploadUrl: "{{url('/upload_file')}}", // server upload action
+            uploadAsync: true,
+            showUpload: false, // hide upload button
+            showRemove: false, // hide remove button
+            minFileCount: 1,
+            maxFileCount: 5,
+            deleteUrl:"{{url('/upload_file')}}"
+        }).on("filebatchselected", function(event, files) {
+            // trigger upload method immediately after files are selected
+            $input.fileinput("upload");
+        }).on('filedeleted', function(event, key) {
+            var str=$("#images").val();
+            str=str.replace(key+',','');
+            $("#images").val(str);
+            console.log($("#images").val());
+        }).on('fileuploaded', function(event, data, id, index) {
+            var image_id=data.response.initialPreviewConfig[0].key;
+
+            var str=$("#images").val();
+            str+=image_id+',';
+            $("#images").val(str);
+            console.log($("#images").val());
         });
+
+        var $cover = $("#coverImage");
+        $cover.fileinput({
+            rowseClass: "btn btn-primary",
+            showCaption: false,
+            showRemove: false,
+            showUpload: false,
+            overwriteInitial: true
+        });
+
 
         $(document).ready(function() {
 
@@ -175,6 +201,13 @@
             $("#express_fee").val(0);
             $("#returnedGoodsRadios1").attr("checked","checked");
 
+            $("#images").val('');
+
+            $input.fileinput("refresh", {
+                initialPreview:[],
+                initialPreviewConfig:[]
+            });
+
             initCategory(0,-1);
 
             $("#description").val('');
@@ -223,6 +256,31 @@
 
                         $("#description").val(recv.meta.data.description);
                         ue.setContent(recv.meta.data.detailed_introduction);
+
+                        var str='';
+
+                        var initialPreview=[];
+                        var initialPreviewConfig=[];
+                        $.each(recv.meta.data.images, function (key, item) {
+                            initialPreview.push('<img src="'+item.path+'" class="file-preview-image" >');
+                            var t={
+                                url:"{{url('/')}}"+"/upload_file/delete",
+                                key:item.image_id
+                            };
+                            initialPreviewConfig.push(t);
+
+                            str+=item.image_id+',';
+                        });
+                        $("#images").val(str);
+                        $input.fileinput("refresh", {
+                            initialPreview:initialPreview,
+                            initialPreviewConfig:initialPreviewConfig
+                        });
+
+
+                        $cover.fileinput("refresh", {
+                            initialPreview:['<img src="{{url('/')}}'+recv.meta.data.cover+'" class="file-preview-image" >']
+                        });
 
 
                         var propertyContainer = $("#propertyContainer");
@@ -520,9 +578,16 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputGoodsName" class="col-sm-2 control-label">图片</label>
+                                <label for="inputGoodsName" class="col-sm-2 control-label">封面图片</label>
+                                <div class="col-sm-6">
+                                    <input id="coverImage" name="coverImage" type="file" class="file" data-preview-file-type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputGoodsName" class="col-sm-2 control-label">展示图片</label>
                                 <div class="col-sm-10">
-                                    <input id="input-dim-2" name="inputdim2[]" type="file" multiple class="file-loading" accept="image/*">
+                                    <input id="uploadImages" name="uploadImages[]" type="file" multiple class="file-loading">
+                                    <input id="images" name="images" type="hidden" value="">
                                 </div>
                             </div>
                             <div class="form-group">

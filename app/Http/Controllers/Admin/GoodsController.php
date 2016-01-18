@@ -6,6 +6,7 @@ use App\Model\Category;
 use App\Model\CategoryProperty;
 use App\Model\Goods;
 use App\Model\GoodsCategoryProperty;
+use App\Model\GoodsImages;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -52,6 +53,24 @@ class GoodsController extends Controller
         }
         $params['category_id']=$params['category'];
         unset($params['category']);
+
+        $images=$params['images'];
+        unset($params['images']);
+        unset($params['uploadImages']);
+
+
+        if ($request->hasFile('coverImage'))
+        {
+            $file = $request->file('coverImage');
+            $fileName=time().'.'.$file->getClientOriginalExtension();
+            $file->move(base_path().'/public/upload',$fileName);
+
+
+            $params['cover']='/upload/'.$fileName;
+        }
+        unset($params['coverImage']);
+
+
         $goods=Goods::create($params);
         foreach($properties as $key=>$value){
             $arr=explode(',',$value);
@@ -61,6 +80,17 @@ class GoodsController extends Controller
                     'goods_id'=>$goods->id,
                     'value'=>$i
                 ]);
+            }
+        }
+        $len=strlen($images);
+        if($len>0){
+            $images=substr($images,0,$len-1);
+            $images=explode(',',$images);
+            foreach($images as $i){
+                $goodsImage=new GoodsImages();
+                $goodsImage->goods_id=$goods->id;
+                $goodsImage->image_id=$i;
+                $goodsImage->save();
             }
         }
         return redirect()->action('Admin\GoodsController@show');
@@ -100,10 +130,24 @@ class GoodsController extends Controller
             }
             $params['category_id']=$params['category'];
             unset($params['category']);
-
-            $goods->name=$params['name'];
-            $goods->price=$params['price'];
             unset($params['_token']);
+
+            $images=$params['images'];
+            unset($params['images']);
+
+            unset($params['uploadImages']);
+
+            if ($requests->hasFile('coverImage'))
+            {
+                $file = $requests->file('coverImage');
+                $fileName=time().'.'.$file->getClientOriginalExtension();
+                $file->move(base_path().'/public/upload',$fileName);
+
+
+                $params['cover']='/upload/'.$fileName;
+            }
+            unset($params['coverImage']);
+
             foreach($params as $n=>$p){
                 $goods->$n=$p;
             }
@@ -118,6 +162,19 @@ class GoodsController extends Controller
                         'goods_id'=>$goods->id,
                         'value'=>$i
                     ]);
+                }
+            }
+
+            GoodsImages::where('goods_id',$goods->id)->delete();
+            $len=strlen($images);
+            if($len>0){
+                $images=substr($images,0,$len-1);
+                $images=explode(',',$images);
+                foreach($images as $i){
+                    $goodsImage=new GoodsImages();
+                    $goodsImage->goods_id=$goods->id;
+                    $goodsImage->image_id=$i;
+                    $goodsImage->save();
                 }
             }
         }
