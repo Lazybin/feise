@@ -72,4 +72,55 @@ class GoodsController extends Controller
         $ret['meta']['code']=1;
         echo json_encode($ret);
     }
+
+    public function detail($id)
+    {
+        $goods=Goods::find($id);
+        $ret['meta']['code']=1;
+        $ret['meta']['data']=$goods;
+        echo json_encode($ret);
+    }
+
+    public function update(Request $requests,$id)
+    {
+        $params=$requests->all();
+        $goods=Goods::find($id);
+        if($goods!=null){
+            $properties=[];
+            foreach ($params as $k=>$v){
+                $pos=strpos($k,'property_');
+                if($pos!==false){
+                    $id=substr($k,strlen('property_'),strlen($k));
+                    if(is_numeric($id))
+                    {
+                        $properties[$id]=$v;
+                        unset($params[$k]);
+                    }
+                }
+            }
+            $params['category_id']=$params['category'];
+            unset($params['category']);
+
+            $goods->name=$params['name'];
+            $goods->price=$params['price'];
+            unset($params['_token']);
+            foreach($params as $n=>$p){
+                $goods->$n=$p;
+            }
+            $goods->save();
+
+            GoodsCategoryProperty::where('goods_id',$goods->id)->delete();
+            foreach($properties as $key=>$value){
+                $arr=explode(',',$value);
+                foreach($arr as $i){
+                    GoodsCategoryProperty::create([
+                        'category_property_id'=>$key,
+                        'goods_id'=>$goods->id,
+                        'value'=>$i
+                    ]);
+                }
+            }
+        }
+        return redirect()->action('Admin\GoodsController@show');
+    }
 }

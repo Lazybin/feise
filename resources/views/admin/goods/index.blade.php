@@ -20,13 +20,15 @@
     <script src="{{ url('/js/ueditor.all.min.js') }}"></script>
     <script src="{{ url('/js/jquery.tagsinput.min.js') }}"></script>
     <script>
+        var baseUrl="{{url('/')}}";
+        var ue = UE.getEditor('container',{
+            toolbars: [
+                ['source', 'undo', 'redo','bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','simpleupload','insertimage']
+            ],
+            initialFrameHeight:320  //初始化编辑器高度,默认320
+        });
         $(document).ready(function() {
-            var ue = UE.getEditor('container',{
-                toolbars: [
-                    ['source', 'undo', 'redo','bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','simpleupload','insertimage']
-                ],
-                initialFrameHeight:320  //初始化编辑器高度,默认320
-            });
+
 
             $('#dataTables-example').DataTable({
                 responsive: true,
@@ -124,14 +126,15 @@
             $("#email").val('');
             $("#password").val('');
             $("#title").html('添加商品');
-            $("#id").val(-1);
+
+            $('#goodsForm').attr('action',baseUrl+'/goods/store');
 
             $('#adminModel').modal('show');
         }
 
         function onEditClick(id){
             $.ajax({
-                url: "{{url('/')}}/permission/detail/"+id,
+                url: "{{url('/')}}/goods/detail/"+id,
                 async: true,
                 type: "GET",
                 dataType:'json',
@@ -143,9 +146,62 @@
                     }else if(recv.meta.code=='1'){
                         $("#id").val(recv.meta.data.id);
                         $("#name").val(recv.meta.data.name);
-                        $("#email").val(recv.meta.data.email);
-                        $("#password").val('');
-                        $("#title").html('修改管理员');
+                        $("#parentCategory").val(recv.meta.data.category.pid);
+                        initCategory(recv.meta.data.category.pid,recv.meta.data.category.id);
+                        $("#price").val(recv.meta.data.price);
+                        $("#original_price").val(recv.meta.data.original_price);
+                        if(recv.meta.data.use_coupon==1){
+                            $("#useCouponRadios1").attr("checked","checked");
+                        }else{
+                            $("#useCouponRadios2").attr("checked","checked");
+                        }
+                        $("#coupon_amount").val(recv.meta.data.coupon_amount);
+                        $("#express_way").val(recv.meta.data.express_way);
+                        $("#express_fee").val(recv.meta.data.express_fee);
+                        if(recv.meta.data.returned_goods==1){
+                            $("#returnedGoodsRadios1").attr("checked","checked");
+                        }else{
+                            $("#returnedGoodsRadios2").attr("checked","checked");
+                        }
+
+                        $("#description").val(recv.meta.data.description);
+                        ue.setContent(recv.meta.data.detailed_introduction);
+
+
+                        var propertyContainer = $("#propertyContainer");
+                        var str_html='';
+                        var tags=[];
+
+                        $.each(recv.meta.data.properties, function (key, item) {
+
+                            str_html +='<div class="form-group">';
+                            str_html +='<label class="col-sm-2 control-label">'+item['name']+'</label>';
+                            str_html +='<div class="col-sm-10">';
+                            var value='';
+                            $.each(item.values, function (k, v) {
+                               value+= v.value+',';
+                            });
+                            value=value.substring(0,value.length-1);
+                            if(item['type']==0){
+                                str_html+='<input value="'+value+'" type="text" id="property_'+item['id']+'" name="property_'+item['id']+'" value="" />';
+                                tags.push("property_"+item['id']);
+                            }else{
+                                str_html +='<input value="'+value+'" type="text" class="form-control" id="property_'+item['id']+'" name="property_'+item['id']+'" placeholder="请输入'+item['name']+'">';
+                            }
+                            str_html +='</div></div>';
+                        });
+                        propertyContainer.html(str_html);
+                        $.each(tags,function(k,v){
+                            $('#'+v).tagsInput({
+                                'width':'700px',
+                                'height':'42px',
+                                'defaultText':'添加选项'
+                            });
+                        });
+
+                        $("#title").html('修改商品');
+
+                        $('#goodsForm').attr('action',baseUrl+'/goods/update/'+id);
                         $('#adminModel').modal('show');
                     }
                     return true;
@@ -179,9 +235,14 @@
             });
         }
 
-        function initCategory(pid){
+        function initCategory(pid,id){
             var category = $("#category");
-            var str_html='<option value="-1" selected>请选择分类</option>';
+            var str_html='';
+            if(id==-1){
+                str_html='<option value="-1" selected>请选择分类</option>';
+            }else{
+                str_html='<option value="-1">请选择分类</option>';
+            }
             if(pid!=0&&pid!=-1) {
                 $.ajax({
                     url: "{{url('/')}}/category/index?length=100&pid=" + pid,
@@ -191,7 +252,12 @@
                     success: function (data) {
                         var rows=data.data;
                         $.each(rows, function (key, item) {
-                            str_html += '<option value="' + item['id'] + '">' + item['name'] + '</option>';
+                            if(item['id']==id){
+                                str_html += '<option value="' + item['id'] + '" selected>' + item['name'] + '</option>';
+                            }else{
+                                str_html += '<option value="' + item['id'] + '">' + item['name'] + '</option>';
+                            }
+
                         });
                         category.html(str_html);
                     }
@@ -242,7 +308,7 @@
 
         function onParentCategoryChange(){
             var pid=$("#parentCategory").val();
-            initCategory(pid);
+            initCategory(pid,-1);
         }
 
         function onCategoryChange(){
@@ -310,7 +376,7 @@
 
     <!-- Modal dialog -->
     <div class="modal fade" id="adminModel">
-        <form enctype="multipart/form-data" class="row-border form-horizontal" method="post"  action="{{url('/')}}/goods/store">
+        <form id="goodsForm" enctype="multipart/form-data" class="row-border form-horizontal" method="post"  action="">
             {!! csrf_field() !!}
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -372,7 +438,7 @@
                             <div class="form-group">
                                 <label for="inputGoodsName" class="col-sm-2 control-label">快递方式</label>
                                 <div class="col-sm-4">
-                                    <select class="form-control">
+                                    <select name="express_way" id="express_way" class="form-control">
                                         <option value="1">免邮</option>
                                         <option value="2">普通快递</option>
                                         <option value="3">EMS快递</option>
