@@ -89,7 +89,14 @@
                     {
                         "targets": 4,
                         'sClass':'align-center',
-                        "mData": 'use_coupon'
+                        "mData": 'use_coupon',
+                        "mRender": function (data, type, full)
+                        {
+                            if(data==0)
+                                return '禁用';
+                            else
+                                return '启用';
+                        }
                     },
                     {
                         "targets": 5,
@@ -99,7 +106,22 @@
                     {
                         "targets": 6,
                         'sClass':'align-center',
-                        "mData": 'express_way'
+                        "mData": 'express_way',
+                        "mRender": function (data, type, full)
+                        {
+                            switch(data){
+                                case 1:
+                                    return '免邮';
+                                case 2:
+                                    return '普通快递';
+                                case 3:
+                                    return 'EMS快递';
+                                case 4:
+                                    return '新疆、青海、西藏等地区';
+                                default:
+                                    return '';
+                            }
+                        }
                     },
                     {
                         "targets": 7,
@@ -109,7 +131,14 @@
                     {
                         "targets": 8,
                         'sClass':'align-center',
-                        "mData": 'returned_goods'
+                        "mData": 'returned_goods',
+                        "mRender": function (data, type, full)
+                        {
+                            if(data==0)
+                                return '禁用';
+                            else
+                                return '启用';
+                        }
                     },
                     {
                         "targets": 9,
@@ -123,9 +152,25 @@
         });
         function onAddClick(){
             $("#name").val('');
-            $("#email").val('');
-            $("#password").val('');
+            $("#parentCategory").val(-1);
+            $("#price").val('');
+            $("#original_price").val('');
+
+            $("#useCouponRadios1").attr("checked","checked");
+            $("#coupon_amount").val('');
+            $("#express_way").val(1);
+            $("#express_fee").val(0);
+            $("#returnedGoodsRadios1").attr("checked","checked");
+
+            initCategory(0,-1);
+
+            $("#description").val('');
+            ue.setContent('');
+            $("#propertyContainer").html('');
+
             $("#title").html('添加商品');
+
+
 
             $('#goodsForm').attr('action',baseUrl+'/goods/store');
 
@@ -144,7 +189,6 @@
                         bootbox.alert(val, function(){
                         });
                     }else if(recv.meta.code=='1'){
-                        $("#id").val(recv.meta.data.id);
                         $("#name").val(recv.meta.data.name);
                         $("#parentCategory").val(recv.meta.data.category.pid);
                         initCategory(recv.meta.data.category.pid,recv.meta.data.category.id);
@@ -351,6 +395,7 @@
                                     <th>价格</th>
                                     <th>原价</th>
                                     <th>礼券抵用</th>
+                                    <th>抵用金额</th>
                                     <th>快递方式</th>
                                     <th>快递费用</th>
                                     <th>七天退货</th>
