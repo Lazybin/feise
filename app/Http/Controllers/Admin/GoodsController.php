@@ -52,7 +52,6 @@ class GoodsController extends Controller
         }
         $params['category_id']=$params['category'];
         unset($params['category']);
-        var_dump($params);exit;
         $goods=Goods::create($params);
         foreach($properties as $key=>$value){
             $arr=explode(',',$value);

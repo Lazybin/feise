@@ -8,7 +8,7 @@ class Goods extends Model
 {
     //
     protected $fillable = [
-        'name','price','category_id','original','price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','description','detailed_introduction'
+        'name','price','category_id','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','description','detailed_introduction'
     ];
 
     protected $appends=['category','properties'];
