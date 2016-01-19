@@ -261,7 +261,7 @@
                         initCategory(recv.meta.data.category.pid,recv.meta.data.category.id);
 
                         tableGoods.ajax.url("{{url('/')}}/goods/index?category_id="+recv.meta.data.category.id).load();
-
+                        tableChoose.clear().draw();
                         $.each(recv.meta.data.goods, function (key, item) {
                             onChooseClick(item.id,item.name);
                         });
