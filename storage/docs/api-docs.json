@@ -5,6 +5,10 @@
         {
             "path": "/setting",
             "description": "\u7cfb\u7edf\u8bbe\u7f6e"
+        },
+        {
+            "path": "/themes",
+            "description": "\u4e3b\u9898"
         }
     ]
 }
