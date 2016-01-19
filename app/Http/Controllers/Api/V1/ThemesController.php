@@ -44,7 +44,7 @@ class ThemesController extends Controller
      *         required=false,
      *         allowMultiple=false,
      *         type="integer",
-     *         defaultValue=0
+     *         defaultValue=5
      *     )
      *
      *   )

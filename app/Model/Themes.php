@@ -35,7 +35,7 @@ class Themes extends Model
     {
         $goods=ThemeGoods::join('goods','theme_goods.goods_id','=','goods.id')
             ->where('theme_id',$this->id)
-            ->select('goods.id','goods.name')->get()->toArray();
+            ->select('goods.*')->get()->toArray();
 
         return $goods;
     }
