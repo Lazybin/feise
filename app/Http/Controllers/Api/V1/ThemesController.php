@@ -85,7 +85,7 @@ class ThemesController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="/themes/{{id}}",
+     *   path="/themes/{id}",
      *   description="主题",
      *   @SWG\Operation(
      *     method="GET", summary="获得主题详情", notes="获得主题详情",
