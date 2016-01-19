@@ -15,6 +15,8 @@ class CreateThemesTable extends Migration
         Schema::create('themes', function (Blueprint $table) {
             $table->increments('id');
             $table->engine = 'InnoDB';
+            $table->unsignedInteger('category_id');//所属分类
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->string('title')->nullable();
             $table->string('cover')->nullable();
             $table->string('head_image')->nullable();

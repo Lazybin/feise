@@ -90,7 +90,10 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::get('/themes/', 'Admin\ThemesController@show');
         Route::get('/themes/index', 'Admin\ThemesController@index');
-
+        Route::post('/themes/store', 'Admin\ThemesController@store');
+        Route::delete('/themes/delete/{id}', 'Admin\ThemesController@delete');
+        Route::get('/themes/detail/{id}', 'Admin\ThemesController@detail');
+        Route::post('/themes/update/{id}', 'Admin\ThemesController@update');
 
     });
 

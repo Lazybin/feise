@@ -21,7 +21,7 @@
     <script src="{{ url('/js/ueditor.all.min.js') }}"></script>
     <script src="{{ url('../resources/assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
     <script>
-
+        var baseUrl="{{url('/')}}";
         var arrChooseGoods=[];
         var ue = UE.getEditor('container',{
             toolbars: [
@@ -191,10 +191,15 @@
                     {
                         "targets": 2,
                         'sClass':'align-center',
-                        "mData": 'type'
+                        "mData": 'category.name'
                     },
                     {
                         "targets": 3,
+                        'sClass':'align-center',
+                        "mData": 'type'
+                    },
+                    {
+                        "targets": 4,
                         'sClass':'align-center',
                         "mData": 'created_at'
                     }
@@ -205,14 +210,29 @@
 
         });
         function onAddClick(){
-//            $("#name").val('');
-//            $("#email").val('');
-//            $("#password").val('');
-            $("#title").html('添加主题');
+            $("#titleModel").html('添加主题');
+            $("#parentCategory").val(-1);
+
+            $("#type").val(0);
+            $("#title").val('');
+            onTypeChange();
 
             $('#chooseGoods').html('');
             $("#id").val(-1);
-            tableGoods.ajax.url("{{url('/')}}/goods/index").load();
+            initCategory(0,-1);
+            $("#description0").html('');
+            ue.setContent('');
+
+            $cover.fileinput("refresh", {
+                initialPreview:[]
+            });
+
+            $head.fileinput("refresh", {
+                initialPreview:[]
+            });
+
+            tableGoods.clear().draw();
+            tableChoose.clear().draw();
 
             $('#themesForm').attr('action',baseUrl+'/themes/store');
             $('#adminModel').modal('show');
@@ -220,7 +240,7 @@
 
         function onEditClick(id){
             $.ajax({
-                url: "{{url('/')}}/permission/detail/"+id,
+                url: "{{url('/')}}/themes/detail/"+id,
                 async: true,
                 type: "GET",
                 dataType:'json',
@@ -230,11 +250,32 @@
                         bootbox.alert(val, function(){
                         });
                     }else if(recv.meta.code=='1'){
-                        $("#id").val(recv.meta.data.id);
-                        $("#name").val(recv.meta.data.name);
-                        $("#email").val(recv.meta.data.email);
-                        $("#password").val('');
-                        $("#title").html('修改管理员');
+                        $("#title").val(recv.meta.data.title);
+                        $("#type").val(recv.meta.data.type);
+                        onTypeChange();
+                        $("#parentCategory").val(recv.meta.data.category.pid);
+                        initCategory(recv.meta.data.category.pid,recv.meta.data.category.id);
+
+                        tableGoods.ajax.url("{{url('/')}}/goods/index?category_id="+recv.meta.data.category.id).load();
+
+                        $.each(recv.meta.data.goods, function (key, item) {
+                            onChooseClick(item.id,item.name);
+                        });
+                        if(recv.meta.data.type==0){
+                            $("#description").val(recv.meta.data.description);
+                        }else{
+                            ue.setContent(recv.meta.data.description);
+                        }
+
+                        $cover.fileinput("refresh", {
+                            initialPreview:['<img src="{{url('/')}}'+recv.meta.data.cover+'" class="file-preview-image" >']
+                        });
+
+                        $head.fileinput("refresh", {
+                            initialPreview:['<img src="{{url('/')}}'+recv.meta.data.head_image+'" class="file-preview-image" >']
+                        });
+                        $('#themesForm').attr('action',baseUrl+'/themes/update/'+id);
+                        $("#titleModel").html('修改主题');
                         $('#adminModel').modal('show');
                     }
                     return true;
@@ -248,7 +289,7 @@
 
         function onDelete(id){
             $.ajax({
-                url: "{{url('/')}}/permission/delete/"+id,
+                url: "{{url('/')}}/themes/delete/"+id,
                 async: true,
                 type: "DELETE",
                 dataType:'json',
@@ -306,6 +347,47 @@
                 $("#div1").css('display','inline');
             }
         }
+
+        function initCategory(pid,id){
+            var category = $("#category");
+            var str_html='';
+            if(id==-1){
+                str_html='<option value="-1" selected>请选择分类</option>';
+            }else{
+                str_html='<option value="-1">请选择分类</option>';
+            }
+            if(pid!=0&&pid!=-1) {
+                $.ajax({
+                    url: "{{url('/')}}/category/index?length=100&pid=" + pid,
+                    async: true,
+                    type: "get",
+                    dataType: 'json',
+                    success: function (data) {
+                        var rows=data.data;
+                        $.each(rows, function (key, item) {
+                            if(item['id']==id){
+                                str_html += '<option value="' + item['id'] + '" selected>' + item['name'] + '</option>';
+                            }else{
+                                str_html += '<option value="' + item['id'] + '">' + item['name'] + '</option>';
+                            }
+
+                        });
+                        category.html(str_html);
+                    }
+                });
+            }else{
+                category.html(str_html);
+            }
+        }
+        function onParentCategoryChange(){
+            var pid=$("#parentCategory").val();
+            initCategory(pid,-1);
+        }
+        function onCategoryChange(){
+            var category_id=$("#category").val();
+            tableGoods.ajax.url("{{url('/')}}/goods/index?category_id="+category_id).load();
+
+        }
     </script>
 @endsection
 @section('content')
@@ -339,6 +421,7 @@
                                 <tr>
                                     <th>id</th>
                                     <th>名称</th>
+                                    <th>类别</th>
                                     <th>类型</th>
                                     <th>创建时间</th>
                                     <th>操作</th>
@@ -368,14 +451,30 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="title"></h4>
+                        <h4 class="modal-title" id="titleModel"></h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">主题名称</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="title" name="name" placeholder="请输入商品名称">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="请输入商品名称">
                                 <input type="hidden" class="form-control" id="id">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">类别</label>
+                            <div class="col-sm-4">
+                                <select id="parentCategory" class="form-control" onchange="onParentCategoryChange()">
+                                    <option value="-1" selected>请选择类别</option>
+                                    @foreach($categories as $c)
+                                        <option value="{{$c['id']}}">{{$c['name']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <select name="category" id="category" class="form-control" onchange="onCategoryChange()">
+                                    <option value="-1" selected>请选择类别</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -390,7 +489,7 @@
                         <div class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">主题描述</label>
                             <div id="div1" style="display: none" class="col-sm-10">
-                                <script id="container" name="discription1" type="text/plain"></script>
+                                <script id="container" name="description1" type="text/plain"></script>
                             </div>
                             <div id="div0" class="col-sm-10">
                                 <textarea class="form-control" id="description" name="description0" rows="2"></textarea>

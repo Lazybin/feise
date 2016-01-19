@@ -25,13 +25,22 @@ class GoodsController extends Controller
         $length=$request->input('length', 5);
         $draw=$request->input('draw', 1);
 
+        $category_id=$request->input('category_id');
 
-        $goods=Goods::skip($start)->take($length)->orderBy('id','desc');
+        if($category_id!=null){
+            $goods=Goods::where('category_id',$category_id);
+            $count=Goods::count();
+            $goods->skip($start)->take($length)->orderBy('id','desc');
+        }else{
+            $count=Goods::count();
+            $goods=Goods::skip($start)->take($length)->orderBy('id','desc');
+        }
+
 
         echo json_encode(array(
             "draw"            => intval( $draw ),
-            "recordsTotal"    => intval(Goods::count()),
-            "recordsFiltered" => intval(Goods::count()),
+            "recordsTotal"    => intval($count),
+            "recordsFiltered" => intval($count),
             "data"            => $goods->get()->toArray()
         ));
     }
