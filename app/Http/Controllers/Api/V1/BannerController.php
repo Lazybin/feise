@@ -36,7 +36,8 @@ class BannerController extends Controller
         $response=new BaseResponse();
 
         $banners=Banner::all();
-        $response->Data=$banners;
+        $response->rows=$banners;
+        $response->total=Banner::count();
         return $response->toJson();
     }
 }
