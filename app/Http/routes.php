@@ -88,6 +88,10 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/goods/update/{id}', 'Admin\GoodsController@update');
 
 
+        Route::get('/themes/', 'Admin\ThemesController@show');
+        Route::get('/themes/index', 'Admin\ThemesController@index');
+
+
     });
 
 
