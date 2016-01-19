@@ -138,7 +138,7 @@ class ThemesController extends Controller
                 $themes->$n=$p;
             }
             $themes->save();
-
+            ThemeGoods::where('theme_id',$themes->id)->delete();
             $len=strlen($chooseGoods);
             if($len>0){
                 $chooseGoods=substr($chooseGoods,0,$len-1);
