@@ -30,21 +30,21 @@ class ThemesController extends Controller
      *     type="Themes",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
-     *         name="start",
+     *         name="PageNum",
      *         description="分页开始位置",
      *         paramType="query",
      *         required=false,
      *         allowMultiple=false,
      *         type="integer",
-     *         defaultValue=0
+     *         defaultValue=1
      *     ),@SWG\Parameter(
-     *         name="length",
+     *         name="PerPage",
      *         description="取得长度",
      *         paramType="query",
      *         required=false,
      *         allowMultiple=false,
      *         type="integer",
-     *         defaultValue=5
+     *         defaultValue=10
      *     )
      *
      *   )
@@ -52,8 +52,8 @@ class ThemesController extends Controller
      */
     public function index(Request $request)
     {
-        $start=$request->input('start', 0);
-        $length=$request->input('length', 5);
+        $start=$request->input('PageNum', 0);
+        $length=$request->input('PerPage', 5);
         $response=new BaseResponse();
         $themes=Themes::skip($start)->take($length)->orderBy('id','desc');
         $response->rows=$themes->get();
