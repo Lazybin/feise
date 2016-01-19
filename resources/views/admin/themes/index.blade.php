@@ -455,10 +455,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="inputGoodsName" class="col-sm-2 control-label">主题名称</label>
+                            <label for="inputGoodsName" class="col-sm-2 control-label">标题</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="title" name="title" placeholder="请输入商品名称">
-                                <input type="hidden" class="form-control" id="id">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="请输入标题">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">副标题</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="subhead" name="subhead" placeholder="请输入副标题">
                             </div>
                         </div>
                         <div class="form-group">

@@ -11,6 +11,7 @@ class Themes extends Model
     /**
      * @SWG\Property(name="category",type="string",description="主题分类")
      * @SWG\Property(name="title",type="string",description="主题名称")
+     * @SWG\Property(name="subhead",type="string",description="副标题")
      * @SWG\Property(name="category_id",type="integer",description="分类对应的id")
      * @SWG\Property(name="cover",type="string",description="封面图片")
      * @SWG\Property(name="head_image",type="string",description="页面顶部图片")
@@ -20,7 +21,7 @@ class Themes extends Model
      * @SWG\Property(name="goods",type="Goods",description="包含商品")
      */
     protected $fillable = [
-        'category_id','title','cover','head_image','description','type'
+        'category_id','title','subhead','cover','head_image','description','type'
     ];
 
     protected $appends=['category','goods','collect_count'];
