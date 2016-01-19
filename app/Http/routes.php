@@ -16,7 +16,7 @@ Route::group(['middleware' => ['api']], function () {
     Route::resource('api/v1/setting/boot_page','Api\V1\BootPageController',['only' => ['index']]);
     Route::resource('api/v1/setting/gift_token_setting','Api\V1\GiftTokenSettingController',['only' => ['index']]);
     Route::resource('api/v1/setting/banner','Api\V1\BannerController',['only' => ['index']]);
-    Route::resource('api/v1/themes/list','Api\V1\ThemesController',['only' => ['index']]);
+    Route::resource('api/v1/themes','Api\V1\ThemesController',['only' => ['index','show']]);
 });
 
 

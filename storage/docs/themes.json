@@ -5,7 +5,7 @@
     "resourcePath": "/themes",
     "apis": [
         {
-            "path": "/themes/list",
+            "path": "/themes",
             "description": "\u4e3b\u9898",
             "operations": [
                 {
@@ -16,21 +16,21 @@
                     "parameters": [
                         {
                             "paramType": "query",
-                            "name": "start",
+                            "name": "PageNum",
                             "type": "integer",
                             "required": false,
                             "allowMultiple": false,
                             "description": "\u5206\u9875\u5f00\u59cb\u4f4d\u7f6e",
-                            "defaultValue": 0
+                            "defaultValue": 1
                         },
                         {
                             "paramType": "query",
-                            "name": "length",
+                            "name": "PerPage",
                             "type": "integer",
                             "required": false,
                             "allowMultiple": false,
                             "description": "\u53d6\u5f97\u957f\u5ea6",
-                            "defaultValue": 0
+                            "defaultValue": 10
                         }
                     ],
                     "responseMessages": [
