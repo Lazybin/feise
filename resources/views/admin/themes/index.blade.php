@@ -223,6 +223,8 @@
             $("#description0").html('');
             ue.setContent('');
 
+            $("#subhead").val('');
+
             $cover.fileinput("refresh", {
                 initialPreview:[]
             });
@@ -251,6 +253,8 @@
                         });
                     }else if(recv.meta.code=='1'){
                         $("#title").val(recv.meta.data.title);
+                        $("#subhead").val(recv.meta.data.subhead);
+
                         $("#type").val(recv.meta.data.type);
                         onTypeChange();
                         $("#parentCategory").val(recv.meta.data.category.pid);
