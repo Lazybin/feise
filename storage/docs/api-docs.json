@@ -3,6 +3,10 @@
     "swaggerVersion": "1.2",
     "apis": [
         {
+            "path": "/goods",
+            "description": "\u5546\u54c1"
+        },
+        {
             "path": "/setting",
             "description": "\u7cfb\u7edf\u8bbe\u7f6e"
         },

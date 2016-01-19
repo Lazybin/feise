@@ -15,6 +15,7 @@ class Themes extends Model
      * @SWG\Property(name="cover",type="string",description="封面图片")
      * @SWG\Property(name="head_image",type="string",description="页面顶部图片")
      * @SWG\Property(name="type",type="integer",description="0-->普通模式,1-->图文结合模式")
+     * @SWG\Property(name="collect_count",type="integer",description="收藏数")
      * @SWG\Property(name="category",type="string",description="包含商品")
      * @SWG\Property(name="goods",type="Goods",description="包含商品")
      */
@@ -22,7 +23,7 @@ class Themes extends Model
         'category_id','title','cover','head_image','description','type'
     ];
 
-    protected $appends=['category','goods'];
+    protected $appends=['category','goods','collect_count'];
 
     public function getCategoryAttribute()
     {
@@ -39,5 +40,10 @@ class Themes extends Model
             ->select('goods.*')->get()->toArray();
 
         return $goods;
+    }
+
+    public function getCollectCountAttribute()
+    {
+        return 0;
     }
 }

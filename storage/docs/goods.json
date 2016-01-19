@@ -2,56 +2,17 @@
     "basePath": "http://120.27.199.121/feise/public/api/v1",
     "swaggerVersion": "1.2",
     "apiVersion": "0.2",
-    "resourcePath": "/themes",
+    "resourcePath": "/goods",
     "apis": [
         {
-            "path": "/themes",
-            "description": "\u4e3b\u9898",
+            "path": "/goods/{id}",
+            "description": "\u5546\u54c1",
             "operations": [
                 {
                     "method": "GET",
-                    "summary": "\u83b7\u5f97\u4e3b\u9898\u5217\u8868",
-                    "nickname": "index",
-                    "type": "Themes",
-                    "parameters": [
-                        {
-                            "paramType": "query",
-                            "name": "PageNum",
-                            "type": "integer",
-                            "required": false,
-                            "allowMultiple": false,
-                            "description": "\u5206\u9875\u5f00\u59cb\u4f4d\u7f6e",
-                            "defaultValue": 1
-                        },
-                        {
-                            "paramType": "query",
-                            "name": "PerPage",
-                            "type": "integer",
-                            "required": false,
-                            "allowMultiple": false,
-                            "description": "\u53d6\u5f97\u957f\u5ea6",
-                            "defaultValue": 10
-                        }
-                    ],
-                    "responseMessages": [
-                        {
-                            "code": 0,
-                            "message": "\u6210\u529f"
-                        }
-                    ],
-                    "notes": "\u83b7\u5f97\u4e3b\u9898\u5217\u8868"
-                }
-            ]
-        },
-        {
-            "path": "/themes/{id}",
-            "description": "\u4e3b\u9898",
-            "operations": [
-                {
-                    "method": "GET",
-                    "summary": "\u83b7\u5f97\u4e3b\u9898\u8be6\u60c5",
+                    "summary": "\u83b7\u5f97\u5546\u54c1\u8be6\u60c5",
                     "nickname": "show",
-                    "type": "Themes",
+                    "type": "Goods",
                     "parameters": [
                         {
                             "paramType": "path",
@@ -59,7 +20,7 @@
                             "type": "integer",
                             "required": true,
                             "allowMultiple": false,
-                            "description": "\u4e3b\u9898id"
+                            "description": "\u5546\u54c1id"
                         }
                     ],
                     "responseMessages": [
@@ -68,45 +29,12 @@
                             "message": "\u6210\u529f"
                         }
                     ],
-                    "notes": "\u83b7\u5f97\u4e3b\u9898\u8be6\u60c5"
+                    "notes": "\u83b7\u5f97\u5546\u54c1\u8be6\u60c5"
                 }
             ]
         }
     ],
     "models": {
-        "Themes": {
-            "id": "Themes",
-            "properties": {
-                "category": {
-                    "description": "\u5305\u542b\u5546\u54c1",
-                    "type": "string"
-                },
-                "title": {
-                    "description": "\u4e3b\u9898\u540d\u79f0",
-                    "type": "string"
-                },
-                "category_id": {
-                    "description": "\u5206\u7c7b\u5bf9\u5e94\u7684id",
-                    "type": "integer"
-                },
-                "cover": {
-                    "description": "\u5c01\u9762\u56fe\u7247",
-                    "type": "string"
-                },
-                "head_image": {
-                    "description": "\u9875\u9762\u9876\u90e8\u56fe\u7247",
-                    "type": "string"
-                },
-                "type": {
-                    "description": "0-->\u666e\u901a\u6a21\u5f0f,1-->\u56fe\u6587\u7ed3\u5408\u6a21\u5f0f",
-                    "type": "integer"
-                },
-                "goods": {
-                    "description": "\u5305\u542b\u5546\u54c1",
-                    "$ref": "Goods"
-                }
-            }
-        },
         "Goods": {
             "id": "Goods",
             "properties": {
