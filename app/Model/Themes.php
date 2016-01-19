@@ -16,6 +16,7 @@ class Themes extends Model
      * @SWG\Property(name="head_image",type="string",description="页面顶部图片")
      * @SWG\Property(name="type",type="integer",description="0-->普通模式,1-->图文结合模式")
      * @SWG\Property(name="category",type="string",description="包含商品")
+     * @SWG\Property(name="goods",type="Goods",description="包含商品")
      */
     protected $fillable = [
         'category_id','title','cover','head_image','description','type'

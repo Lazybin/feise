@@ -83,14 +83,32 @@ class ThemesController extends Controller
     }
 
     /**
-     * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @SWG\Api(
+     *   path="/themes/{{id}}",
+     *   description="主题",
+     *   @SWG\Operation(
+     *     method="GET", summary="获得主题详情", notes="获得主题详情",
+     *     type="Themes",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="id",
+     *         description="主题id",
+     *         paramType="path",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer",
+     *     )
+     *
+     *   )
+     * )
      */
     public function show($id)
     {
-        //
+        $response=new BaseResponse();
+        $theme=Themes::find($id);
+        $response->Data=$theme;
+        return $response->toJson();
     }
 
     /**

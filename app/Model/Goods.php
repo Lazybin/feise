@@ -3,10 +3,28 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-
+/**
+ * @SWG\Model(id="Goods")
+ */
 class Goods extends Model
 {
-    //
+    /**
+     * @SWG\Property(name="name",type="string",description="商品名称")
+     * @SWG\Property(name="price",type="integer",description="现价")
+     * @SWG\Property(name="detailed_introduction",type="string",description="原价")
+     * @SWG\Property(name="category_id",type="integer",description="分类对应的id")
+     * @SWG\Property(name="cover",type="string",description="封面图片")
+     * @SWG\Property(name="use_coupon",type="integer",description="是否启用礼券额外抵用0-->不启用,1-->启用")
+     * @SWG\Property(name="coupon_amount",type="integer",description="礼券抵用的金额")
+     * @SWG\Property(name="express_way",type="integer",description="快递方式 0:免邮，1:普通快递，2:EMS快递，3:新疆、青海、西藏等地区费用")
+     * @SWG\Property(name="express_fee",type="integer",description="快递费用")
+     * @SWG\Property(name="returned_goods",type="integer",description="是否支持七天无理由退货 0：不支持，1：支持")
+     * @SWG\Property(name="description",type="string",description="商品描述")
+     * @SWG\Property(name="detailed_introduction",type="string",description="详细描述（富文本框）")
+     * @SWG\Property(name="category",type="string",description="所属分类 id-->分类id，name-->分类名称")
+     * @SWG\Property(name="properties",type="array",description="所属分类 id-->分类id，name-->属性名字，type-->属性类型 0->选项 1->数字，properties-->属性对应的值列表(id->值id,value-->名称)")
+     * @SWG\Property(name="images",type="array",description="展示图片列表 image_id-->图片id，path-->图片路径")
+     */
     protected $fillable = [
         'name','price','category_id','cover','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','description','detailed_introduction'
     ];

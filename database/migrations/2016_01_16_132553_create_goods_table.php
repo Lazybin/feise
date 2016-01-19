@@ -22,7 +22,7 @@ class CreateGoodsTable extends Migration
             $table->integer('original_price')->nullable();//原价
             $table->tinyInteger('use_coupon');//是否启用礼券额外抵用
             $table->integer('coupon_amount')->nullable();//礼券抵用金额
-            $table->tinyInteger('express_way');//0:免邮，1:普通快递，2:EMS快递，3:新疆、青海、西藏等地区费用
+            $table->tinyInteger('express_way');//0:免邮，1:普通快递，2:EMS快递，3:新疆、青海、西藏等地区
             $table->integer('express_fee')->nullable();//快递费用
             $table->tinyInteger('returned_goods');//是否支持七天无理由退货 0：不支持，1：支持
             $table->text('description')->nullable();//商品描述
