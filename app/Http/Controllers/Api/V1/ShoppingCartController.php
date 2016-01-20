@@ -70,8 +70,9 @@ class ShoppingCartController extends Controller
             $response->Message='缺少参数';
         }else{
             $shoppingCart=ShoppingCart::where('user_id',$user_id);
+            $count=$shoppingCart->count();
             $response->rows=$shoppingCart->get();
-            $response->total=ShoppingCart::count();
+            $response->total=$count;
         }
 
         return $response->toJson();
