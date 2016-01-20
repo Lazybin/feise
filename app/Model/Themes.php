@@ -48,10 +48,12 @@ class Themes extends Model
         $t = time();
         $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));
         $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));
-        if($this->created_at>=$start&&$this->created_at<=$end)
+        $create_time= strtotime($this->created_at);
+        if($create_time>=$start&&$$create_time<=$end)
             return 1;
         else
             return 0;
+
     }
 
     public function getCollectCountAttribute()

@@ -9,5 +9,8 @@ use App\Http\Controllers\Controller;
 
 class SubjectController extends Controller
 {
-    //
+    public function show()
+    {
+        return view('admin.themes.index');
+    }
 }
