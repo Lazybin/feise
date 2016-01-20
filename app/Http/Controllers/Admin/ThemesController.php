@@ -64,7 +64,7 @@ class ThemesController extends Controller
         $params['category_id']=$params['category'];
         unset($params['category']);
 
-        $params['description']=$params['description'.$params['type']];
+        $params['themes_description']=$params['description'.$params['type']];
         unset($params['description'.$params['type']]);
 
         $chooseGoods=$params['chooseGoods'];
@@ -127,7 +127,7 @@ class ThemesController extends Controller
             $params['category_id']=$params['category'];
             unset($params['category']);
 
-            $params['description']=$params['description'.$params['type']];
+            $params['themes_description']=$params['description'.$params['type']];
             unset($params['description0']);
             unset($params['description1']);
 

@@ -178,11 +178,6 @@
                             else
                                 return '启用';
                         }
-                    },
-                    {
-                        "targets": 9,
-                        'sClass':'align-center',
-                        "mData": 'description'
                     }
 
                 ]
@@ -254,7 +249,7 @@
                             $("#returnedGoodsRadios2").attr("checked","checked");
                         }
 
-                        $("#description").val(recv.meta.data.description);
+                        $("#description").val(recv.meta.data.goods_description);
                         ue.setContent(recv.meta.data.detailed_introduction);
 
                         var str='';
@@ -470,7 +465,6 @@
                                     <th>快递方式</th>
                                     <th>快递费用</th>
                                     <th>七天退货</th>
-                                    <th>商品描述</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>

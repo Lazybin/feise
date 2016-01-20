@@ -266,9 +266,9 @@
                             onChooseClick(item.id,item.name);
                         });
                         if(recv.meta.data.type==0){
-                            $("#description").val(recv.meta.data.description);
+                            $("#description").val(recv.meta.data.themes_description);
                         }else{
-                            ue.setContent(recv.meta.data.description);
+                            ue.setContent(recv.meta.data.themes_description);
                         }
 
                         $cover.fileinput("refresh", {

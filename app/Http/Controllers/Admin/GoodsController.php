@@ -79,6 +79,9 @@ class GoodsController extends Controller
         }
         unset($params['coverImage']);
 
+        $params['goods_description']=$params['description'];
+        unset($params['description']);
+
 
         $goods=Goods::create($params);
         foreach($properties as $key=>$value){
@@ -156,6 +159,9 @@ class GoodsController extends Controller
                 $params['cover']='/upload/'.$fileName;
             }
             unset($params['coverImage']);
+
+            $params['goods_description']=$params['description'];
+            unset($params['description']);
 
             foreach($params as $n=>$p){
                 $goods->$n=$p;
