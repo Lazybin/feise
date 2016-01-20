@@ -14,6 +14,7 @@ return array(
     'CreateGoodsCategoryPropertiesTable' => $baseDir . '/database/migrations/2016_01_17_145454_create_goods_category_properties_table.php',
     'CreateGoodsImagesTable' => $baseDir . '/database/migrations/2016_01_18_144343_create_goods_images_table.php',
     'CreateGoodsTable' => $baseDir . '/database/migrations/2016_01_16_132553_create_goods_table.php',
+    'CreateHomesTable' => $baseDir . '/database/migrations/2016_01_20_081526_create_homes_table.php',
     'CreateImagesTable' => $baseDir . '/database/migrations/2016_01_18_135803_create_images_table.php',
     'CreateOperatorsTable' => $baseDir . '/database/migrations/2016_01_12_025810_create_operators_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',

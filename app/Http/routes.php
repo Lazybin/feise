@@ -104,6 +104,13 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/subjects/detail/{id}', 'Admin\SubjectController@detail');
         Route::post('/subjects/update/{id}', 'Admin\SubjectController@update');
 
+        Route::get('/home_manage/', 'Admin\HomeManageController@show');
+        Route::get('/home_manage/index', 'Admin\HomeManageController@index');
+        Route::post('/home_manage/store', 'Admin\HomeManageController@store');
+        Route::delete('/home_manage/delete/{id}', 'Admin\HomeManageController@delete');
+        Route::get('/home_manage/detail/{id}', 'Admin\HomeManageController@detail');
+        Route::post('/home_manage/update/{id}', 'Admin\HomeManageController@update');
+
     });
 
 

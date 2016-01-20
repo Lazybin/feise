@@ -37,6 +37,9 @@
                         <a href="#"><i class="fa  fa-gift fa-fw"></i> 商品管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
+                                <a href="{{url('/home_manage/')}}">首页展示管理</a>
+                            </li>
+                            <li>
                                 <a href="{{url('/goods/')}}">商品管理</a>
                             </li>
                             <li>
