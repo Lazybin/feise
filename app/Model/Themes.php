@@ -17,6 +17,7 @@ class Themes extends Model
      * @SWG\Property(name="head_image",type="string",description="页面顶部图片")
      * @SWG\Property(name="type",type="integer",description="0-->普通模式,1-->图文结合模式")
      * @SWG\Property(name="collect_count",type="integer",description="收藏数")
+     * @SWG\Property(name="is_new",type="integer",description="是否是今天发布的 0---》否 1----》是")
      * @SWG\Property(name="category",type="string",description="包含商品")
      * @SWG\Property(name="goods",type="Goods",description="包含商品")
      */
@@ -24,7 +25,7 @@ class Themes extends Model
         'category_id','title','subhead','cover','head_image','description','type'
     ];
 
-    protected $appends=['category','goods','collect_count'];
+    protected $appends=['category','goods','collect_count','is_new'];
 
     public function getCategoryAttribute()
     {
@@ -41,6 +42,16 @@ class Themes extends Model
             ->select('goods.*')->get()->toArray();
 
         return $goods;
+    }
+    public function getIsNewAttribute()
+    {
+        $t = time();
+        $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));
+        $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));
+        if($this->created_at>=$start&&$this->created_at<=$end)
+            return 1;
+        else
+            return 0;
     }
 
     public function getCollectCountAttribute()
