@@ -265,7 +265,7 @@
                         $.each(recv.meta.data.goods, function (key, item) {
                             onChooseClick(item.id,item.name);
                         });
-                        $("#intro").val('');
+                        $("#intro").val(recv.meta.data.intro);
                         if(recv.meta.data.type!=0){
                             ue.setContent(recv.meta.data.themes_description);
                         }
