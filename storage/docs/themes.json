@@ -85,6 +85,10 @@
                     "description": "\u4e3b\u9898\u540d\u79f0",
                     "type": "string"
                 },
+                "subhead": {
+                    "description": "\u526f\u6807\u9898",
+                    "type": "string"
+                },
                 "category_id": {
                     "description": "\u5206\u7c7b\u5bf9\u5e94\u7684id",
                     "type": "integer"
@@ -99,6 +103,14 @@
                 },
                 "type": {
                     "description": "0-->\u666e\u901a\u6a21\u5f0f,1-->\u56fe\u6587\u7ed3\u5408\u6a21\u5f0f",
+                    "type": "integer"
+                },
+                "collect_count": {
+                    "description": "\u6536\u85cf\u6570",
+                    "type": "integer"
+                },
+                "is_new": {
+                    "description": "\u662f\u5426\u662f\u4eca\u5929\u53d1\u5e03\u7684 0---\u300b\u5426 1----\u300b\u662f",
                     "type": "integer"
                 },
                 "goods": {

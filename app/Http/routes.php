@@ -97,6 +97,13 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/themes/detail/{id}', 'Admin\ThemesController@detail');
         Route::post('/themes/update/{id}', 'Admin\ThemesController@update');
 
+        Route::get('/subjects/', 'Admin\SubjectController@show');
+        Route::get('/subjects/index', 'Admin\SubjectController@index');
+        Route::post('/subjects/store', 'Admin\SubjectController@store');
+        Route::delete('/subjects/delete/{id}', 'Admin\SubjectController@delete');
+        Route::get('/subjects/detail/{id}', 'Admin\SubjectController@detail');
+        Route::post('/subjects/update/{id}', 'Admin\SubjectController@update');
+
     });
 
 

@@ -49,7 +49,7 @@ class Themes extends Model
         $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));
         $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));
         $create_time= strtotime($this->created_at);
-        if($create_time>=$start&&$$create_time<=$end)
+        if($create_time>=$start&&$create_time<=$end)
             return 1;
         else
             return 0;

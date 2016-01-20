@@ -17,18 +17,9 @@
     <script src="{{ url('../resources/assets/vendor/datatables/media/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('../resources/assets/vendor/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ url('/js/bootbox.min.js') }}"></script>
-    <script src="{{ url('/js/ueditor.config.js') }}"></script>
-    <script src="{{ url('/js/ueditor.all.min.js') }}"></script>
     <script src="{{ url('../resources/assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
     <script>
         var baseUrl="{{url('/')}}";
-        var arrChooseGoods=[];
-        var ue = UE.getEditor('container',{
-            toolbars: [
-                ['source', 'undo', 'redo','bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','simpleupload','insertimage']
-            ],
-            initialFrameHeight:320  //初始化编辑器高度,默认320
-        });
 
         var $cover = $("#coverImage");
         $cover.fileinput({
@@ -79,14 +70,14 @@
                 {
                     "targets": 1,
                     'sClass':'align-center',
-                    "mData": 'name'
+                    "mData": 'title'
                 }
 
             ]
 
         });
 
-        var tableGoods=$('#dataTables-goods').DataTable({
+        var tableThemes=$('#dataTables-themes').DataTable({
             responsive: true,
             "dom": 'rtip',
             "processing": true,
@@ -126,7 +117,7 @@
                 {
                     "targets": 1,
                     'sClass':'align-center',
-                    "mData": 'name'
+                    "mData": 'title'
                 }
 
             ]
@@ -155,7 +146,7 @@
                 "serverSide": true,
                 "searching": false,
                 "ordering": false,
-                "ajax": "{{url('/')}}/themes/index",
+                "ajax": "{{url('/')}}/subjects/index",
                 "columnDefs": [
                     { //给每个单独的列设置不同的填充，或者使用aoColumns也行           {
                         "targets": -1,
@@ -182,37 +173,21 @@
                     {
                         "targets": 2,
                         'sClass':'align-center',
-                        "mData": 'category.name'
-                    },
-                    {
-                        "targets": 3,
-                        'sClass':'align-center',
-                        "mData": 'type'
-                    },
-                    {
-                        "targets": 4,
-                        'sClass':'align-center',
                         "mData": 'created_at'
                     }
 
                 ]
             });
-            onTypeChange();
 
         });
         function onAddClick(){
-            $("#titleModel").html('添加主题');
-            $("#parentCategory").val(-1);
+            $("#titleModel").html('添加专题');
 
-            $("#type").val(0);
             $("#title").val('');
-            onTypeChange();
 
-            $('#chooseGoods').html('');
+            $('#chooseThemes').html('');
             $("#id").val(-1);
-            initCategory(0,-1);
-            $("#description0").html('');
-            ue.setContent('');
+
 
             $("#subhead").val('');
 
@@ -220,20 +195,17 @@
                 initialPreview:[]
             });
 
-            $head.fileinput("refresh", {
-                initialPreview:[]
-            });
 
-            tableGoods.clear().draw();
+            tableThemes.ajax.url("{{url('/')}}/themes/index").load();
             tableChoose.clear().draw();
 
-            $('#themesForm').attr('action',baseUrl+'/themes/store');
+            $('#subjectsForm').attr('action',baseUrl+'/subjects/store');
             $('#adminModel').modal('show');
         }
 
         function onEditClick(id){
             $.ajax({
-                url: "{{url('/')}}/themes/detail/"+id,
+                url: "{{url('/')}}/subjects/detail/"+id,
                 async: true,
                 type: "GET",
                 dataType:'json',
@@ -246,31 +218,21 @@
                         $("#title").val(recv.meta.data.title);
                         $("#subhead").val(recv.meta.data.subhead);
 
-                        $("#type").val(recv.meta.data.type);
-                        onTypeChange();
-                        $("#parentCategory").val(recv.meta.data.category.pid);
-                        initCategory(recv.meta.data.category.pid,recv.meta.data.category.id);
 
-                        tableGoods.ajax.url("{{url('/')}}/goods/index?category_id="+recv.meta.data.category.id).load();
+                        tableThemes.ajax.url("{{url('/')}}/themes/index").load();
                         tableChoose.clear().draw();
-                        $.each(recv.meta.data.goods, function (key, item) {
-                            onChooseClick(item.id,item.name);
+                        $.each(recv.meta.data.themes, function (key, item) {
+                            onChooseClick(item.id,item.title);
                         });
-                        if(recv.meta.data.type==0){
-                            $("#description").val(recv.meta.data.description);
-                        }else{
-                            ue.setContent(recv.meta.data.description);
-                        }
+
 
                         $cover.fileinput("refresh", {
                             initialPreview:['<img src="{{url('/')}}'+recv.meta.data.cover+'" class="file-preview-image" >']
                         });
 
-                        $head.fileinput("refresh", {
-                            initialPreview:['<img src="{{url('/')}}'+recv.meta.data.head_image+'" class="file-preview-image" >']
-                        });
-                        $('#themesForm').attr('action',baseUrl+'/themes/update/'+id);
-                        $("#titleModel").html('修改主题');
+
+                        $('#subjectsForm').attr('action',baseUrl+'/subjects/update/'+id);
+                        $("#titleModel").html('修改专题');
                         $('#adminModel').modal('show');
                     }
                     return true;
@@ -284,7 +246,7 @@
 
         function onDelete(id){
             $.ajax({
-                url: "{{url('/')}}/themes/delete/"+id,
+                url: "{{url('/')}}/subjects/delete/"+id,
                 async: true,
                 type: "DELETE",
                 dataType:'json',
@@ -303,12 +265,7 @@
                 }
             });
         }
-        //        function onChooseDeleteClick(){
-        //            console.log($(this).closest("tr"));
-        //            tableChoose.row( $(this).parents('tr') )
-        //                    .remove()
-        //                    .draw();
-        //        }
+
 
         $('#dataTables-choose tbody').on( 'click', 'button', function () {
             tableChoose.row( $(this).parents('tr') ).remove().draw();
@@ -325,63 +282,12 @@
 
 
 
-        function onChooseClick(id,name){
+        function onChooseClick(id,title){
             var t ={};
             t.id=id;
-            t.name=name;
+            t.title=title;
             tableChoose.row.add( t ).draw();
             deal_choose_data();
-        }
-        function onTypeChange(){
-            var type=$("#type").val();
-            if(type==0){
-                $("#div0").css('display','inline');
-                $("#div1").css('display','none');
-            }else{
-                $("#div0").css('display','none');
-                $("#div1").css('display','inline');
-            }
-        }
-
-        function initCategory(pid,id){
-            var category = $("#category");
-            var str_html='';
-            if(id==-1){
-                str_html='<option value="-1" selected>请选择分类</option>';
-            }else{
-                str_html='<option value="-1">请选择分类</option>';
-            }
-            if(pid!=0&&pid!=-1) {
-                $.ajax({
-                    url: "{{url('/')}}/category/index?length=100&pid=" + pid,
-                    async: true,
-                    type: "get",
-                    dataType: 'json',
-                    success: function (data) {
-                        var rows=data.data;
-                        $.each(rows, function (key, item) {
-                            if(item['id']==id){
-                                str_html += '<option value="' + item['id'] + '" selected>' + item['name'] + '</option>';
-                            }else{
-                                str_html += '<option value="' + item['id'] + '">' + item['name'] + '</option>';
-                            }
-
-                        });
-                        category.html(str_html);
-                    }
-                });
-            }else{
-                category.html(str_html);
-            }
-        }
-        function onParentCategoryChange(){
-            var pid=$("#parentCategory").val();
-            initCategory(pid,-1);
-        }
-        function onCategoryChange(){
-            var category_id=$("#category").val();
-            tableGoods.ajax.url("{{url('/')}}/goods/index?category_id="+category_id).load();
-
         }
     </script>
 @endsection
@@ -389,7 +295,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">主题管理</h1>
+                <h1 class="page-header">专题管理</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -398,7 +304,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        主题列表
+                        专题列表
                         <div style="margin-top: -5px;" class="btn-group pull-right">
                             <button onclick="onAddClick();"  class="btn btn-primary btn-circle">
                                 <i class="glyphicon glyphicon-plus"></i>
@@ -416,8 +322,6 @@
                                 <tr>
                                     <th>id</th>
                                     <th>名称</th>
-                                    <th>类别</th>
-                                    <th>类型</th>
                                     <th>创建时间</th>
                                     <th>操作</th>
                                 </tr>
@@ -440,7 +344,7 @@
 
     <!-- Modal dialog -->
     <div class="modal fade" id="adminModel">
-        <form id="themesForm" enctype="multipart/form-data" class="row-border form-horizontal" method="post"  action="">
+        <form id="subjectsForm" enctype="multipart/form-data" class="row-border form-horizontal" method="post"  action="">
             {!! csrf_field() !!}
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -462,73 +366,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">类别</label>
-                            <div class="col-sm-4">
-                                <select id="parentCategory" class="form-control" onchange="onParentCategoryChange()">
-                                    <option value="-1" selected>请选择类别</option>
-                                    @foreach($categories as $c)
-                                        <option value="{{$c['id']}}">{{$c['name']}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <select name="category" id="category" class="form-control" onchange="onCategoryChange()">
-                                    <option value="-1" selected>请选择类别</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputGoodsName" class="col-sm-2 control-label">模式</label>
-                            <div class="col-sm-4">
-                                <select name="type" id="type" onchange="onTypeChange()" class="form-control">
-                                    <option value="0">普通模式</option>
-                                    <option value="1">图文模式</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputGoodsName" class="col-sm-2 control-label">主题描述</label>
-                            <div id="div1" style="display: none" class="col-sm-10">
-                                <script id="container" name="description1" type="text/plain"></script>
-                            </div>
-                            <div id="div0" class="col-sm-10">
-                                <textarea class="form-control" id="description" name="description0" rows="2"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">封面图片</label>
                             <div class="col-sm-6">
                                 <input id="coverImage" name="coverImage" type="file" class="file" data-preview-file-type="text" >
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputGoodsName" class="col-sm-2 control-label">头部图片</label>
-                            <div class="col-sm-6">
-                                <input id="headImage" name="headImage" type="file" class="file" data-preview-file-type="text" >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputGoodsName" class="col-sm-2 control-label">已选择商品</label>
-                            <div class="col-sm-8">
-                                <input type="hidden" class="form-control" name="chooseGoods" id="chooseGoods">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-choose">
-                                    <thead>
-                                    <tr>
-                                        <th>id</th>
-                                        <th>名称</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">商品列表</label>
                             <div class="col-sm-8">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-goods">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-themes">
                                     <thead>
                                     <tr>
                                         <th>id</th>

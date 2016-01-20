@@ -40,6 +40,9 @@
                                 <a href="{{url('/goods/')}}">商品管理</a>
                             </li>
                             <li>
+                                <a href="{{url('/subjects/')}}">专题管理</a>
+                            </li>
+                            <li>
                                 <a href="{{url('/themes/')}}">主题管理</a>
                             </li>
                             <li>
