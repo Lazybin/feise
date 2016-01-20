@@ -107,7 +107,7 @@
                     'sClass':'align-center',
                     "mRender": function (data, type, full)
                     {
-                        return '<button type="button" onclick="onChooseClick(\''+full.id+'\',\''+full.name+'\')" class="btn btn-primary btn-xs">选择</button>';
+                        return '<button type="button" onclick="onChooseClick(\''+full.id+'\',\''+full.title+'\')" class="btn btn-primary btn-xs">选择</button>';
                     }
                 },
                 {
@@ -277,7 +277,8 @@
             tableChoose.data().each( function (d) {
                 str+= d.id+',';
             } );
-            $("#chooseGoods").val(str);
+            $("#chooseThemes").val(str);
+            console.log(str);
         }
 
 
@@ -372,7 +373,25 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputGoodsName" class="col-sm-2 control-label">商品列表</label>
+                            <label for="inputGoodsName" class="col-sm-2 control-label">已选择主题</label>
+                            <div class="col-sm-8">
+                                <input type="hidden" class="form-control" name="chooseThemes" id="chooseThemes">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-choose">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>名称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">主题列表</label>
                             <div class="col-sm-8">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-themes">
                                     <thead>
