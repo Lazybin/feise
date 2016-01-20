@@ -60,14 +60,16 @@ class ShoppingCartController extends Controller
     {
         $response=new BaseResponse();
         $user_id=$request->input('user_id');
-        $start=$request->input('PageNum', 0);
+        $start=$request->input('PageNum', 1);
         $length=$request->input('PerPage', 5);
+
+        $start=($start-1)*$length;
 
         if($user_id==null){
             $response->Code=BaseResponse::CODE_ERROR_CHECK;
             $response->Message='缺少参数';
         }else{
-            $shoppingCart=ShoppingCart::where('user_id',$user_id)->skip($start)->take($length)->orderBy('id','desc');
+            $shoppingCart=ShoppingCart::where('user_id',$user_id);
             $response->rows=$shoppingCart->get();
             $response->total=ShoppingCart::count();
         }

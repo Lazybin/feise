@@ -52,6 +52,7 @@ class HomeController extends Controller
     {
         $start=$request->input('PageNum', 0);
         $length=$request->input('PerPage', 5);
+        $start=($start-1)*$length;
         $response=new BaseResponse();
         $home=Home::skip($start)->take($length)->orderBy('sort')->orderBy('id','desc');
         $response->rows=$home->get();

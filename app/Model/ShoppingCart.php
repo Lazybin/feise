@@ -20,7 +20,7 @@ class ShoppingCart extends Model
 
     protected $appends=['goods'];
 
-    public function getItemAttribute()
+    public function getGoodsAttribute()
     {
         return Goods::find($this->goods_id)->toArray();
     }

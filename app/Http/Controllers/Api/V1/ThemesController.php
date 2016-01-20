@@ -54,6 +54,7 @@ class ThemesController extends Controller
     {
         $start=$request->input('PageNum', 0);
         $length=$request->input('PerPage', 5);
+        $start=($start-1)*$length;
         $response=new BaseResponse();
         $themes=Themes::skip($start)->take($length)->orderBy('id','desc');
         $response->rows=$themes->get();
