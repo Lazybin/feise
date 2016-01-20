@@ -64,7 +64,7 @@ class ShoppingCartController extends Controller
         $length=$request->input('PerPage', 5);
 
         if($user_id==null){
-            $response->code=BaseResponse::CODE_ERROR_CHECK;
+            $response->Code=BaseResponse::CODE_ERROR_CHECK;
             $response->Message='缺少参数';
         }else{
             $shoppingCart=ShoppingCart::where('user_id',$user_id)->skip($start)->take($length)->orderBy('id','desc');
