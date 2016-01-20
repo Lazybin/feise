@@ -55,15 +55,14 @@
                     "nickname": "store",
                     "parameters": [
                         {
-                            "paramType": "body",
+                            "paramType": "form",
                             "name": "user_id",
                             "type": "integer",
                             "required": true,
-                            "allowMultiple": false,
                             "description": "\u7528\u6237id"
                         },
                         {
-                            "paramType": "body",
+                            "paramType": "form",
                             "name": "goods_id",
                             "type": "integer",
                             "required": true,
@@ -71,7 +70,7 @@
                             "description": "\u5546\u54c1id"
                         },
                         {
-                            "paramType": "body",
+                            "paramType": "form",
                             "name": "num",
                             "type": "integer",
                             "required": true,
@@ -86,7 +85,12 @@
                         }
                     ],
                     "notes": "\u6dfb\u52a0\u5230\u8d2d\u7269\u8f66"
-                },
+                }
+            ]
+        },
+        {
+            "path": "/shopping_cart/{id}",
+            "operations": [
                 {
                     "method": "PUT",
                     "summary": "\u4fee\u6539\u8d2d\u7269\u8f66",
@@ -101,7 +105,7 @@
                             "description": "id"
                         },
                         {
-                            "paramType": "body",
+                            "paramType": "form",
                             "name": "user_id",
                             "type": "integer",
                             "required": true,
@@ -109,7 +113,7 @@
                             "description": "\u7528\u6237id"
                         },
                         {
-                            "paramType": "body",
+                            "paramType": "form",
                             "name": "goods_id",
                             "type": "integer",
                             "required": true,
@@ -117,7 +121,7 @@
                             "description": "\u5546\u54c1id"
                         },
                         {
-                            "paramType": "body",
+                            "paramType": "form",
                             "name": "num",
                             "type": "integer",
                             "required": true,
