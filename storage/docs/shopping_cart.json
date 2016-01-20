@@ -1,0 +1,245 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/shopping_cart",
+    "apis": [
+        {
+            "path": "/shopping_cart",
+            "description": "\u8d2d\u7269\u8f66",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u83b7\u5f97\u7528\u6237\u8d2d\u7269\u8f66\u5217\u8868",
+                    "nickname": "index",
+                    "type": "ShoppingCart",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "user_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237id"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PageNum",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u5206\u9875\u5f00\u59cb\u4f4d\u7f6e",
+                            "defaultValue": 1
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PerPage",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u53d6\u5f97\u957f\u5ea6",
+                            "defaultValue": 10
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u83b7\u5f97\u7528\u6237\u8d2d\u7269\u8f66\u5217\u8868"
+                },
+                {
+                    "method": "POST",
+                    "summary": "\u6dfb\u52a0\u5230\u8d2d\u7269\u8f66",
+                    "nickname": "store",
+                    "parameters": [
+                        {
+                            "paramType": "body",
+                            "name": "user_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237id"
+                        },
+                        {
+                            "paramType": "body",
+                            "name": "goods_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u5546\u54c1id"
+                        },
+                        {
+                            "paramType": "body",
+                            "name": "num",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u6570\u91cf"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u6dfb\u52a0\u5230\u8d2d\u7269\u8f66"
+                },
+                {
+                    "method": "PUT",
+                    "summary": "\u4fee\u6539\u8d2d\u7269\u8f66",
+                    "nickname": "update",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "id"
+                        },
+                        {
+                            "paramType": "body",
+                            "name": "user_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237id"
+                        },
+                        {
+                            "paramType": "body",
+                            "name": "goods_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u5546\u54c1id"
+                        },
+                        {
+                            "paramType": "body",
+                            "name": "num",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u6570\u91cf"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u4fee\u6539\u8d2d\u7269\u8f66"
+                },
+                {
+                    "method": "DELETE",
+                    "summary": "\u5220\u9664\u8d2d\u7269\u8f66",
+                    "nickname": "destroy",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "id"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u5220\u9664\u8d2d\u7269\u8f66"
+                }
+            ]
+        }
+    ],
+    "models": {
+        "ShoppingCart": {
+            "id": "ShoppingCart",
+            "properties": {
+                "user_id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer"
+                },
+                "goods_id": {
+                    "description": "\u5546\u54c1id",
+                    "type": "integer"
+                },
+                "num": {
+                    "description": "\u8d2d\u4e70\u6570\u91cf",
+                    "type": "integer"
+                },
+                "goods": {
+                    "description": "\u5546\u54c1\u8be6\u60c5",
+                    "$ref": "Goods"
+                }
+            }
+        },
+        "Goods": {
+            "id": "Goods",
+            "properties": {
+                "name": {
+                    "description": "\u5546\u54c1\u540d\u79f0",
+                    "type": "string"
+                },
+                "price": {
+                    "description": "\u73b0\u4ef7",
+                    "type": "integer"
+                },
+                "detailed_introduction": {
+                    "description": "\u8be6\u7ec6\u63cf\u8ff0\uff08\u5bcc\u6587\u672c\u6846\uff09",
+                    "type": "string"
+                },
+                "category_id": {
+                    "description": "\u5206\u7c7b\u5bf9\u5e94\u7684id",
+                    "type": "integer"
+                },
+                "cover": {
+                    "description": "\u5c01\u9762\u56fe\u7247",
+                    "type": "string"
+                },
+                "use_coupon": {
+                    "description": "\u662f\u5426\u542f\u7528\u793c\u5238\u989d\u5916\u62b5\u75280-->\u4e0d\u542f\u7528,1-->\u542f\u7528",
+                    "type": "integer"
+                },
+                "coupon_amount": {
+                    "description": "\u793c\u5238\u62b5\u7528\u7684\u91d1\u989d",
+                    "type": "integer"
+                },
+                "express_way": {
+                    "description": "\u5feb\u9012\u65b9\u5f0f 0:\u514d\u90ae\uff0c1:\u666e\u901a\u5feb\u9012\uff0c2:EMS\u5feb\u9012\uff0c3:\u65b0\u7586\u3001\u9752\u6d77\u3001\u897f\u85cf\u7b49\u5730\u533a\u8d39\u7528",
+                    "type": "integer"
+                },
+                "express_fee": {
+                    "description": "\u5feb\u9012\u8d39\u7528",
+                    "type": "integer"
+                },
+                "returned_goods": {
+                    "description": "\u662f\u5426\u652f\u6301\u4e03\u5929\u65e0\u7406\u7531\u9000\u8d27 0\uff1a\u4e0d\u652f\u6301\uff0c1\uff1a\u652f\u6301",
+                    "type": "integer"
+                },
+                "description": {
+                    "description": "\u5546\u54c1\u63cf\u8ff0",
+                    "type": "string"
+                },
+                "category": {
+                    "description": "\u6240\u5c5e\u5206\u7c7b id-->\u5206\u7c7bid\uff0cname-->\u5206\u7c7b\u540d\u79f0",
+                    "type": "string"
+                },
+                "properties": {
+                    "description": "\u6240\u5c5e\u5206\u7c7b id-->\u5206\u7c7bid\uff0cname-->\u5c5e\u6027\u540d\u5b57\uff0ctype-->\u5c5e\u6027\u7c7b\u578b 0->\u9009\u9879 1->\u6570\u5b57\uff0cproperties-->\u5c5e\u6027\u5bf9\u5e94\u7684\u503c\u5217\u8868(id->\u503cid,value-->\u540d\u79f0)",
+                    "type": "array"
+                },
+                "images": {
+                    "description": "\u5c55\u793a\u56fe\u7247\u5217\u8868 image_id-->\u56fe\u7247id\uff0cpath-->\u56fe\u7247\u8def\u5f84",
+                    "type": "array"
+                }
+            }
+        }
+    }
+}

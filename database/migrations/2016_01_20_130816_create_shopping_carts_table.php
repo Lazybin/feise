@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHomesTable extends Migration
+class CreateShoppingCartsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class CreateHomesTable extends Migration
      */
     public function up()
     {
-        Schema::create('homes', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
+        Schema::create('shopping_carts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('item_id');
-            $table->tinyInteger('type');//0-->专题，1-->主题
-            $table->integer('sort');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('goods_id');
+            $table->foreign('goods_id')->references('id')->on('goods')->onDelete('cascade');
+            $table->integer('num');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateHomesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('homes');
+        Schema::drop('shopping_carts');
     }
 }

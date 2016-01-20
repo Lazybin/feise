@@ -15,6 +15,10 @@
             "description": "\u7cfb\u7edf\u8bbe\u7f6e"
         },
         {
+            "path": "/shopping_cart",
+            "description": "\u8d2d\u7269\u8f66"
+        },
+        {
             "path": "/themes",
             "description": "\u4e3b\u9898"
         }
