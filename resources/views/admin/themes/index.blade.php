@@ -215,12 +215,12 @@
 
             $("#type").val(0);
             $("#title").val('');
+            $("#intro").val('');
             onTypeChange();
 
             $('#chooseGoods').html('');
             $("#id").val(-1);
             initCategory(0,-1);
-            $("#description0").html('');
             ue.setContent('');
 
             $("#subhead").val('');
@@ -265,9 +265,8 @@
                         $.each(recv.meta.data.goods, function (key, item) {
                             onChooseClick(item.id,item.name);
                         });
-                        if(recv.meta.data.type==0){
-                            $("#description").val(recv.meta.data.themes_description);
-                        }else{
+                        $("#intro").val('');
+                        if(recv.meta.data.type!=0){
                             ue.setContent(recv.meta.data.themes_description);
                         }
 
@@ -344,10 +343,8 @@
         function onTypeChange(){
             var type=$("#type").val();
             if(type==0){
-                $("#div0").css('display','inline');
                 $("#div1").css('display','none');
             }else{
-                $("#div0").css('display','none');
                 $("#div1").css('display','inline');
             }
         }
@@ -496,13 +493,16 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">简介</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="intro" name="intro" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div id="div1" class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">主题描述</label>
-                            <div id="div1" style="display: none" class="col-sm-10">
-                                <script id="container" name="description1" type="text/plain"></script>
-                            </div>
-                            <div id="div0" class="col-sm-10">
-                                <textarea class="form-control" id="description" name="description0" rows="2"></textarea>
-                            </div>
+                            <div class="col-sm-10">
+                                <script id="container" name="description" type="text/plain"></script>
+                            </div>>
                         </div>
                         <div class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">封面图片</label>

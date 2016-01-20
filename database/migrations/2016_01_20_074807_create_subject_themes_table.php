@@ -19,7 +19,7 @@ class CreateSubjectThemesTable extends Migration
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
 
             $table->unsignedInteger('theme_id');
-            $table->foreign('theme_id')->references('id')->on('themes');
+            $table->foreign('theme_id')->references('id')->on('themes')->onDelete('cascade');
             $table->timestamps();
         });
     }
