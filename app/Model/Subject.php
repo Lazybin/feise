@@ -3,10 +3,19 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-
+/**
+ * @SWG\Model(id="Subject")
+ */
 class Subject extends Model
 {
-    //
+    /**
+     * @SWG\Property(name="title",type="string",description="标题")
+     * @SWG\Property(name="subhead",type="string",description="副标题")
+     * @SWG\Property(name="cover",type="string",description="封面")
+     * @SWG\Property(name="themes",type="Themes",description="主题列表")
+     * @SWG\Property(name="collect_count",type="integer",description="收藏数")
+     * @SWG\Property(name="is_new",type="integer",description="是否是今天发布的 0---》否 1----》是")
+     */
     protected $fillable = [
         'title','subhead','cover'
     ];

@@ -7,6 +7,10 @@
             "description": "\u5546\u54c1"
         },
         {
+            "path": "/home",
+            "description": "\u9996\u9875"
+        },
+        {
             "path": "/setting",
             "description": "\u7cfb\u7edf\u8bbe\u7f6e"
         },
