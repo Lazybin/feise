@@ -24,9 +24,8 @@ class Subject extends Model
 
     public function getThemesAttribute()
     {
-        $goods=SubjectThemes::join('themes','subject_themes.theme_id','=','themes.id')
-            ->where('subject_id',$this->id)
-            ->select('themes.*')->get()->toArray();
+        $goods=SubjectThemes::where('subject_id',$this->id)
+            ->get()->toArray();
 
         return $goods;
     }

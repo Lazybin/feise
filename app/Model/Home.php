@@ -23,7 +23,13 @@ class Home extends Model
     public function getItemAttribute()
     {
         if($this->type==0){
-            return Subject::find($this->item_id)->toArray();
+            $subjects=Subject::find($this->item_id)->toArray();
+            $themes=$subjects['themes'];
+            $subjects['themes']=[];
+            foreach($themes as $t){
+                array_push($subjects['themes'],$t['themes'][0]);
+            }
+            return $subjects;
         }else{
             return Themes::find($this->item_id)->toArray();
         }
