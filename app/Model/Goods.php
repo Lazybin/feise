@@ -13,6 +13,8 @@ class Goods extends Model
      * @SWG\Property(name="price",type="integer",description="现价")
      * @SWG\Property(name="detailed_introduction",type="string",description="原价")
      * @SWG\Property(name="category_id",type="integer",description="分类对应的id")
+     * @SWG\Property(name="evaluation_person_image",type="string",description="评测师图片")
+     * @SWG\Property(name="evaluation_content",type="string",description="评测内容")
      * @SWG\Property(name="cover",type="string",description="封面图片")
      * @SWG\Property(name="use_coupon",type="integer",description="是否启用礼券额外抵用0-->不启用,1-->启用")
      * @SWG\Property(name="coupon_amount",type="integer",description="礼券抵用的金额")
@@ -26,7 +28,7 @@ class Goods extends Model
      * @SWG\Property(name="images",type="array",description="展示图片列表 image_id-->图片id，path-->图片路径")
      */
     protected $fillable = [
-        'name','price','category_id','cover','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','goods_description','detailed_introduction'
+        'name','price','category_id','evaluation_person_image','evaluation_content','cover','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','goods_description','detailed_introduction'
     ];
 
     protected $appends=['category','properties','images'];

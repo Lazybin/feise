@@ -92,7 +92,7 @@ class HomeController extends Controller
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="id",
-     *         description="主题id",
+     *         description="id",
      *         paramType="path",
      *         required=true,
      *         allowMultiple=false,

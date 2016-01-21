@@ -65,6 +65,15 @@
             overwriteInitial: true
         });
 
+        var $evaluationImage = $("#evaluationPersonImage");
+        $evaluationImage.fileinput({
+            rowseClass: "btn btn-primary",
+            showCaption: false,
+            showRemove: false,
+            showUpload: false,
+            overwriteInitial: true
+        });
+
 
         $(document).ready(function() {
 
@@ -203,8 +212,17 @@
                 initialPreviewConfig:[]
             });
 
+            $evaluationImage.fileinput("refresh", {
+                initialPreview:[]
+            });
+
+            $cover.fileinput("refresh", {
+                initialPreview:[]
+            });
+
             initCategory(0,-1);
 
+            $("#evaluation_content").val('');
             $("#description").val('');
             ue.setContent('');
             $("#propertyContainer").html('');
@@ -250,6 +268,8 @@
                         }
 
                         $("#description").val(recv.meta.data.goods_description);
+                        $("#evaluation_content").val(recv.meta.data.evaluation_content);
+
                         ue.setContent(recv.meta.data.detailed_introduction);
 
                         var str='';
@@ -275,6 +295,10 @@
 
                         $cover.fileinput("refresh", {
                             initialPreview:['<img src="{{url('/')}}'+recv.meta.data.cover+'" class="file-preview-image" >']
+                        });
+
+                        $evaluationImage.fileinput("refresh", {
+                            initialPreview:['<img src="{{url('/')}}'+recv.meta.data.evaluation_person_image+'" class="file-preview-image" >']
                         });
 
 
@@ -569,6 +593,19 @@
                                     <label class="radio-inline">
                                         <input type="radio" name="returned_goods" id="returnedGoodsRadios2" value="0">不支持
                                     </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputGoodsName" class="col-sm-2 control-label">评测师</label>
+                                <div class="col-sm-6">
+                                    <input id="evaluationPersonImage" name="evaluationPersonImage" type="file" class="file" data-preview-file-type="text" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputGoodsName" class="col-sm-2 control-label">评测内容</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" id="evaluation_content" name="evaluation_content" rows="2"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">

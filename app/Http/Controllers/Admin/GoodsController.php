@@ -71,13 +71,24 @@ class GoodsController extends Controller
         if ($request->hasFile('coverImage'))
         {
             $file = $request->file('coverImage');
-            $fileName=time().'.'.$file->getClientOriginalExtension();
+            $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
             $file->move(base_path().'/public/upload',$fileName);
 
 
             $params['cover']='/upload/'.$fileName;
         }
         unset($params['coverImage']);
+
+        if ($request->hasFile('evaluationPersonImage'))
+        {
+            $file = $request->file('evaluationPersonImage');
+            $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
+            $file->move(base_path().'/public/upload',$fileName);
+
+
+            $params['evaluation_person_image']='/upload/'.$fileName;
+        }
+        unset($params['evaluationPersonImage']);
 
         $params['goods_description']=$params['description'];
         unset($params['description']);
@@ -159,6 +170,17 @@ class GoodsController extends Controller
                 $params['cover']='/upload/'.$fileName;
             }
             unset($params['coverImage']);
+
+            if ($requests->hasFile('evaluationPersonImage'))
+            {
+                $file = $requests->file('evaluationPersonImage');
+                $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
+                $file->move(base_path().'/public/upload',$fileName);
+
+
+                $params['evaluation_person_image']='/upload/'.$fileName;
+            }
+            unset($params['evaluationPersonImage']);
 
             $params['goods_description']=$params['description'];
             unset($params['description']);
