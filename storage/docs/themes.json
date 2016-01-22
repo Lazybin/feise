@@ -101,6 +101,14 @@
                     "description": "\u9875\u9762\u9876\u90e8\u56fe\u7247",
                     "type": "string"
                 },
+                "themes_description": {
+                    "description": "\u4e3b\u9898\u63cf\u8ff0",
+                    "type": "string"
+                },
+                "intro": {
+                    "description": "\u7b80\u4ecb",
+                    "type": "string"
+                },
                 "type": {
                     "description": "0-->\u666e\u901a\u6a21\u5f0f,1-->\u56fe\u6587\u7ed3\u5408\u6a21\u5f0f",
                     "type": "integer"
@@ -138,6 +146,14 @@
                     "description": "\u5206\u7c7b\u5bf9\u5e94\u7684id",
                     "type": "integer"
                 },
+                "evaluation_person_image": {
+                    "description": "\u8bc4\u6d4b\u5e08\u56fe\u7247",
+                    "type": "string"
+                },
+                "evaluation_content": {
+                    "description": "\u8bc4\u6d4b\u5185\u5bb9",
+                    "type": "string"
+                },
                 "cover": {
                     "description": "\u5c01\u9762\u56fe\u7247",
                     "type": "string"
@@ -162,7 +178,7 @@
                     "description": "\u662f\u5426\u652f\u6301\u4e03\u5929\u65e0\u7406\u7531\u9000\u8d27 0\uff1a\u4e0d\u652f\u6301\uff0c1\uff1a\u652f\u6301",
                     "type": "integer"
                 },
-                "description": {
+                "goods_description": {
                     "description": "\u5546\u54c1\u63cf\u8ff0",
                     "type": "string"
                 },
