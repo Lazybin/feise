@@ -54,9 +54,9 @@
                     "type": "Home",
                     "parameters": [
                         {
-                            "paramType": "body",
+                            "paramType": "path",
                             "name": "id",
-                            "type": "test",
+                            "type": "integer",
                             "required": true,
                             "allowMultiple": false,
                             "description": "id"
@@ -92,19 +92,6 @@
                 "item": {
                     "description": "\u5305\u542b\u9879 \u5f53type=0 \u5176\u5185\u5bb9\u4e3a\u4e13\u9898\uff0ctype=1\u5176\u5185\u5bb9\u4e3a\u4e3b\u9898",
                     "type": "array"
-                }
-            }
-        },
-        "test": {
-            "id": "test",
-            "properties": {
-                "name": {
-                    "description": "\u5546\u54c1\u540d\u79f0",
-                    "type": "string"
-                },
-                "price": {
-                    "description": "\u73b0\u4ef7",
-                    "type": "integer"
                 }
             }
         }

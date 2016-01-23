@@ -4,13 +4,6 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * @SWG\Model(
- * id="test",
- *  @SWG\Property(name="name",type="string",description="商品名称"),
- *  @SWG\Property(name="price",type="integer",description="现价")
- * )
- */
 
 /**
  * @SWG\Model(id="Goods")

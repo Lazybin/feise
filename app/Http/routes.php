@@ -20,6 +20,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::resource('api/v1/goods','Api\V1\GoodsController',['only' => ['index','show']]);
     Route::resource('api/v1/shopping_cart','Api\V1\ShoppingCartController');
     Route::resource('api/v1/home','Api\V1\HomeController',['only' => ['index','show']]);
+
+    Route::resource('api/v1/orders','Api\V1\OrdersController');
 });
 
 

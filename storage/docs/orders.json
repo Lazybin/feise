@@ -1,0 +1,101 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/orders",
+    "apis": [
+        {
+            "path": "/orders",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "\u751f\u6210\u8ba2\u5355",
+                    "nickname": "store",
+                    "parameters": [
+                        {
+                            "paramType": "body",
+                            "name": "order_info",
+                            "type": "newOrderParams",
+                            "required": true,
+                            "description": "\u63d0\u4ea4\u7684\u8ba2\u5355\u4fe1\u606f"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u751f\u6210\u8ba2\u5355"
+                }
+            ]
+        }
+    ],
+    "models": {
+        "newOrderParams": {
+            "id": "newOrderParams",
+            "properties": {
+                "user_id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer"
+                },
+                "consignee": {
+                    "description": "\u6536\u8d27\u4eba",
+                    "type": "string"
+                },
+                "shipping_address": {
+                    "description": "\u6536\u8d27\u5730\u5740",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "\u6536\u8d27\u4eba\u7535\u8bdd",
+                    "type": "string"
+                },
+                "goodsList": {
+                    "description": "\u5546\u54c1\u5217\u8868",
+                    "type": "array",
+                    "items": {
+                        "$ref": "ordersGoodsList"
+                    }
+                }
+            }
+        },
+        "ordersGoodsList": {
+            "id": "ordersGoodsList",
+            "properties": {
+                "goods_id": {
+                    "description": "\u5546\u54c1id",
+                    "type": "integer"
+                },
+                "num": {
+                    "description": "\u8d2d\u4e70\u6570\u91cf",
+                    "type": "integer"
+                },
+                "properties": {
+                    "description": "\u5546\u54c1\u5c5e\u6027",
+                    "type": "array",
+                    "items": {
+                        "$ref": "ordersGoodsProperties"
+                    }
+                },
+                "message": {
+                    "description": "\u7559\u8a00",
+                    "type": "string"
+                }
+            }
+        },
+        "ordersGoodsProperties": {
+            "id": "ordersGoodsProperties",
+            "properties": {
+                "name": {
+                    "description": "\u5c5e\u6027\u540d",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "\u5c5e\u6027\u503c",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

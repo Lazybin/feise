@@ -11,6 +11,9 @@
             "description": "\u9996\u9875"
         },
         {
+            "path": "/orders"
+        },
+        {
             "path": "/setting",
             "description": "\u7cfb\u7edf\u8bbe\u7f6e"
         },
