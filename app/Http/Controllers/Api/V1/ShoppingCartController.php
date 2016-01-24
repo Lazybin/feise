@@ -96,11 +96,11 @@ class ShoppingCartController extends Controller
      *     method="POST", summary="添加到购物车", notes="添加到购物车",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
-     *         name="newShoppingCartParams",
+     *         name="shopping_cart_info",
      *         description="提交的商品信息",
      *         paramType="body",
      *         required=true,
-     *         type="newOrderParams"
+     *         type="newShoppingCartParams"
      *     )
      *   )
      * )
