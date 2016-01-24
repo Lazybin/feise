@@ -49,7 +49,7 @@ class OrdersController extends Controller
      * @SWG\Api(
      *   path="/orders",
      *   @SWG\Operation(
-     *     method="POST", summary="生成订单", notes="生成订单",
+     *     method="POST", summary="生成订单", notes="生成订单",type="Order",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="order_info",
@@ -94,7 +94,11 @@ class OrdersController extends Controller
             $orderGoods->save();
         }
 
-        var_dump($content);
+        $response->Data=$order;
+        return $response->toJson();
+
+        //var_dump($content);
+        //echo $this->sign_request(['array'],'../config/rsa_private_key.pem');
     }
 
     /**
