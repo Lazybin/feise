@@ -109,12 +109,9 @@ class ShoppingCartController extends Controller
     {
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
-        var_dump($content);
         $content->properties =json_encode($content->properties);
-        var_dump($content);
 
-        $shoppingCart=ShoppingCart::create((array)$content);
-        var_dump($shoppingCart);
+        ShoppingCart::create((array)$content);
         return $response->toJson();
     }
 
@@ -144,45 +141,21 @@ class ShoppingCartController extends Controller
      *     method="PUT", summary="修改购物车", notes="修改购物车",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
-     *         name="id",
-     *         description="id",
-     *         paramType="path",
+     *         name="shopping_cart_info",
+     *         description="提交的商品信息",
+     *         paramType="body",
      *         required=true,
-     *         allowMultiple=false,
-     *         type="integer"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="user_id",
-     *         description="用户id",
-     *         paramType="form",
-     *         required=true,
-     *         allowMultiple=false,
-     *         type="integer"
-     *     ),
-     *     @SWG\Parameter(
-     *         name="goods_id",
-     *         description="商品id",
-     *         paramType="form",
-     *         required=true,
-     *         allowMultiple=false,
-     *         type="integer"
-     *     ),@SWG\Parameter(
-     *         name="num",
-     *         description="数量",
-     *         paramType="form",
-     *         required=true,
-     *         allowMultiple=false,
-     *         type="integer"
+     *         type="newShoppingCartParams"
      *     )
-     *
      *   )
      * )
      */
     public function update(Request $request, $id)
     {
         $response=new BaseResponse();
-        $params=$request->all();
-        ShoppingCart::where('id',$id)->update($params);
+        $content = json_decode($request->getContent(false));
+        $content->properties =json_encode($content->properties);
+        ShoppingCart::where('id',$id)->update((array)$content);
         return $response->toJson();
     }
 
