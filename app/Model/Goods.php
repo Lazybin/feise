@@ -14,6 +14,7 @@ class Goods extends Model
      * @SWG\Property(name="name",type="string",description="商品名称")
      * @SWG\Property(name="price",type="integer",description="现价")
      * @SWG\Property(name="detailed_introduction",type="string",description="原价")
+     * @SWG\Property(name="num",type="integer",description="库存")
      * @SWG\Property(name="category_id",type="integer",description="分类对应的id")
      * @SWG\Property(name="evaluation_person_image",type="string",description="评测师图片")
      * @SWG\Property(name="evaluation_content",type="string",description="评测内容")

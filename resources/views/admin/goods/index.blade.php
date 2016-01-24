@@ -201,6 +201,7 @@
 
             $("#useCouponRadios1").attr("checked","checked");
             $("#coupon_amount").val('');
+            $("#num").val('');
             $("#express_way").val(1);
             $("#express_fee").val(0);
             $("#returnedGoodsRadios1").attr("checked","checked");
@@ -252,6 +253,7 @@
                         $("#parentCategory").val(recv.meta.data.category.pid);
                         initCategory(recv.meta.data.category.pid,recv.meta.data.category.id);
                         $("#price").val(recv.meta.data.price);
+                        $("#num").val(recv.meta.data.num);
                         $("#original_price").val(recv.meta.data.original_price);
                         if(recv.meta.data.use_coupon==1){
                             $("#useCouponRadios1").attr("checked","checked");
@@ -585,14 +587,18 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="inputGoodsName" class="col-sm-2 control-label">七天退货</label>
-                                <div class="col-sm-10">
+                                <label for="inputGoodsName" class="col-sm-2 control-label">15天退货</label>
+                                <div class="col-sm-3">
                                     <label class="radio-inline">
                                         <input type="radio"  name="returned_goods" id="returnedGoodsRadios1" value="1">支持
                                     </label>
                                     <label class="radio-inline">
                                         <input type="radio" name="returned_goods" id="returnedGoodsRadios2" value="0">不支持
                                     </label>
+                                </div>
+                                <label for="inputGoodsName" class="col-sm-2 control-label">库存</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="num" name="num" placeholder="请输入商品库存">
                                 </div>
                             </div>
 
