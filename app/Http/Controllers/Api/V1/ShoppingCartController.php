@@ -110,7 +110,7 @@ class ShoppingCartController extends Controller
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
         var_dump($content);
-        $content['properties'] =json_encode($content['properties']);
+        $content->properties =json_encode($content->properties);
         var_dump($content);
 
         $shoppingCart=ShoppingCart::create($content);
