@@ -27,9 +27,8 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
     }
 
     /**
@@ -122,7 +121,7 @@ class OrdersController extends Controller
         return $sign;
     }
     public function sign_request($params, $rsaPrivateKeyFilePath) {
-        return $this->rsa_sign ( $this->getSignContent ( $params ), $rsaPrivateKeyFilePath );
+        return $this->rsa_sign ( $params, $rsaPrivateKeyFilePath );
     }
 
     protected function getSignContent($params) {
@@ -159,54 +158,72 @@ class OrdersController extends Controller
         return false;
     }
 
-    private function getPayInfo()
+    private function getPayInfoStr($out_trade_no)
     {
+        $order=Order::where('out_trade_no',$out_trade_no)->first();
+
         // 签约合作者身份ID
-        //$payInfo = "partner="."\"".PARTNER."\"";
+        $payInfo = "partner="."\"".Order::PARTNER."\"";
 
 		// 签约卖家支付宝账号
-//		orderInfo += "&seller_id=" + "\"" + SELLER + "\"";
-//
+		$payInfo .= "&seller_id="."\"".Order::SELLER."\"";
+
 //		// 商户网站唯一订单号
-//		orderInfo += "&out_trade_no=" + "\"" + getOutTradeNo() + "\"";
+        $payInfo .= "&out_trade_no="."\"".$order->out_trade_no."\"";
 //
 //		// 商品名称
-//		orderInfo += "&subject=" + "\"" + subject + "\"";
-//
+        $subject='';
+        $body='';
+        $goodsList=$order->goods_list;
+        foreach($goodsList as $g){
+            $subject.=$g['goods']['name'].'+';
+            $body.=$g['goods']['goods_description'].'+';
+        }
+        if(mb_strlen($subject)>120){
+            $subject=mb_substr($subject,0,120,'utf-8');
+            $subject.='...';
+        }else{
+            $subject=mb_substr($subject,0,mb_strlen($subject)-1,'utf-8');
+        }
+        if(mb_strlen($body)>500){
+            $body=mb_substr($body,0,500,'utf-8');
+            $body.='...';
+        }else{
+            $body=mb_substr($body,0,mb_strlen($body)-1,'utf-8');
+        }
+
+        $payInfo .= "&subject="."\"".$subject. "\"";
+
 //		// 商品详情
-//		orderInfo += "&body=" + "\"" + body + "\"";
+        $payInfo .= "&body=" . "\"" . $body . "\"";
 //
 //		// 商品金额
-//		orderInfo += "&total_fee=" + "\"" + price + "\"";
+        $payInfo .= "&total_fee=" . "\"" . $order->total_fee . "\"";
 //
 //		// 服务器异步通知页面路径
-//		orderInfo += "&notify_url=" + "\"" + "http://notify.msp.hk/notify.htm" +
-//
-//            "\"";
+        $payInfo .= "&notify_url=" . "\"" . "http://120.27.199.121/feise/public/orders/notify" ."\"";
 //
 //		// 服务接口名称， 固定值
-//		orderInfo += "&service=\"mobile.securitypay.pay\"";
+		$payInfo .= "&service=\"mobile.securitypay.pay\"";
 //
 //		// 支付类型， 固定值
-//		orderInfo += "&payment_type=\"1\"";
+        $payInfo .= "&payment_type=\"1\"";
 //
 //		// 参数编码， 固定值
-//		orderInfo += "&_input_charset=\"utf-8\"";
+        $payInfo .= "&_input_charset=\"utf-8\"";
 //
 //		// 设置未付款交易的超时时间
 //		// 默认30分钟，一旦超时，该笔交易就会自动被关闭。
 //		// 取值范围：1m～15d。
 //		// m-分钟，h-小时，d-天，1c-当天（无论交易何时创建，都在0点关闭）。
 //		// 该参数数值不接受小数点，如1.5h，可转换为90m。
-//		orderInfo += "&it_b_pay=\"30m\"";
-//
-//		// extern_token为经过快登授权获取到的alipay_open_id,带上此参数用户将使用授权
-//
-//的账户进行支付
-//		// orderInfo += "&extern_token=" + "\"" + extern_token + "\"";
-//
-//		// 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
-//		orderInfo += "&return_url=\"m.alipay.com\"";
+		$payInfo .= "&it_b_pay=\"30m\"";
+
+        $payInfo .= "&sign_type=\"RSA\"";
+
+        $sign=$this->sign_request($payInfo,'../config/rsa_private_key.pem');
+        $payInfo .= "&sign=\".$sign.\"";
+        return $payInfo;
     }
 
     /**
@@ -215,9 +232,46 @@ class OrdersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
-        //
+//        $response=new BaseResponse();
+//        $type=$request->input('type','detail');
+//        if($type=='detail'){
+//
+//        }else{
+//
+//        }
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/orders/get_pay_info",
+     *   @SWG\Operation(
+     *     method="GET", summary="支付字符串", notes="支付字符串",type="string",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="out_trade_no",
+     *         description="支付字符串",
+     *         paramType="query",
+     *         required=true,
+     *         type="string"
+     *     )
+     *   )
+     * )
+     */
+    public function getPayInfo(Request $request)
+    {
+        $response=new BaseResponse();
+        $out_trade_no=$request->input('out_trade_no');
+        if($out_trade_no==null){
+            $response->Code=BaseResponse::CODE_ERROR_CHECK;
+            $response->Message='缺少参数';
+            return $response->toJson();
+        }
+        $data['payInfo']=$this->getPayInfoStr($out_trade_no);
+        $response->Data=$data;
+        return $response->toJson();
     }
 
     /**

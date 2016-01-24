@@ -41,6 +41,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Order extends Model
 {
+    const PARTNER = '2088211506737974';
+    const SELLER = '195793973@qq.com ';
+
     /**
      * @SWG\Property(name="id",type="integer",description="id")
      * @SWG\Property(name="user_id",type="integer",description="用户id")
@@ -53,6 +56,16 @@ class Order extends Model
      * @SWG\Property(name="payment_time",type="string",description="支付时间")
      */
     protected $fillable = [
-        'user_id','out_trade_no','consignee','shipping_address','mobile','total_fee','status','payment_time'
+        'user_id', 'out_trade_no', 'consignee', 'shipping_address', 'mobile', 'total_fee', 'status', 'payment_time'
     ];
+    protected $appends = ['goods_list'];
+
+    public function getGoodsListAttribute()
+    {
+        $goodsList=OrderGoods::where('order_id',$this->id)->get();
+        if($goodsList == null) {
+            return '';
+        }
+        return $goodsList->toArray();
+    }
 }
