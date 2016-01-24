@@ -252,7 +252,7 @@ class OrdersController extends Controller
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="out_trade_no",
-     *         description="支付字符串",
+     *         description="订单号",
      *         paramType="query",
      *         required=true,
      *         type="string"
