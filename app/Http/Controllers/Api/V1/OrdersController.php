@@ -249,7 +249,9 @@ class OrdersController extends Controller
         $payInfo .= "&sign_type=\"RSA\"";
 
         $sign=$this->sign_request($payInfo,'../config/rsa_private_key.pem');
-        $payInfo .= "&sign=\".$sign.\"";
+        $sign=urlencode($sign);
+        //echo $sign;exit;
+        $payInfo .= "&sign=\"$sign\"";
         return $payInfo;
     }
 
