@@ -141,6 +141,13 @@ class ShoppingCartController extends Controller
      *     method="PUT", summary="修改购物车", notes="修改购物车",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
+     *         name="id",
+     *         description="id",
+     *         paramType="path",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
      *         name="shopping_cart_info",
      *         description="提交的商品信息",
      *         paramType="body",
