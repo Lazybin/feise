@@ -90,7 +90,10 @@ class OrdersController extends Controller
             $orderGoods->goods_id=$v->goods_id;
             $orderGoods->num=$v->num;
             $orderGoods->properties=json_encode($v->properties);
-            $orderGoods->message=json_encode($v->message);
+            if(isset($v->message)){
+                $orderGoods->message=$v->message;
+            }
+
             $orderGoods->save();
         }
 
