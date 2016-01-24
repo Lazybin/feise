@@ -113,7 +113,7 @@ class ShoppingCartController extends Controller
         $content->properties =json_encode($content->properties);
         var_dump($content);
 
-        $shoppingCart=ShoppingCart::create($content);
+        $shoppingCart=ShoppingCart::create((array)$content);
         var_dump($shoppingCart);
         return $response->toJson();
     }
