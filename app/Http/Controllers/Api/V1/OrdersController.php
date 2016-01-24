@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use Illuminate\Support\Facades\Log;
 use App\Model\BaseResponse;
 use App\Model\Goods;
 use App\Model\Order;
@@ -124,6 +125,28 @@ class OrdersController extends Controller
         return $this->rsa_sign ( $params, $rsaPrivateKeyFilePath );
     }
 
+    public function rsa_verify($data, $sign, $rsaPublicKeyFilePath) {
+        // 读取公钥文件
+        $pubKey = file_get_contents ( $rsaPublicKeyFilePath );
+
+        // 转换为openssl格式密钥
+        $res = openssl_get_publickey ( $pubKey );
+
+        // 调用openssl内置方法验签，返回bool值
+        $result = ( bool ) openssl_verify ( $data, base64_decode ( $sign ), $res );
+
+        // 释放资源
+        openssl_free_key ( $res );
+
+        return $result;
+    }
+    public function rsaCheckV2($params, $rsaPublicKeyFilePath) {
+        $sign = $params ['sign'];
+        $params ['sign'] = null;
+
+        return $this->rsa_verify ( $this->getSignContent ( $params ), $sign, $rsaPublicKeyFilePath );
+    }
+
     protected function getSignContent($params) {
         ksort ( $params );
 
@@ -191,6 +214,7 @@ class OrdersController extends Controller
         }else{
             $body=mb_substr($body,0,mb_strlen($body)-1,'utf-8');
         }
+        $order->total_fee=0.01;
 
         $payInfo .= "&subject="."\"".$subject. "\"";
 
@@ -224,6 +248,18 @@ class OrdersController extends Controller
         $sign=$this->sign_request($payInfo,'../config/rsa_private_key.pem');
         $payInfo .= "&sign=\".$sign.\"";
         return $payInfo;
+    }
+
+    public function notify(Request $request)
+    {
+        $params=$request->all();
+        Log::info(json_encode($params));
+        if($this->rsaCheckV2($params,'../config/rsa_public_key.pem')){
+            Log::info('验证成功');
+            echo 'success';
+        }else{
+            Log::info('验证失败');
+        }
     }
 
     /**
