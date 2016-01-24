@@ -108,10 +108,12 @@ class ShoppingCartController extends Controller
     public function store(Request $request)
     {
         $response=new BaseResponse();
-        $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
         $content['properties'] =json_encode($content['properties']);
-        ShoppingCart::create($content);
+        var_dump($content);
+
+        $shoppingCart=ShoppingCart::create($content);
+        var_dump($shoppingCart);
         return $response->toJson();
     }
 
