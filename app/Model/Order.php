@@ -42,7 +42,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     const PARTNER = '2088211506737974';
-    const SELLER = '195793973@qq.com ';
+    const SELLER = '195793973@qq.com';
 
     /**
      * @SWG\Property(name="id",type="integer",description="id")
