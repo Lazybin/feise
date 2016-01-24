@@ -61,7 +61,7 @@ class ShoppingCartController extends Controller
         $response=new BaseResponse();
         $user_id=$request->input('user_id');
         $start=$request->input('PageNum', 1);
-        $length=$request->input('PerPage', 5);
+        $length=$request->input('PerPage', 10);
 
         $start=($start-1)*$length;
 
@@ -71,7 +71,11 @@ class ShoppingCartController extends Controller
         }else{
             $shoppingCart=ShoppingCart::where('user_id',$user_id);
             $count=$shoppingCart->count();
-            $response->rows=$shoppingCart->get();
+            $shoppingCarts=$shoppingCart->get();
+            foreach($shoppingCarts as &$s){
+                $s['properties']=json_decode($s['properties']);
+            }
+            $response->rows=$shoppingCarts;
             $response->total=$count;
         }
 
