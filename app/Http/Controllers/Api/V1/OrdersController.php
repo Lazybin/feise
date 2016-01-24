@@ -229,7 +229,7 @@ class OrdersController extends Controller
         $payInfo .= "&total_fee=" . "\"" . $order->total_fee . "\"";
 //
 //		// 服务器异步通知页面路径
-        $payInfo .= "&notify_url=" . "\"" . "http://120.27.199.121/feise/public/orders/notify" ."\"";
+        $payInfo .= "&notify_url=" . "\"" . "http://120.27.199.121/feise/public/api/v1/orders/notify" ."\"";
 //
 //		// 服务接口名称， 固定值
 		$payInfo .= "&service=\"mobile.securitypay.pay\"";
