@@ -147,8 +147,10 @@ class OrdersController extends Controller
     public function rsaCheckV2($params, $rsaPublicKeyFilePath) {
         $sign = $params ['sign'];
         $params ['sign'] = null;
+        $data=$this->getSignContent ( $params );
+        Log::info($data);
 
-        return $this->rsa_verify ( $this->getSignContent ( $params ), $sign, $rsaPublicKeyFilePath );
+        return $this->rsa_verify ( $data, $sign, $rsaPublicKeyFilePath );
     }
 
     protected function getSignContent($params) {
