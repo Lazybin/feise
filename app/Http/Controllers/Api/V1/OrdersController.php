@@ -132,11 +132,11 @@ class OrdersController extends Controller
     public function rsa_verify($data, $sign, $rsaPublicKeyFilePath) {
         // 读取公钥文件
         $pubKey = file_get_contents ( $rsaPublicKeyFilePath );
-        Log::info($pubKey);
+       // Log::info($pubKey);
 
         // 转换为openssl格式密钥
         $res = openssl_get_publickey ( $pubKey );
-        Log::info($res);
+        //Log::info($res);
         // 调用openssl内置方法验签，返回bool值
         $result = ( bool ) openssl_verify ( $data, base64_decode ( $sign ), $res );
 
@@ -149,6 +149,8 @@ class OrdersController extends Controller
         $sign = $params ['sign'];
         $params ['sign'] = null;
         $params ['sign_type'] = null;
+        Log::info($params);
+        //var_dump($params);exit;
         $data=$this->getSignContent ( $params );
         Log::info($data);
         Log::info($sign);
@@ -264,12 +266,24 @@ class OrdersController extends Controller
     public function notify(Request $request)
     {
         $params=$request->all();
-        Log::info(json_encode($params));
+        Log::info(json_encode($params->toArray()));
         if($this->rsaCheckV2($params,'../config/rsa_public_key.pem')){
             Log::info('验证成功');
             echo 'success';
         }else{
             Log::info('验证失败');
+        }
+    }
+
+    public function test()
+    {
+        $params=json_decode('{"discount":"0.00","payment_type":"1","subject":"\u95ee\u662f","trade_no":"2016012521001004970034573123","buyer_email":"396887725@qq.com","gmt_create":"2016-01-25 18:02:17","notify_type":"trade_status_sync","quantity":"1","out_trade_no":"2016012582921","seller_id":"2088211506737974","notify_time":"2016-01-25 18:02:17","body":"\u975e\u4eba\u4e3a","trade_status":"WAIT_BUYER_PAY","is_total_fee_adjust":"Y","total_fee":"0.01","seller_email":"195793973@qq.com","price":"0.01","buyer_id":"2088602217501978","notify_id":"6c6ac9a6a552f1a79da4f5bb427f650nhg","use_coupon":"N","sign_type":"RSA","sign":"nw4eDzCE666v7FVoO\/AXQrp9oUo9oElqfUEaBbkGxRvUWHabv6X6wHH8aNFlEowQLw6myMMd0jiLcfyFBAtgMRR8eDmyezqzqcolfV\/51OMzWaRbOS\/jUWCYKbgn1XwEaDSJLL3Z9BchxSFOFvyXZ4UP4otyNnppHWxpMqZXj+s="}');
+        $params=json_decode($params);
+        var_dump($params);
+        if($this->rsaCheckV2($params,'../config/rsa_public_key.pem')){
+            echo 'success';
+        }else{
+            echo 'false';
         }
     }
 
