@@ -81,6 +81,22 @@
             });
 
         });
+        var $cover = $("#coverImage");
+        $cover.fileinput({
+            rowseClass: "btn btn-primary",
+            showCaption: false,
+            showRemove: false,
+            showUpload: false,
+            overwriteInitial: true
+        });
+        var $detailImage = $("#detailImage");
+        $detailImage.fileinput({
+            rowseClass: "btn btn-primary",
+            showCaption: false,
+            showRemove: false,
+            showUpload: false,
+            overwriteInitial: true
+        });
         $("#input-id").fileinput({
             rowseClass: "btn btn-primary btn-block",
             showCaption: false,
@@ -98,6 +114,17 @@
         function onAddClick(){
             $("#newTitle").val('');
             $("#newAction").val('');
+            $("#banner_position").val(0);
+            $("#newOrder").val('');
+            $("#modelTitle").html('添加banner');
+            $cover.fileinput("refresh", {
+                initialPreview:[]
+            });
+            $detailImage.fileinput("refresh", {
+                initialPreview:[]
+            });
+
+            $('#bannerForm').attr('action',"{{url('/')}}/banner/store");
             $('#newBannerModel').modal('show');
         }
 
@@ -114,11 +141,12 @@
                         });
                     }else if(recv.meta.code=='1'){
                         $("#id").val(recv.meta.data.id);
-                        $("#editTitle").val(recv.meta.data.title);
-                        $("#editOrder").val(recv.meta.data.order);
-                        $("#editAction").val(recv.meta.data.action);
-
-                        $("#input-id2").fileinput("refresh", {
+                        $("#newTitle").val(recv.meta.data.title);
+                        $("#banner_position").val(recv.meta.data.banner_position);
+                        $("#newOrder").val(recv.meta.data.order);
+                        $("#newAction").val(recv.meta.data.action);
+                        $("#modelTitle").html('修改banner');
+                        $cover.fileinput("refresh", {
                             rowseClass: "btn btn-primary btn-block",
                             showCaption: false,
                             showRemove: false,
@@ -128,7 +156,19 @@
                                 '<img src="{{url('/')}}'+recv.meta.data.path+'" class="file-preview-image">'
                             ]
                         });
-                        $('#editBannerModel').modal('show');
+
+                        $detailImage.fileinput("refresh", {
+                            rowseClass: "btn btn-primary btn-block",
+                            showCaption: false,
+                            showRemove: false,
+                            showUpload: false,
+                            overwriteInitial: true,
+                            initialPreview: [
+                                '<img src="{{url('/')}}'+recv.meta.data.detail_image+'" class="file-preview-image">'
+                            ]
+                        });
+                        $('#bannerForm').attr('action','{{url("/")}}/banner/update/'+id);
+                        $('#newBannerModel').modal('show');
                     }
                     return true;
                 }
@@ -218,33 +258,55 @@
 
     <!-- Modal dialog -->
     <div class="modal fade" id="newBannerModel">
-        <form enctype="multipart/form-data" class="row-border" method="post"  action="{{url('/')}}/banner/store">
+        <form enctype="multipart/form-data" id="bannerForm" class="row-border form-horizontal" method="post"  action="">
             {!! csrf_field() !!}
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">添加banner</h4>
+                        <h4 class="modal-title" id="modelTitle"></h4>
                     </div>
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <label>标题</label>
-                            <input type="text" class="form-control" id="newTitle" name="title" placeholder="请输入标题">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">标题</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="newTitle" name="title" placeholder="请输入标题">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>图片</label>
-                            <input id="input-id" name="input-id" type="file" class="file" data-preview-file-type="text" >
+                            <label for="inputGoodsName" class="col-sm-2 control-label">位置</label>
+                            <div class="col-sm-5">
+                                <select name="banner_position" id="banner_position" class="form-control">
+                                    <option value="0">首页</option>
+                                    <option value="1">约惠</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>排序</label>
-                            <input type="text" class="form-control" id="newOrder" name="order" value="1" placeholder="请输入排序">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">封面图片</label>
+                            <div class="col-sm-10">
+                                <input id="coverImage" name="coverImage" type="file" class="file" data-preview-file-type="text" >
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label>动作</label>
-                            <input type="text" class="form-control" id="newAction" name="action"  placeholder="请输入动作">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">内容图片</label>
+                            <div class="col-sm-10">
+                                <input id="detailImage" name="detailImage" type="file" class="file" data-preview-file-type="text" >
+                            </div>
                         </div>
-
+                        <div class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">排序</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="newOrder" name="order" value="1" placeholder="请输入排序">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">动作</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="newAction" name="action"  placeholder="请输入动作">
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn_first" >提交</button>

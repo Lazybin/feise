@@ -25,19 +25,27 @@ class BannerController extends Controller
      *   path="/setting/banner",
      *   description="系统设置",
      *   @SWG\Operation(
-     *     method="GET", summary="取得首页banner", notes="返回的为相对路径，使用时请在前面加上http://120.27.199.121/feise/public",
-     *     @SWG\ResponseMessage(code=404, message="page not found")
-     *
+     *     method="GET", summary="取得banner", notes="返回的为相对路径，使用时请在前面加上http://120.27.199.121/feise/public",
+     *     @SWG\ResponseMessage(code=0, message=""),
+     *     @SWG\Parameter(
+     *         name="banner_position",
+     *         description="banner位置 0-->首页，1-->约惠",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=1
+     *     )
      *   )
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
         $response=new BaseResponse();
-
-        $banners=Banner::all();
-        $response->rows=$banners;
-        $response->total=Banner::count();
+        $banner_position=$request->input('banner_position',0);
+        $banners=Banner::where('banner_position',$banner_position);
+        $response->rows=$banners->get();
+        $response->total=$banners->count();
         return $response->toJson();
     }
 }

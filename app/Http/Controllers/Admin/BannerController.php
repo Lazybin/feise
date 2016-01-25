@@ -50,38 +50,61 @@ class BannerController extends Controller
 
         $banner->action=$params['action'];
 
-        $file = $request->file('input-id');
+        $banner->banner_position=$params['banner_position'];
 
-        if ($file->isValid())
+        if ($request->hasFile('coverImage'))
         {
-            $fileName=time().'.'.$file->getClientOriginalExtension();
+            $file = $request->file('coverImage');
+            $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
             $file->move(base_path().'/public/upload',$fileName);
+
 
             $banner->path='/upload/'.$fileName;
         }
+
+        if ($request->hasFile('detailImage'))
+        {
+            $file = $request->file('detailImage');
+            $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
+            $file->move(base_path().'/public/upload',$fileName);
+
+
+            $banner->detail_image='/upload/'.$fileName;
+        }
+
+
         $banner->save();
         return redirect()->action('Admin\BannerController@show');
     }
 
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
         $params=$request->all();
-        $banner=Banner::find($params['id']);
+        $banner=Banner::find($id);
         if($banner!=null){
             $banner->title=$params['title'];
             $banner->order=$params['order'];
-
+            $banner->banner_position=$params['banner_position'];
             $banner->action=$params['action'];
 
-
-
-            if ($request->hasFile('input-id2'))
+            if ($request->hasFile('coverImage'))
             {
-                $file = $request->file('input-id2');
-                $fileName=time().'.'.$file->getClientOriginalExtension();
+                $file = $request->file('coverImage');
+                $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
                 $file->move(base_path().'/public/upload',$fileName);
 
+
                 $banner->path='/upload/'.$fileName;
+            }
+
+            if ($request->hasFile('detailImage'))
+            {
+                $file = $request->file('detailImage');
+                $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
+                $file->move(base_path().'/public/upload',$fileName);
+
+
+                $banner->detail_image='/upload/'.$fileName;
             }
             $banner->save();
         }

@@ -76,7 +76,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/banner/index', 'Admin\BannerController@index');
         Route::post('/banner/store', 'Admin\BannerController@store');
         Route::get('/banner/detail/{id}', 'Admin\BannerController@detail');
-        Route::post('/banner/update', 'Admin\BannerController@update');
+        Route::post('/banner/update/{id}', 'Admin\BannerController@update');
         Route::delete('/banner/delete/{id}', 'Admin\BannerController@delete');
 
         Route::get('/category/', 'Admin\CategoryController@show');
