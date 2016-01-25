@@ -266,8 +266,8 @@ class OrdersController extends Controller
     public function notify(Request $request)
     {
         $params=$request->all();
-        Log::info(json_encode($params->toArray()));
-        if($this->rsaCheckV2($params,'../config/rsa_public_key.pem')){
+        Log::info(json_encode((array)$params));
+        if($this->rsaCheckV2((array)$params,'../config/rsa_public_key.pem')){
             Log::info('验证成功');
             echo 'success';
         }else{
