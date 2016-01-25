@@ -132,11 +132,11 @@ class OrdersController extends Controller
     public function rsa_verify($data, $sign, $rsaPublicKeyFilePath) {
         // 读取公钥文件
         $pubKey = file_get_contents ( $rsaPublicKeyFilePath );
-       // Log::info($pubKey);
+        Log::info($pubKey);
 
         // 转换为openssl格式密钥
         $res = openssl_get_publickey ( $pubKey );
-        //Log::info($res);
+       Log::info($res);
         // 调用openssl内置方法验签，返回bool值
         $result = ( bool ) openssl_verify ( $data, base64_decode ( $sign ), $res );
 
@@ -149,11 +149,9 @@ class OrdersController extends Controller
         $sign = $params ['sign'];
         $params ['sign'] = null;
         $params ['sign_type'] = null;
-        Log::info($params);
-        //var_dump($params);exit;
         $data=$this->getSignContent ( $params );
-        Log::info($data);
-        Log::info($sign);
+       // Log::info($data);
+        //Log::info($sign);
         return $this->rsa_verify ( $data, $sign, $rsaPublicKeyFilePath );
     }
 
@@ -267,7 +265,7 @@ class OrdersController extends Controller
     {
         $params=$request->all();
         Log::info(json_encode((array)$params));
-        if($this->rsaCheckV2((array)$params,'../config/rsa_public_key.pem')){
+        if($this->rsaCheckV2((array)$params,'../config/alipay_rsa_public_key.pem')){
             Log::info('验证成功');
             echo 'success';
         }else{
