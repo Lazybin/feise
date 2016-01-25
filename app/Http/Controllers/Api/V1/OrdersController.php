@@ -132,10 +132,11 @@ class OrdersController extends Controller
     public function rsa_verify($data, $sign, $rsaPublicKeyFilePath) {
         // 读取公钥文件
         $pubKey = file_get_contents ( $rsaPublicKeyFilePath );
+        Log::info($pubKey);
 
         // 转换为openssl格式密钥
         $res = openssl_get_publickey ( $pubKey );
-
+        Log::info($res);
         // 调用openssl内置方法验签，返回bool值
         $result = ( bool ) openssl_verify ( $data, base64_decode ( $sign ), $res );
 
@@ -150,7 +151,7 @@ class OrdersController extends Controller
         $params ['sign_type'] = null;
         $data=$this->getSignContent ( $params );
         Log::info($data);
-
+        Log::info($sign);
         return $this->rsa_verify ( $data, $sign, $rsaPublicKeyFilePath );
     }
 
