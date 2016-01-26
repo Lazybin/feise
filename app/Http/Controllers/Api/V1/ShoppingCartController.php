@@ -183,7 +183,7 @@ class ShoppingCartController extends Controller
      *   )
      * )
      */
-    public function delete(Request $request,$id)
+    public function delete(Request $request)
     {
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
