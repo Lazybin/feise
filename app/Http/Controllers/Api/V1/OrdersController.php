@@ -274,6 +274,7 @@ class OrdersController extends Controller
                 $order->save();
             }
         }
+        echo 'success';
 //        $params=$request->all();
 //        $params=(array)$params;
 //        Log::info(json_encode($params));
