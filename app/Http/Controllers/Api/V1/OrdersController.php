@@ -70,8 +70,12 @@ class OrdersController extends Controller
         foreach ($goodsList as $g){
             $goods=Goods::select('price','coupon_amount')->find($g->goods_id);
             if($goods!=null){
-                if($g->use_coupon==1)
+                if($g->use_coupon==1){
                     $total_fee=$total_fee+$goods->price-$goods->coupon_amount;
+                }else{
+                    $total_fee=$total_fee+$goods->price;
+                }
+
             }else{
                 $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
                 $response->Message="get goods failed!";
