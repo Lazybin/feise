@@ -168,7 +168,7 @@ class ShoppingCartController extends Controller
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
         foreach($content as $v){
-            ShoppingCart::where('id',$v['id'])->update(['num'=>$v['num']]);
+            ShoppingCart::where('id',$v->id)->update(['num'=>$v->num]);
         }
         return $response->toJson();
     }
