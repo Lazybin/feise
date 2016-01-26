@@ -6,11 +6,54 @@
     "apis": [
         {
             "path": "/orders",
+            "description": "\u8ba2\u5355",
             "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u83b7\u5f97\u7528\u6237\u8ba2\u5355\u5217\u8868",
+                    "nickname": "index",
+                    "type": "Order",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "user_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237id"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PageNum",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u5206\u9875\u5f00\u59cb\u4f4d\u7f6e",
+                            "defaultValue": 1
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PerPage",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u53d6\u5f97\u957f\u5ea6",
+                            "defaultValue": 10
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u83b7\u5f97\u7528\u6237\u8ba2\u5355\u5217\u8868"
+                },
                 {
                     "method": "POST",
                     "summary": "\u751f\u6210\u8ba2\u5355",
                     "nickname": "store",
+                    "type": "Order",
                     "parameters": [
                         {
                             "paramType": "body",
@@ -29,9 +72,106 @@
                     "notes": "\u751f\u6210\u8ba2\u5355"
                 }
             ]
+        },
+        {
+            "path": "/orders/get_pay_info",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u652f\u4ed8\u5b57\u7b26\u4e32",
+                    "nickname": "getPayInfo",
+                    "type": "string",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "out_trade_no",
+                            "type": "string",
+                            "required": true,
+                            "description": "\u8ba2\u5355\u53f7"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u652f\u4ed8\u5b57\u7b26\u4e32"
+                }
+            ]
+        },
+        {
+            "path": "/orders/{id}",
+            "description": "\u8ba2\u5355\u8be6\u60c5",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u83b7\u5f97\u8ba2\u5355\u8be6\u60c5",
+                    "nickname": "show",
+                    "type": "Order",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "out_trade_no",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u8ba2\u5355\u53f7"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u83b7\u5f97\u8ba2\u5355\u8be6\u60c5"
+                }
+            ]
         }
     ],
     "models": {
+        "Order": {
+            "id": "Order",
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer"
+                },
+                "out_trade_no": {
+                    "description": "\u8ba2\u5355\u53f7",
+                    "type": "string"
+                },
+                "consignee": {
+                    "description": "\u6536\u8d27\u4eba",
+                    "type": "string"
+                },
+                "shipping_address": {
+                    "description": "\u6536\u8d27\u5730\u5740",
+                    "type": "integer"
+                },
+                "mobile": {
+                    "description": "\u6536\u8d27\u4eba\u624b\u673a\u53f7",
+                    "type": "string"
+                },
+                "total_fee": {
+                    "description": "\u8981\u652f\u4ed8\u91d1\u989d",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "\u72b6\u6001\uff1a0--\u300b\u672a\u652f\u4ed8",
+                    "type": "integer"
+                },
+                "payment_time": {
+                    "description": "\u652f\u4ed8\u65f6\u95f4",
+                    "type": "string"
+                }
+            }
+        },
         "newOrderParams": {
             "id": "newOrderParams",
             "properties": {
@@ -69,6 +209,10 @@
                 },
                 "num": {
                     "description": "\u8d2d\u4e70\u6570\u91cf",
+                    "type": "integer"
+                },
+                "use_coupon": {
+                    "description": "\u662f\u5426\u4f7f\u7528\u62b5\u7528\u52380-->\u4e0d\u542f\u7528,1-->\u542f\u7528",
                     "type": "integer"
                 },
                 "properties": {

@@ -50,6 +50,10 @@
                     "description": "\u8be6\u7ec6\u63cf\u8ff0\uff08\u5bcc\u6587\u672c\u6846\uff09",
                     "type": "string"
                 },
+                "num": {
+                    "description": "\u5e93\u5b58",
+                    "type": "integer"
+                },
                 "category_id": {
                     "description": "\u5206\u7c7b\u5bf9\u5e94\u7684id",
                     "type": "integer"

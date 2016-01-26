@@ -55,27 +55,11 @@
                     "nickname": "store",
                     "parameters": [
                         {
-                            "paramType": "form",
-                            "name": "user_id",
-                            "type": "integer",
+                            "paramType": "body",
+                            "name": "shopping_cart_info",
+                            "type": "newShoppingCartParams",
                             "required": true,
-                            "description": "\u7528\u6237id"
-                        },
-                        {
-                            "paramType": "form",
-                            "name": "goods_id",
-                            "type": "integer",
-                            "required": true,
-                            "allowMultiple": false,
-                            "description": "\u5546\u54c1id"
-                        },
-                        {
-                            "paramType": "form",
-                            "name": "num",
-                            "type": "integer",
-                            "required": true,
-                            "allowMultiple": false,
-                            "description": "\u6570\u91cf"
+                            "description": "\u63d0\u4ea4\u7684\u5546\u54c1\u4fe1\u606f"
                         }
                     ],
                     "responseMessages": [
@@ -99,34 +83,20 @@
                         {
                             "paramType": "path",
                             "name": "id",
-                            "type": "integer",
+                            "type": "string",
                             "required": true,
-                            "allowMultiple": false,
-                            "description": "id"
+                            "description": "id,\u6b64id\u4e3a\u5360\u4f4d\u7b26\uff0c\u4e00\u76f4\u4f201\u5c31\u53ef\u4ee5\u4e86",
+                            "defaultValue": 1
                         },
                         {
-                            "paramType": "form",
-                            "name": "user_id",
-                            "type": "integer",
+                            "paramType": "body",
+                            "name": "goods_list",
+                            "type": "array",
                             "required": true,
-                            "allowMultiple": false,
-                            "description": "\u7528\u6237id"
-                        },
-                        {
-                            "paramType": "form",
-                            "name": "goods_id",
-                            "type": "integer",
-                            "required": true,
-                            "allowMultiple": false,
-                            "description": "\u5546\u54c1id"
-                        },
-                        {
-                            "paramType": "form",
-                            "name": "num",
-                            "type": "integer",
-                            "required": true,
-                            "allowMultiple": false,
-                            "description": "\u6570\u91cf"
+                            "description": "\u8981\u4fee\u6539\u7684\u5546\u54c1\u5217\u8868",
+                            "items": {
+                                "$ref": "editShoppingCartParams"
+                            }
                         }
                     ],
                     "responseMessages": [
@@ -148,7 +118,18 @@
                             "type": "integer",
                             "required": true,
                             "allowMultiple": false,
-                            "description": "id"
+                            "description": "id,\u6b64id\u4e3a\u5360\u4f4d\u7b26\uff0c\u4e00\u76f4\u4f201\u5c31\u53ef\u4ee5\u4e86",
+                            "defaultValue": 1
+                        },
+                        {
+                            "paramType": "body",
+                            "name": "goods_list",
+                            "type": "array",
+                            "required": true,
+                            "description": "\u8981\u4fee\u6539\u7684\u5546\u54c1\u5217\u8868",
+                            "items": {
+                                "type": "integer"
+                            }
                         }
                     ],
                     "responseMessages": [
@@ -184,6 +165,30 @@
                 }
             }
         },
+        "newShoppingCartParams": {
+            "id": "newShoppingCartParams",
+            "properties": {
+                "goods_id": {
+                    "description": "\u5546\u54c1id",
+                    "type": "integer"
+                },
+                "num": {
+                    "description": "\u8d2d\u4e70\u6570\u91cf",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer"
+                },
+                "properties": {
+                    "description": "\u5546\u54c1\u5c5e\u6027",
+                    "type": "array",
+                    "items": {
+                        "$ref": "ordersGoodsProperties"
+                    }
+                }
+            }
+        },
         "Goods": {
             "id": "Goods",
             "properties": {
@@ -198,6 +203,10 @@
                 "detailed_introduction": {
                     "description": "\u8be6\u7ec6\u63cf\u8ff0\uff08\u5bcc\u6587\u672c\u6846\uff09",
                     "type": "string"
+                },
+                "num": {
+                    "description": "\u5e93\u5b58",
+                    "type": "integer"
                 },
                 "category_id": {
                     "description": "\u5206\u7c7b\u5bf9\u5e94\u7684id",
@@ -250,6 +259,32 @@
                 "images": {
                     "description": "\u5c55\u793a\u56fe\u7247\u5217\u8868 image_id-->\u56fe\u7247id\uff0cpath-->\u56fe\u7247\u8def\u5f84",
                     "type": "array"
+                }
+            }
+        },
+        "ordersGoodsProperties": {
+            "id": "ordersGoodsProperties",
+            "properties": {
+                "name": {
+                    "description": "\u5c5e\u6027\u540d",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "\u5c5e\u6027\u503c",
+                    "type": "string"
+                }
+            }
+        },
+        "editShoppingCartParams": {
+            "id": "editShoppingCartParams",
+            "properties": {
+                "id": {
+                    "description": "\u8d2d\u7269\u8f66",
+                    "type": "integer"
+                },
+                "num": {
+                    "description": "\u8d2d\u4e70\u6570\u91cf",
+                    "type": "integer"
                 }
             }
         }

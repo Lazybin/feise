@@ -15,6 +15,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 
 /**
+ * @SWG\Model(
+ * id="editShoppingCartParams",
+ * @SWG\Property(name="id",type="integer",description="购物车"),
+ * @SWG\Property(name="num",type="integer",description="购买数量")
+ * )
+ */
+
+/**
  * @SWG\Model(id="ShoppingCart")
  */
 class ShoppingCart extends Model

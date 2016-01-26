@@ -146,17 +146,19 @@ class ShoppingCartController extends Controller
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="id",
-     *         description="id",
+     *         description="id,此id为占位符，一直传1就可以了",
      *         paramType="path",
      *         required=true,
-     *         type="string"
+     *         type="string",
+     *         defaultValue=1
      *     ),
      *     @SWG\Parameter(
-     *         name="shopping_cart_info",
-     *         description="提交的商品信息",
+     *         name="goods_list",
+     *         description="要修改的商品列表",
      *         paramType="body",
      *         required=true,
-     *         type="newShoppingCartParams"
+     *         @SWG\Items("editShoppingCartParams"),
+     *         type="array"
      *     )
      *   )
      * )
@@ -165,8 +167,9 @@ class ShoppingCartController extends Controller
     {
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
-        $content->properties =json_encode($content->properties);
-        ShoppingCart::where('id',$id)->update((array)$content);
+        foreach($content as $v){
+            ShoppingCart::where('id',$v['id'])->update(['num'=>$v['num']]);
+        }
         return $response->toJson();
     }
 
@@ -179,19 +182,31 @@ class ShoppingCartController extends Controller
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="id",
-     *         description="id",
+     *         description="id,此id为占位符，一直传1就可以了",
      *         paramType="path",
      *         required=true,
      *         allowMultiple=false,
-     *         type="integer"
+     *         type="integer",
+     *         defaultValue=1
+     *     ),
+     *     @SWG\Parameter(
+     *         name="goods_list",
+     *         description="要修改的商品列表",
+     *         paramType="body",
+     *         required=true,
+     *         @SWG\Items("integer"),
+     *         type="array"
      *     )
      *   )
      * )
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         $response=new BaseResponse();
-        ShoppingCart::find($id)->delete();
+        $content = json_decode($request->getContent(false));
+        foreach($content as $v){
+            ShoppingCart::find($v)->delete();
+        }
         return $response->toJson();
     }
 }
