@@ -150,13 +150,16 @@ class OrdersController extends Controller
         $params ['sign'] = null;
         $params ['sign_type'] = null;
         $data=$this->getSignContent ( $params );
-       // Log::info($data);
-        //Log::info($sign);
+        //var_dump($sign);echo '<br/>';
+        //var_dump($data);echo '<br/>';
+        Log::info($data);
+        Log::info($sign);
         return $this->rsa_verify ( $data, $sign, $rsaPublicKeyFilePath );
     }
 
     protected function getSignContent($params) {
         ksort ( $params );
+       // echo '<pre>';var_dump($params);echo '</pre>';
 
         $stringToBeSigned = "";
         $i = 0;
@@ -170,7 +173,8 @@ class OrdersController extends Controller
                 $i ++;
             }
         }
-        unset ( $k, $v );
+        echo $i;
+        //unset ( $k, $v );
         return $stringToBeSigned;
     }
     /**
@@ -264,8 +268,9 @@ class OrdersController extends Controller
     public function notify(Request $request)
     {
         $params=$request->all();
-        Log::info(json_encode((array)$params));
-        if($this->rsaCheckV2((array)$params,'../config/alipay_rsa_public_key.pem')){
+        $params=(array)$params;
+        Log::info(json_encode($params));
+        if($this->rsaCheckV2($params,'../config/alipay_rsa_public_key.pem')){
             Log::info('验证成功');
             echo 'success';
         }else{
@@ -275,10 +280,16 @@ class OrdersController extends Controller
 
     public function test()
     {
-        $params=json_decode('{"discount":"0.00","payment_type":"1","subject":"\u95ee\u662f","trade_no":"2016012521001004970034573123","buyer_email":"396887725@qq.com","gmt_create":"2016-01-25 18:02:17","notify_type":"trade_status_sync","quantity":"1","out_trade_no":"2016012582921","seller_id":"2088211506737974","notify_time":"2016-01-25 18:02:17","body":"\u975e\u4eba\u4e3a","trade_status":"WAIT_BUYER_PAY","is_total_fee_adjust":"Y","total_fee":"0.01","seller_email":"195793973@qq.com","price":"0.01","buyer_id":"2088602217501978","notify_id":"6c6ac9a6a552f1a79da4f5bb427f650nhg","use_coupon":"N","sign_type":"RSA","sign":"nw4eDzCE666v7FVoO\/AXQrp9oUo9oElqfUEaBbkGxRvUWHabv6X6wHH8aNFlEowQLw6myMMd0jiLcfyFBAtgMRR8eDmyezqzqcolfV\/51OMzWaRbOS\/jUWCYKbgn1XwEaDSJLL3Z9BchxSFOFvyXZ4UP4otyNnppHWxpMqZXj+s="}');
-        $params=json_decode($params);
-        var_dump($params);
-        if($this->rsaCheckV2($params,'../config/rsa_public_key.pem')){
+        $params='discount=0.00&payment_type=1&subject=测试&trade_no=2013082244524842&buyer_email=dlwdgl@gmail.com&gmt_create=2013-08-22 14:45:23&notify_type=trade_status_sync&quantity=1&out_trade_no=082215222612710&seller_id=2088501624816263&notify_time=2013-08-22 14:45:24&body=测试测试&trade_status=TRADE_SUCCESS&is_total_fee_adjust=N&total_fee=1.00&gmt_payment=2013-08-22 14:45:24&seller_email=xxx@alipay.com&price=1.00&buyer_id=2088602315385429&notify_id=64ce1b6ab92d00ede0ee56ade98fdf2f4c&use_coupon=N&sign_type=RSA&sign=1glihU9DPWee+UJ82u3+mw3Bdnr9u01at0M/xJnPsGuHh+JA5bk3zbWaoWhU6GmLab3dIM4JNdktTcEUI9/FBGhgfLO39BKX/eBCFQ3bXAmIZn4l26fiwoO613BptT44GTEtnPiQ6+tnLsGlVSrFZaLB9FVhrGfipH2SWJcnwYs=';
+        $params=explode('&',$params);
+        $test=[];
+        foreach($params as $p){
+            $t=explode('=',$p);
+            $test[$t[0]]=$t[1];
+        }
+       // $params=json_decode($test);
+        var_dump($test);
+        if($this->rsaCheckV2($test,'../config/alipay_rsa_public_key.pem')){
             echo 'success';
         }else{
             echo 'false';
