@@ -19,7 +19,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::resource('api/v1/themes','Api\V1\ThemesController',['only' => ['index','show']]);
     Route::resource('api/v1/goods','Api\V1\GoodsController',['only' => ['index','show']]);
 
-    //Route::post('api/v1/shopping_cart/updates/{id}','Api\V1\ShoppingCartController@updates');
+    Route::post('api/v1/shopping_cart/updates','Api\V1\ShoppingCartController@updates');
+    Route::post('api/v1/shopping_cart/delete','Api\V1\ShoppingCartController@delete');
     Route::resource('api/v1/shopping_cart','Api\V1\ShoppingCartController');
     Route::resource('api/v1/home','Api\V1\HomeController',['only' => ['index','show']]);
 

@@ -140,18 +140,10 @@ class ShoppingCartController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="/shopping_cart/{id}",
+     *   path="/shopping_cart/updates",
      *   @SWG\Operation(
      *     method="PUT", summary="修改购物车", notes="修改购物车",
      *     @SWG\ResponseMessage(code=0, message="成功"),
-     *     @SWG\Parameter(
-     *         name="id",
-     *         description="id,此id为占位符，一直传1就可以了",
-     *         paramType="path",
-     *         required=true,
-     *         type="string",
-     *         defaultValue=1
-     *     ),
      *     @SWG\Parameter(
      *         name="goods_list",
      *         description="要修改的商品列表",
@@ -163,7 +155,7 @@ class ShoppingCartController extends Controller
      *   )
      * )
      */
-    public function update(Request $request, $id)
+    public function updates(Request $request)
     {
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
@@ -176,19 +168,10 @@ class ShoppingCartController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="/shopping_cart/{id}",
+     *   path="/shopping_cart/delete",
      *   @SWG\Operation(
      *     method="DELETE", summary="删除购物车", notes="删除购物车",
      *     @SWG\ResponseMessage(code=0, message="成功"),
-     *     @SWG\Parameter(
-     *         name="id",
-     *         description="id,此id为占位符，一直传1就可以了",
-     *         paramType="path",
-     *         required=true,
-     *         allowMultiple=false,
-     *         type="integer",
-     *         defaultValue=1
-     *     ),
      *     @SWG\Parameter(
      *         name="goods_list",
      *         description="要修改的商品列表",
@@ -200,7 +183,7 @@ class ShoppingCartController extends Controller
      *   )
      * )
      */
-    public function destroy(Request $request,$id)
+    public function delete(Request $request,$id)
     {
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
