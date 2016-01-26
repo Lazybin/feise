@@ -23,11 +23,10 @@ Route::group(['middleware' => ['api']], function () {
 
 
 
-    Route::get('api/v1/orders/test', 'Api\V1\OrdersController@test');
     Route::get('api/v1/orders/get_pay_info', 'Api\V1\OrdersController@getPayInfo');
     Route::post('api/v1/orders/notify', 'Api\V1\OrdersController@notify');
 
-    Route::resource('api/v1/orders','Api\V1\OrdersController',['only' => ['create', 'store', 'update', 'destroy',]]);
+    Route::resource('api/v1/orders','Api\V1\OrdersController');
 
 });
 

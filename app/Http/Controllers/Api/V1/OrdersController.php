@@ -24,12 +24,54 @@ use App\Http\Controllers\Controller;
 class OrdersController extends Controller
 {
     /**
-     * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @SWG\Api(
+     *   path="/orders",
+     *   description="订单",
+     *   @SWG\Operation(
+     *     method="GET", summary="获得用户订单列表", notes="获得用户订单列表",
+     *     type="Order",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="user_id",
+     *         description="用户id",
+     *         paramType="query",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="PageNum",
+     *         description="分页开始位置",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=1
+     *     ),@SWG\Parameter(
+     *         name="PerPage",
+     *         description="取得长度",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=10
+     *     )
+     *
+     *   )
+     * )
      */
     public function index(Request $request)
     {
+        $start=$request->input('PageNum', 0);
+        $length=$request->input('PerPage', 5);
+        $user_id=$request->input('user_id');
+        $start=($start-1)*$length;
+        $response=new BaseResponse();
+        $order=Order::where('user_id',$user_id);
+        $response->rows=$order->skip($start)->take($length)->orderBy('id','desc')->get();
+        $response->total=$order->count();
+        return $response->toJson();
     }
 
     /**
@@ -291,20 +333,32 @@ class OrdersController extends Controller
     }
 
     /**
-     * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @SWG\Api(
+     *   path="/orders/{id}",
+     *   description="订单详情",
+     *   @SWG\Operation(
+     *     method="GET", summary="获得订单详情", notes="获得订单详情",
+     *     type="Order",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="out_trade_no",
+     *         description="订单号",
+     *         paramType="path",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer",
+     *     )
+     *
+     *   )
+     * )
      */
-    public function show(Request $request,$id)
+    public function show($out_trade_no)
     {
-//        $response=new BaseResponse();
-//        $type=$request->input('type','detail');
-//        if($type=='detail'){
-//
-//        }else{
-//
-//        }
+        $response=new BaseResponse();
+        $order=Order::where('out_trade_no',$out_trade_no)->first();
+        $response->Data=$order;
+        return $response->toJson();
     }
 
     /**
