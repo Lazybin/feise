@@ -142,7 +142,7 @@ class ShoppingCartController extends Controller
      * @SWG\Api(
      *   path="/shopping_cart/updates",
      *   @SWG\Operation(
-     *     method="PUT", summary="修改购物车", notes="修改购物车",
+     *     method="POST", summary="修改购物车", notes="修改购物车",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="goods_list",
@@ -170,7 +170,7 @@ class ShoppingCartController extends Controller
      * @SWG\Api(
      *   path="/shopping_cart/delete",
      *   @SWG\Operation(
-     *     method="DELETE", summary="删除购物车", notes="删除购物车",
+     *     method="POST", summary="删除购物车", notes="删除购物车",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="goods_list",
