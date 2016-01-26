@@ -51,6 +51,9 @@
                             <li>
                                 <a href="{{url('/category/')}}">分类管理</a>
                             </li>
+                            <li>
+                                <a href="{{url('/activity_classification/')}}">活动分类管理</a>
+                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>

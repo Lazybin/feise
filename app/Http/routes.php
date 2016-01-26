@@ -120,6 +120,13 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/home_manage/detail/{id}', 'Admin\HomeManageController@detail');
         Route::post('/home_manage/update/{id}', 'Admin\HomeManageController@update');
 
+        Route::get('/activity_classification/', 'Admin\ActivityClassificationsController@show');
+        Route::get('/activity_classification/index', 'Admin\ActivityClassificationsController@index');
+        Route::post('/activity_classification/store', 'Admin\ActivityClassificationsController@store');
+        Route::get('/activity_classification/detail/{id}', 'Admin\ActivityClassificationsController@detail');
+        Route::delete('/activity_classification/delete/{id}', 'Admin\ActivityClassificationsController@delete');
+        Route::post('/activity_classification/update/{id}', 'Admin\ActivityClassificationsController@update');
+
     });
 
 
