@@ -132,11 +132,10 @@ class OrdersController extends Controller
     public function rsa_verify($data, $sign, $rsaPublicKeyFilePath) {
         // 读取公钥文件
         $pubKey = file_get_contents ( $rsaPublicKeyFilePath );
-        Log::info($pubKey);
 
         // 转换为openssl格式密钥
         $res = openssl_get_publickey ( $pubKey );
-       Log::info($res);
+
         // 调用openssl内置方法验签，返回bool值
         $result = ( bool ) openssl_verify ( $data, base64_decode ( $sign ), $res );
 
@@ -148,18 +147,12 @@ class OrdersController extends Controller
     public function rsaCheckV2($params, $rsaPublicKeyFilePath) {
         $sign = $params ['sign'];
         $params ['sign'] = null;
-        $params ['sign_type'] = null;
-        $data=$this->getSignContent ( $params );
-        //var_dump($sign);echo '<br/>';
-        //var_dump($data);echo '<br/>';
-        Log::info($data);
-        Log::info($sign);
-        return $this->rsa_verify ( $data, $sign, $rsaPublicKeyFilePath );
+
+        return $this->rsa_verify ( $this->getSignContent ( $params ), $sign, $rsaPublicKeyFilePath );
     }
 
-    protected function getSignContent($params) {
+    public function getSignContent($params) {
         ksort ( $params );
-       // echo '<pre>';var_dump($params);echo '</pre>';
 
         $stringToBeSigned = "";
         $i = 0;
@@ -173,8 +166,7 @@ class OrdersController extends Controller
                 $i ++;
             }
         }
-        echo $i;
-        //unset ( $k, $v );
+        unset ( $k, $v );
         return $stringToBeSigned;
     }
     /**
@@ -182,7 +174,7 @@ class OrdersController extends Controller
      * if not set ,return true;
      * if is null , return true;
      */
-    protected function checkEmpty($value) {
+    public function checkEmpty($value) {
         if (! isset ( $value ))
             return true;
         if ($value === null)
@@ -192,6 +184,7 @@ class OrdersController extends Controller
 
         return false;
     }
+
 
     private function getPayInfoStr($out_trade_no)
     {
@@ -267,33 +260,29 @@ class OrdersController extends Controller
 
     public function notify(Request $request)
     {
-        $params=$request->all();
-        $params=(array)$params;
-        Log::info(json_encode($params));
-        if($this->rsaCheckV2($params,'../config/alipay_rsa_public_key.pem')){
-            Log::info('验证成功');
-            echo 'success';
-        }else{
-            Log::info('验证失败');
+        $out_trade_no=$request->input('out_trade_no');
+        $trade_status=$request->input('trade_status');
+        if($out_trade_no!=null&&$trade_status!=null&&($trade_status=='TRADE_FINISHED'||$trade_status=='TRADE_SUCCESS')){
+            $order=Order::where('out_trade_no',$out_trade_no)->first();
+            if($order!=null){
+                $order->status=1;
+                $time=$request->input('gmt_payment');
+                if($time==null){
+                    $time=date("Y-m-d H:i:s",time());
+                }
+                $order->payment_time=$time;
+                $order->save();
+            }
         }
-    }
-
-    public function test()
-    {
-        $params='discount=0.00&payment_type=1&subject=测试&trade_no=2013082244524842&buyer_email=dlwdgl@gmail.com&gmt_create=2013-08-22 14:45:23&notify_type=trade_status_sync&quantity=1&out_trade_no=082215222612710&seller_id=2088501624816263&notify_time=2013-08-22 14:45:24&body=测试测试&trade_status=TRADE_SUCCESS&is_total_fee_adjust=N&total_fee=1.00&gmt_payment=2013-08-22 14:45:24&seller_email=xxx@alipay.com&price=1.00&buyer_id=2088602315385429&notify_id=64ce1b6ab92d00ede0ee56ade98fdf2f4c&use_coupon=N&sign_type=RSA&sign=1glihU9DPWee+UJ82u3+mw3Bdnr9u01at0M/xJnPsGuHh+JA5bk3zbWaoWhU6GmLab3dIM4JNdktTcEUI9/FBGhgfLO39BKX/eBCFQ3bXAmIZn4l26fiwoO613BptT44GTEtnPiQ6+tnLsGlVSrFZaLB9FVhrGfipH2SWJcnwYs=';
-        $params=explode('&',$params);
-        $test=[];
-        foreach($params as $p){
-            $t=explode('=',$p);
-            $test[$t[0]]=$t[1];
-        }
-       // $params=json_decode($test);
-        var_dump($test);
-        if($this->rsaCheckV2($test,'../config/alipay_rsa_public_key.pem')){
-            echo 'success';
-        }else{
-            echo 'false';
-        }
+//        $params=$request->all();
+//        $params=(array)$params;
+//        Log::info(json_encode($params));
+//        if($this->rsaCheckV2($params,'../config/alipay_rsa_public_key.pem')){
+//            Log::info('验证成功');
+//            echo 'success';
+//        }else{
+//            Log::info('验证失败');
+//        }
     }
 
     /**
