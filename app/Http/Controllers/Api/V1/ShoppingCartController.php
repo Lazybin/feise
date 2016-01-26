@@ -145,12 +145,10 @@ class ShoppingCartController extends Controller
      *     method="POST", summary="修改购物车", notes="修改购物车",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
-     *         name="goods_list",
      *         description="要修改的商品列表",
      *         paramType="body",
      *         required=true,
-     *         @SWG\Items("editShoppingCartParams"),
-     *         type="array"
+     *         type="editShoppingCartParams"
      *     )
      *   )
      * )
@@ -159,6 +157,7 @@ class ShoppingCartController extends Controller
     {
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
+        $content =$content->goods_list;
         foreach($content as $v){
             ShoppingCart::where('id',$v->id)->update(['num'=>$v->num]);
         }
@@ -177,8 +176,7 @@ class ShoppingCartController extends Controller
      *         description="要修改的商品列表",
      *         paramType="body",
      *         required=true,
-     *         @SWG\Items("integer"),
-     *         type="array"
+     *         type="deleteShoppingCartParams"
      *     )
      *   )
      * )
@@ -187,8 +185,9 @@ class ShoppingCartController extends Controller
     {
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
+        $content =$content->goods_list;
         foreach($content as $v){
-            ShoppingCart::find($v)->delete();
+            ShoppingCart::find($v->id)->delete();
         }
         return $response->toJson();
     }

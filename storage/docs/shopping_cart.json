@@ -73,63 +73,19 @@
             ]
         },
         {
-            "path": "/shopping_cart/{id}",
+            "path": "/shopping_cart/delete",
             "operations": [
                 {
-                    "method": "PUT",
-                    "summary": "\u4fee\u6539\u8d2d\u7269\u8f66",
-                    "nickname": "update",
-                    "parameters": [
-                        {
-                            "paramType": "path",
-                            "name": "id",
-                            "type": "string",
-                            "required": true,
-                            "description": "id,\u6b64id\u4e3a\u5360\u4f4d\u7b26\uff0c\u4e00\u76f4\u4f201\u5c31\u53ef\u4ee5\u4e86",
-                            "defaultValue": 1
-                        },
-                        {
-                            "paramType": "body",
-                            "name": "goods_list",
-                            "type": "array",
-                            "required": true,
-                            "description": "\u8981\u4fee\u6539\u7684\u5546\u54c1\u5217\u8868",
-                            "items": {
-                                "$ref": "editShoppingCartParams"
-                            }
-                        }
-                    ],
-                    "responseMessages": [
-                        {
-                            "code": 0,
-                            "message": "\u6210\u529f"
-                        }
-                    ],
-                    "notes": "\u4fee\u6539\u8d2d\u7269\u8f66"
-                },
-                {
-                    "method": "DELETE",
+                    "method": "POST",
                     "summary": "\u5220\u9664\u8d2d\u7269\u8f66",
-                    "nickname": "destroy",
+                    "nickname": "delete",
                     "parameters": [
-                        {
-                            "paramType": "path",
-                            "name": "id",
-                            "type": "integer",
-                            "required": true,
-                            "allowMultiple": false,
-                            "description": "id,\u6b64id\u4e3a\u5360\u4f4d\u7b26\uff0c\u4e00\u76f4\u4f201\u5c31\u53ef\u4ee5\u4e86",
-                            "defaultValue": 1
-                        },
                         {
                             "paramType": "body",
                             "name": "goods_list",
-                            "type": "array",
+                            "type": "deleteShoppingCartParams",
                             "required": true,
-                            "description": "\u8981\u4fee\u6539\u7684\u5546\u54c1\u5217\u8868",
-                            "items": {
-                                "type": "integer"
-                            }
+                            "description": "\u8981\u4fee\u6539\u7684\u5546\u54c1\u5217\u8868"
                         }
                     ],
                     "responseMessages": [
@@ -139,6 +95,31 @@
                         }
                     ],
                     "notes": "\u5220\u9664\u8d2d\u7269\u8f66"
+                }
+            ]
+        },
+        {
+            "path": "/shopping_cart/updates",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "\u4fee\u6539\u8d2d\u7269\u8f66",
+                    "nickname": "updates",
+                    "parameters": [
+                        {
+                            "paramType": "body",
+                            "type": "editShoppingCartParams",
+                            "required": true,
+                            "description": "\u8981\u4fee\u6539\u7684\u5546\u54c1\u5217\u8868"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u4fee\u6539\u8d2d\u7269\u8f66"
                 }
             ]
         }
@@ -278,12 +259,45 @@
         "editShoppingCartParams": {
             "id": "editShoppingCartParams",
             "properties": {
+                "goods_list": {
+                    "description": "\u5546\u54c1\u5217\u8868",
+                    "type": "array",
+                    "items": {
+                        "$ref": "editShoppingCartList"
+                    }
+                }
+            }
+        },
+        "editShoppingCartList": {
+            "id": "editShoppingCartList",
+            "properties": {
                 "id": {
                     "description": "\u8d2d\u7269\u8f66",
                     "type": "integer"
                 },
                 "num": {
                     "description": "\u8d2d\u4e70\u6570\u91cf",
+                    "type": "integer"
+                }
+            }
+        },
+        "deleteShoppingCartParams": {
+            "id": "deleteShoppingCartParams",
+            "properties": {
+                "goods_list": {
+                    "description": "\u5546\u54c1id\u5217\u8868",
+                    "type": "array",
+                    "items": {
+                        "$ref": "deleteShoppingCartList"
+                    }
+                }
+            }
+        },
+        "deleteShoppingCartList": {
+            "id": "deleteShoppingCartList",
+            "properties": {
+                "id": {
+                    "description": "\u5546\u54c1id",
                     "type": "integer"
                 }
             }
