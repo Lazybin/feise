@@ -60,6 +60,9 @@
                             <li>
                                 <a href="{{url('/free_post/')}}">包邮分类管理</a>
                             </li>
+                            <li>
+                                <a href="{{url('/conversion_goods/')}}">兑换商品管理</a>
+                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>

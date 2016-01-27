@@ -7,6 +7,10 @@
             "description": "\u6d3b\u52a8"
         },
         {
+            "path": "/activity_page",
+            "description": "\u7ea6\u60e0\u4e3b\u9875"
+        },
+        {
             "path": "/goods",
             "description": "\u5546\u54c1"
         },

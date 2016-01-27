@@ -33,6 +33,8 @@ Route::group(['middleware' => ['api']], function () {
 
     Route::resource('api/v1/activity_classifications','Api\V1\ActivityClassificationsController');
 
+    Route::resource('api/v1/activity_page','Api\V1\ActivityPageControllerer');
+
 });
 
 
@@ -140,6 +142,11 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/free_post/index', 'Admin\FreePostController@index');
         Route::get('/free_post/detail/{id}', 'Admin\FreePostController@detail');
         Route::post('/free_post/update/{id}', 'Admin\FreePostController@update');
+
+        Route::get('/conversion_goods/', 'Admin\ConversionGoodsController@show');
+        Route::get('/conversion_goods/index', 'Admin\ConversionGoodsController@index');
+        Route::get('/conversion_goods/detail/{id}', 'Admin\ConversionGoodsController@detail');
+        Route::post('/conversion_goods/update/{id}', 'Admin\ConversionGoodsController@update');
 
     });
 
