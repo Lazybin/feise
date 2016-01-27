@@ -52,6 +52,9 @@
                                 <a href="{{url('/category/')}}">分类管理</a>
                             </li>
                             <li>
+                                <a href="{{url('/activity_goods/')}}">活动商品管理</a>
+                            </li>
+                            <li>
                                 <a href="{{url('/activity_classification/')}}">活动分类管理</a>
                             </li>
                         </ul>

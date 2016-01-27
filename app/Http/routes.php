@@ -130,6 +130,10 @@ Route::group(['middleware' => ['web']], function () {
         Route::delete('/activity_classification/delete/{id}', 'Admin\ActivityClassificationsController@delete');
         Route::post('/activity_classification/update/{id}', 'Admin\ActivityClassificationsController@update');
 
+        Route::get('/activity_goods/', 'Admin\ActivityGoodsController@show');
+        Route::get('/activity_goods/index', 'Admin\ActivityGoodsController@index');
+        Route::delete('/activity_goods/delete/{id}', 'Admin\ActivityGoodsController@delete');
+
     });
 
 
