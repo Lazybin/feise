@@ -6,6 +6,8 @@ use App\Model\ActivityClassification;
 use App\Model\ActivityClassificationGoods;
 use App\Model\Category;
 use App\Model\CategoryProperty;
+use App\Model\FreePost;
+use App\Model\FreePostGoods;
 use App\Model\Goods;
 use App\Model\GoodsCategoryProperty;
 use App\Model\GoodsImages;
@@ -20,6 +22,7 @@ class GoodsController extends Controller
     {
         $data['categories']=Category::where('pid',0)->get();
         $data['activity_classification']=ActivityClassification::all();
+        $data['free_post']=FreePost::all();
         return view('admin.goods.index',$data);
     }
     public function index(Request $request)
@@ -98,6 +101,11 @@ class GoodsController extends Controller
 
         $activityClassification=$params['activityClassification'];
         unset($params['activityClassification']);
+
+        $freePost=$params['freePost'];
+        unset($params['freePost']);
+
+
         $goods=Goods::create($params);
         foreach($properties as $key=>$value){
             $arr=explode(',',$value);
@@ -116,6 +124,14 @@ class GoodsController extends Controller
                 'goods_id'=>$goods->id
             ]);
         }
+
+        if($freePost!=-1){
+            FreePostGoods::create([
+                'free_posts_id'=>$freePost,
+                'goods_id'=>$goods->id
+            ]);
+        }
+
         $len=strlen($images);
         if($len>0){
             $images=substr($images,0,$len-1);
@@ -145,6 +161,14 @@ class GoodsController extends Controller
             $goods['activityClassification']=-1;
         }else{
             $goods['activityClassification']=$activityClassificationGoods->activity_classification_id;
+        }
+
+
+        $freePost=FreePostGoods::where('goods_id',$id)->select('free_posts_id')->first();
+        if($freePost==null){
+            $goods['freePost']=-1;
+        }else{
+            $goods['freePost']=$freePost->free_posts_id;
         }
 
         $ret['meta']['code']=1;
@@ -206,6 +230,9 @@ class GoodsController extends Controller
             $activityClassification=$params['activityClassification'];
             unset($params['activityClassification']);
 
+            $freePost=$params['freePost'];
+            unset($params['freePost']);
+
             foreach($params as $n=>$p){
                 $goods->$n=$p;
             }
@@ -215,6 +242,14 @@ class GoodsController extends Controller
             if($activityClassification!=-1){
                 ActivityClassificationGoods::create([
                     'activity_classification_id'=>$activityClassification,
+                    'goods_id'=>$goods->id
+                ]);
+            }
+
+            FreePostGoods::where('goods_id',$goods->id)->delete();
+            if($freePost!=-1){
+                FreePostGoods::create([
+                    'free_posts_id'=>$freePost,
                     'goods_id'=>$goods->id
                 ]);
             }

@@ -197,6 +197,7 @@
             $("#name").val('');
             $("#parentCategory").val(-1);
             $("#activityClassification").val(-1);
+            $("#freePost").val(-1);
             $("#price").val('');
             $("#original_price").val('');
 
@@ -271,6 +272,8 @@
                         }
 
                         $("#activityClassification").val(recv.meta.data.activityClassification);
+
+                        $("#freePost").val(recv.meta.data.freePost);
 
                         $("#description").val(recv.meta.data.goods_description);
                         $("#evaluation_content").val(recv.meta.data.evaluation_content);
@@ -557,6 +560,18 @@
                                     </select>
                                 </div>
                                 <span class="col-sm-6" style="color:red">(如该商品不是活动商品请勿选择活动类别)</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">包邮类别</label>
+                                <div class="col-sm-4">
+                                    <select id="freePost" name="freePost"  class="form-control" >
+                                        <option value="-1" selected>请选择类别</option>
+                                        @foreach($free_post as $fe)
+                                            <option value="{{$fe['id']}}">{{$fe['name']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <span class="col-sm-6" style="color:red">(如该商品不是包邮活动商品请勿选择类别)</span>
                             </div>
                             <div id="propertyContainer">
 

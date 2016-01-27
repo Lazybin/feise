@@ -39,4 +39,42 @@ class FreePostController extends Controller
         $ret['meta']['data']=$category->toArray();
         echo json_encode($ret);
     }
+
+    public function update(Request $request,$id)
+    {
+        $params=$request->all();
+        $freepost=FreePost::find($id);
+        if($freepost!=null){
+            if ($request->hasFile('coverImage'))
+            {
+                $file = $request->file('coverImage');
+                $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
+                $file->move(base_path().'/public/upload',$fileName);
+
+
+                $params['cover']='/upload/'.$fileName;
+            }
+            unset($params['coverImage']);
+
+            if ($request->hasFile('headImage'))
+            {
+                $file = $request->file('headImage');
+                $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
+                $file->move(base_path().'/public/upload',$fileName);
+
+
+                $params['head_image']='/upload/'.$fileName;
+            }
+            unset($params['headImage']);
+            unset($params['_token']);
+
+
+
+            foreach($params as $n=>$p){
+                $freepost->$n=$p;
+            }
+            $freepost->save();
+        }
+        return redirect()->action('Admin\FreePostController@show');
+    }
 }

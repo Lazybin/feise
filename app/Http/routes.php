@@ -139,6 +139,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/free_post/', 'Admin\FreePostController@show');
         Route::get('/free_post/index', 'Admin\FreePostController@index');
         Route::get('/free_post/detail/{id}', 'Admin\FreePostController@detail');
+        Route::post('/free_post/update/{id}', 'Admin\FreePostController@update');
 
     });
 
