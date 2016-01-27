@@ -136,6 +136,10 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/activity_goods/index', 'Admin\ActivityGoodsController@index');
         Route::delete('/activity_goods/delete/{id}', 'Admin\ActivityGoodsController@delete');
 
+        Route::get('/free_post/', 'Admin\FreePostController@show');
+        Route::get('/free_post/index', 'Admin\FreePostController@index');
+        Route::get('/free_post/detail/{id}', 'Admin\FreePostController@detail');
+
     });
 
 
