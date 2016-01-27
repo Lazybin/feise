@@ -33,7 +33,8 @@ Route::group(['middleware' => ['api']], function () {
 
     Route::resource('api/v1/activity_classifications','Api\V1\ActivityClassificationsController');
 
-    Route::resource('api/v1/activity_page','Api\V1\ActivityPageControllerer');
+    Route::resource('api/v1/activity_page','Api\V1\ActivityPageController');
+    Route::resource('api/v1/free_post','Api\V1\FreePostController');
 
 });
 

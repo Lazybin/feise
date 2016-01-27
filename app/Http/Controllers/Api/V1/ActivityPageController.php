@@ -29,7 +29,7 @@ use App\Http\Controllers\Controller;
  *     basePath="http://120.27.199.121/feise/public/api/v1"
  * )
  */
-class ActivityPageControllerer extends Controller
+class ActivityPageController extends Controller
 {
     /**
      *
