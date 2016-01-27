@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\ActivityClassification;
+use App\Model\ActivityClassificationGoods;
 use App\Model\Category;
 use App\Model\CategoryProperty;
 use App\Model\Goods;
@@ -17,6 +19,7 @@ class GoodsController extends Controller
     public function show()
     {
         $data['categories']=Category::where('pid',0)->get();
+        $data['activity_classification']=ActivityClassification::all();
         return view('admin.goods.index',$data);
     }
     public function index(Request $request)
@@ -93,7 +96,8 @@ class GoodsController extends Controller
         $params['goods_description']=$params['description'];
         unset($params['description']);
 
-
+        $activityClassification=$params['activityClassification'];
+        unset($params['activityClassification']);
         $goods=Goods::create($params);
         foreach($properties as $key=>$value){
             $arr=explode(',',$value);
@@ -104,6 +108,13 @@ class GoodsController extends Controller
                     'value'=>$i
                 ]);
             }
+        }
+
+        if($activityClassification!=-1){
+            ActivityClassificationGoods::create([
+                'activity_classification_id'=>$activityClassification,
+                'goods_id'=>$goods->id
+            ]);
         }
         $len=strlen($images);
         if($len>0){
@@ -128,7 +139,14 @@ class GoodsController extends Controller
 
     public function detail($id)
     {
-        $goods=Goods::find($id);
+        $goods=Goods::find($id)->toArray();
+        $activityClassificationGoods=ActivityClassificationGoods::where('goods_id',$id)->select('activity_classification_id')->first();
+        if($activityClassificationGoods==null){
+            $goods['activityClassification']=-1;
+        }else{
+            $goods['activityClassification']=$activityClassificationGoods->activity_classification_id;
+        }
+
         $ret['meta']['code']=1;
         $ret['meta']['data']=$goods;
         echo json_encode($ret);
@@ -185,10 +203,23 @@ class GoodsController extends Controller
             $params['goods_description']=$params['description'];
             unset($params['description']);
 
+            $activityClassification=$params['activityClassification'];
+            unset($params['activityClassification']);
+
             foreach($params as $n=>$p){
                 $goods->$n=$p;
             }
             $goods->save();
+
+            ActivityClassificationGoods::where('goods_id',$goods->id)->delete();
+            if($activityClassification!=-1){
+                ActivityClassificationGoods::create([
+                    'activity_classification_id'=>$activityClassification,
+                    'goods_id'=>$goods->id
+                ]);
+            }
+
+
 
             GoodsCategoryProperty::where('goods_id',$goods->id)->delete();
             foreach($properties as $key=>$value){

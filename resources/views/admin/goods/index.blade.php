@@ -196,6 +196,7 @@
         function onAddClick(){
             $("#name").val('');
             $("#parentCategory").val(-1);
+            $("#activityClassification").val(-1);
             $("#price").val('');
             $("#original_price").val('');
 
@@ -268,6 +269,8 @@
                         }else{
                             $("#returnedGoodsRadios2").attr("checked","checked");
                         }
+
+                        $("#activityClassification").val(recv.meta.data.activityClassification);
 
                         $("#description").val(recv.meta.data.goods_description);
                         $("#evaluation_content").val(recv.meta.data.evaluation_content);
@@ -542,6 +545,18 @@
                                         <option value="-1" selected>请选择类别</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">活动类别</label>
+                                <div class="col-sm-4">
+                                    <select id="activityClassification" name="activityClassification"  class="form-control" >
+                                        <option value="-1" selected>请选择类别</option>
+                                        @foreach($activity_classification as $ac)
+                                            <option value="{{$ac['id']}}">{{$ac['name']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <span class="col-sm-6" style="color:red">(如该商品不是活动商品请勿选择活动类别)</span>
                             </div>
                             <div id="propertyContainer">
 
