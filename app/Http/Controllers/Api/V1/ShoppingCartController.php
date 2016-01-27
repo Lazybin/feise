@@ -187,7 +187,11 @@ class ShoppingCartController extends Controller
         $content = json_decode($request->getContent(false));
         $content =$content->goods_list;
         foreach($content as $v){
-            ShoppingCart::find($v->id)->delete();
+            $shoppingCart=ShoppingCart::find($v->id);
+            if($shoppingCart!=null){
+                $shoppingCart->delete();
+            }
+
         }
         return $response->toJson();
     }
