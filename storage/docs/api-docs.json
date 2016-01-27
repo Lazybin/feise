@@ -3,6 +3,10 @@
     "swaggerVersion": "1.2",
     "apis": [
         {
+            "path": "/activity_classifications",
+            "description": "\u6d3b\u52a8"
+        },
+        {
             "path": "/goods",
             "description": "\u5546\u54c1"
         },

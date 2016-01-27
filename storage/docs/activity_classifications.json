@@ -1,0 +1,201 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/activity_classifications",
+    "apis": [
+        {
+            "path": "/activity_classifications",
+            "description": "\u6d3b\u52a8",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u83b7\u5f97\u6d3b\u52a8\u5206\u7c7b\u5217\u8868",
+                    "nickname": "index",
+                    "type": "ActivityClassification",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "PageNum",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u5206\u9875\u5f00\u59cb\u4f4d\u7f6e",
+                            "defaultValue": 1
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PerPage",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u53d6\u5f97\u957f\u5ea6",
+                            "defaultValue": 10
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u83b7\u5f97\u6d3b\u52a8\u5206\u7c7b\u5217\u8868"
+                }
+            ]
+        },
+        {
+            "path": "/activity_classifications/{id}",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u83b7\u5f97\u5206\u7c7b\u8be6\u60c5",
+                    "nickname": "show",
+                    "type": "array",
+                    "items": {
+                        "$ref": "ActivityClassificationGoods"
+                    },
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u5206\u7c7bid"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PageNum",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u5206\u9875\u5f00\u59cb\u4f4d\u7f6e",
+                            "defaultValue": 1
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PerPage",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u53d6\u5f97\u957f\u5ea6",
+                            "defaultValue": 10
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u83b7\u5f97\u5206\u7c7b\u8be6\u60c5"
+                }
+            ]
+        }
+    ],
+    "models": {
+        "ActivityClassification": {
+            "id": "ActivityClassification",
+            "properties": {
+                "name": {
+                    "description": "\u5206\u7c7b\u540d\u79f0",
+                    "type": "string"
+                },
+                "price": {
+                    "description": "\u6392\u5e8f",
+                    "type": "integer"
+                }
+            }
+        },
+        "ActivityClassificationGoods": {
+            "id": "ActivityClassificationGoods",
+            "properties": {
+                "activity_classification_id": {
+                    "description": "\u5206\u7c7bid",
+                    "type": "integer"
+                },
+                "goods_id": {
+                    "description": "\u5546\u54c1\u8be6\u60c5",
+                    "$ref": "Goods"
+                },
+                "activity_classifications": {
+                    "description": "\u5206\u7c7b\u8be6\u60c5",
+                    "$ref": "ActivityClassification"
+                }
+            }
+        },
+        "Goods": {
+            "id": "Goods",
+            "properties": {
+                "name": {
+                    "description": "\u5546\u54c1\u540d\u79f0",
+                    "type": "string"
+                },
+                "price": {
+                    "description": "\u73b0\u4ef7",
+                    "type": "integer"
+                },
+                "detailed_introduction": {
+                    "description": "\u8be6\u7ec6\u63cf\u8ff0\uff08\u5bcc\u6587\u672c\u6846\uff09",
+                    "type": "string"
+                },
+                "num": {
+                    "description": "\u5e93\u5b58",
+                    "type": "integer"
+                },
+                "category_id": {
+                    "description": "\u5206\u7c7b\u5bf9\u5e94\u7684id",
+                    "type": "integer"
+                },
+                "evaluation_person_image": {
+                    "description": "\u8bc4\u6d4b\u5e08\u56fe\u7247",
+                    "type": "string"
+                },
+                "evaluation_content": {
+                    "description": "\u8bc4\u6d4b\u5185\u5bb9",
+                    "type": "string"
+                },
+                "cover": {
+                    "description": "\u5c01\u9762\u56fe\u7247",
+                    "type": "string"
+                },
+                "use_coupon": {
+                    "description": "\u662f\u5426\u542f\u7528\u793c\u5238\u989d\u5916\u62b5\u75280-->\u4e0d\u542f\u7528,1-->\u542f\u7528",
+                    "type": "integer"
+                },
+                "coupon_amount": {
+                    "description": "\u793c\u5238\u62b5\u7528\u7684\u91d1\u989d",
+                    "type": "integer"
+                },
+                "express_way": {
+                    "description": "\u5feb\u9012\u65b9\u5f0f 0:\u514d\u90ae\uff0c1:\u666e\u901a\u5feb\u9012\uff0c2:EMS\u5feb\u9012\uff0c3:\u65b0\u7586\u3001\u9752\u6d77\u3001\u897f\u85cf\u7b49\u5730\u533a\u8d39\u7528",
+                    "type": "integer"
+                },
+                "express_fee": {
+                    "description": "\u5feb\u9012\u8d39\u7528",
+                    "type": "integer"
+                },
+                "returned_goods": {
+                    "description": "\u662f\u5426\u652f\u6301\u4e03\u5929\u65e0\u7406\u7531\u9000\u8d27 0\uff1a\u4e0d\u652f\u6301\uff0c1\uff1a\u652f\u6301",
+                    "type": "integer"
+                },
+                "goods_description": {
+                    "description": "\u5546\u54c1\u63cf\u8ff0",
+                    "type": "string"
+                },
+                "category": {
+                    "description": "\u6240\u5c5e\u5206\u7c7b id-->\u5206\u7c7bid\uff0cname-->\u5206\u7c7b\u540d\u79f0",
+                    "type": "string"
+                },
+                "properties": {
+                    "description": "\u6240\u5c5e\u5206\u7c7b id-->\u5206\u7c7bid\uff0cname-->\u5c5e\u6027\u540d\u5b57\uff0ctype-->\u5c5e\u6027\u7c7b\u578b 0->\u9009\u9879 1->\u6570\u5b57\uff0cproperties-->\u5c5e\u6027\u5bf9\u5e94\u7684\u503c\u5217\u8868(id->\u503cid,value-->\u540d\u79f0)",
+                    "type": "array"
+                },
+                "images": {
+                    "description": "\u5c55\u793a\u56fe\u7247\u5217\u8868 image_id-->\u56fe\u7247id\uff0cpath-->\u56fe\u7247\u8def\u5f84",
+                    "type": "array"
+                }
+            }
+        }
+    }
+}

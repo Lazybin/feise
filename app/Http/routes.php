@@ -31,6 +31,8 @@ Route::group(['middleware' => ['api']], function () {
 
     Route::resource('api/v1/orders','Api\V1\OrdersController');
 
+    Route::resource('api/v1/activity_classifications','Api\V1\ActivityClassificationsController');
+
 });
 
 
