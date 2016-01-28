@@ -3,11 +3,20 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Model\BaseResponse;
+use App\Model\FreePost;
 use App\Model\FreePostGoods;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
+/**
+ * @SWG\Model(
+ * id="FreePostDetail",
+ *  @SWG\Property(name="free_post",type="FreePost",description="分类详情"),
+ *  @SWG\Property(name="goods_list",type="array",@SWG\Items("FreePostGoods"),description="商品列表"),
+ * )
+ */
 /**
  * @SWG\Resource(
  *     apiVersion="0.2",
@@ -56,8 +65,7 @@ class FreePostController extends Controller
      *   description="包邮分类详情",
      *   @SWG\Operation(
      *     method="GET", summary="获得包邮分类详情", notes="获得包邮分类详情",
-     *     type="array",
-     *     @SWG\Items("FreePostGoods"),
+     *     type="FreePostDetail",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="id",
@@ -66,39 +74,21 @@ class FreePostController extends Controller
      *         required=true,
      *         allowMultiple=false,
      *         type="integer",
-     *     ),@SWG\Parameter(
-     *         name="PageNum",
-     *         description="分页开始位置",
-     *         paramType="query",
-     *         required=false,
-     *         allowMultiple=false,
-     *         type="integer",
-     *         defaultValue=1
-     *     ),@SWG\Parameter(
-     *         name="PerPage",
-     *         description="取得长度",
-     *         paramType="query",
-     *         required=false,
-     *         allowMultiple=false,
-     *         type="integer",
-     *         defaultValue=10
      *     )
-     *
      *   )
      * )
      */
     public function show(Request $request,$id)
     {
-        $start=$request->input('PageNum', 0);
-        $length=$request->input('PerPage', 5);
-        $start=($start-1)*$length;
         $response=new BaseResponse();
+        $freePost=FreePost::find($id);
         $goods_list=FreePostGoods::where('free_posts_id',$id);
-        $total=$goods_list->count();
 
-        $goods_list=$goods_list->skip($start)->take($length)->orderBy('id','desc');
-        $response->rows=$goods_list->get();
-        $response->total=$total;
+        $goods_list=$goods_list->orderBy('id','desc')->get();
+        $ret=(object)null;
+        $ret->free_post=$freePost;
+        $ret->goods_list=$goods_list;
+        $response->Data=$ret;
         return $response->toJson();
     }
 
