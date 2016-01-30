@@ -11,6 +11,10 @@
             "description": "\u7ea6\u60e0\u4e3b\u9875"
         },
         {
+            "path": "/free_post",
+            "description": "\u5305\u90ae\u5206\u7c7b\u8be6\u60c5"
+        },
+        {
             "path": "/goods",
             "description": "\u5546\u54c1"
         },
@@ -21,6 +25,9 @@
         {
             "path": "/orders",
             "description": "\u8ba2\u5355"
+        },
+        {
+            "path": "/refunds"
         },
         {
             "path": "/setting",

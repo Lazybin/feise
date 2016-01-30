@@ -186,6 +186,10 @@
                     "description": "\u5546\u54c1\u63cf\u8ff0",
                     "type": "string"
                 },
+                "collect_count": {
+                    "description": "\u6536\u85cf\u6570",
+                    "type": "integer"
+                },
                 "category": {
                     "description": "\u6240\u5c5e\u5206\u7c7b id-->\u5206\u7c7bid\uff0cname-->\u5206\u7c7b\u540d\u79f0",
                     "type": "string"

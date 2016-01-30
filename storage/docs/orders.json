@@ -24,6 +24,15 @@
                         },
                         {
                             "paramType": "query",
+                            "name": "status",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "0---\u300b\u5f85\u652f\u4ed8\uff0c1--\u300b\u5df2\u652f\u4ed8\uff0c\u4ee3\u53d1\u8d27\uff0c2--\u300b\u53d6\u6d88\uff0c3-->\u5df2\u53d1\u8d27\uff0c4---\u300b\u5ba2\u6237\u5df2\u7b7e\u6536\uff0c\u4ea4\u6613\u5b8c\u6210\uff0c5--->\u5f85\u53d1\u8d27\u7533\u8bf7\u9000\u6b3e\uff0c6----\u300b\u5df2\u53d1\u8d27\u7533\u8bf7\u9000\u6b3e",
+                            "defaultValue": -1
+                        },
+                        {
+                            "paramType": "query",
                             "name": "PageNum",
                             "type": "integer",
                             "required": false,
@@ -128,6 +137,40 @@
                     "notes": "\u83b7\u5f97\u8ba2\u5355\u8be6\u60c5"
                 }
             ]
+        },
+        {
+            "path": "/orders/{out_trade_no}",
+            "operations": [
+                {
+                    "method": "PUT",
+                    "summary": "\u66f4\u65b0\u8ba2\u5355\u72b6\u6001",
+                    "nickname": "update",
+                    "type": "string",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "out_trade_no",
+                            "type": "string",
+                            "required": true,
+                            "description": "\u8ba2\u5355\u53f7"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "status",
+                            "type": "string",
+                            "required": true,
+                            "description": "\u72b6\u6001 2\uff1a\u53d6\u6d88\u8ba2\u5355 4\uff1a\u786e\u8ba4\u6536\u8d27"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u66f4\u65b0\u8ba2\u5355\u72b6\u6001"
+                }
+            ]
         }
     ],
     "models": {
@@ -163,7 +206,7 @@
                     "type": "integer"
                 },
                 "status": {
-                    "description": "\u72b6\u6001\uff1a0--\u300b\u672a\u652f\u4ed8",
+                    "description": "\u72b6\u6001\uff1a0--\u300b\u672a\u652f\u4ed8\uff0c1--\u300b\u5df2\u652f\u4ed8\uff0c2--\u300b\u53d6\u6d88\uff0c3-->\u5df2\u53d1\u8d27\uff0c4---\u300b\u5ba2\u6237\u5df2\u7b7e\u6536\uff0c\u4ea4\u6613\u5b8c\u6210\uff0c5--->\u7533\u8bf7\u9000\u8d27",
                     "type": "integer"
                 },
                 "payment_time": {

@@ -41,6 +41,9 @@ class OrdersController extends Controller
             $ret['meta']['error']='目标不存在';
         }else{
             $order->status=$params['status'];
+            if($order->status==3){
+                $order->shipments_time=date("Y-m-d H:i:s",time());
+            }
             $order->save();
             $ret['meta']['code']=1;
         }

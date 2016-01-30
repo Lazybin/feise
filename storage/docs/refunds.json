@@ -1,0 +1,65 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/refunds",
+    "apis": [
+        {
+            "path": "/refunds",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "\u7533\u8bf7\u9000\u6b3e",
+                    "nickname": "store",
+                    "parameters": [
+                        {
+                            "paramType": "body",
+                            "name": "refunds_info",
+                            "type": "Refund",
+                            "required": true,
+                            "description": "\u63d0\u4ea4\u7684\u9000\u6b3e\u4fe1\u606f"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u7533\u8bf7\u9000\u6b3e"
+                }
+            ]
+        }
+    ],
+    "models": {
+        "Refund": {
+            "id": "Refund",
+            "properties": {
+                "order_id": {
+                    "description": "\u8ba2\u5355id",
+                    "type": "integer"
+                },
+                "refund_reason": {
+                    "description": "\u9000\u6b3e\u539f\u56e0",
+                    "type": "string"
+                },
+                "refund_explain": {
+                    "description": "\u8bf4\u660e",
+                    "type": "string"
+                },
+                "pic1": {
+                    "description": "\u56fe\u72471",
+                    "type": "string"
+                },
+                "pic2": {
+                    "description": "\u56fe\u72472",
+                    "type": "string"
+                },
+                "pic3": {
+                    "description": "\u56fe\u72473",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

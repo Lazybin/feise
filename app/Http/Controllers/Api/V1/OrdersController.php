@@ -39,6 +39,14 @@ class OrdersController extends Controller
      *         required=true,
      *         allowMultiple=false,
      *         type="integer"
+     *     ),@SWG\Parameter(
+     *         name="status",
+     *         description="0---》待支付，1--》已支付，代发货，2--》取消，3-->已发货，4---》客户已签收，交易完成，5--->待发货申请退款，6----》已发货申请退款",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=-1
      *     ),
      *     @SWG\Parameter(
      *         name="PageNum",
@@ -65,10 +73,25 @@ class OrdersController extends Controller
     {
         $start=$request->input('PageNum', 0);
         $length=$request->input('PerPage', 5);
+        $status=$request->input('status',-1);
         $user_id=$request->input('user_id');
         $start=($start-1)*$length;
         $response=new BaseResponse();
         $order=Order::where('user_id',$user_id);
+        switch($status){
+            case 4:
+                $order=$order->where('status',$status);
+                break;
+            case 0:
+                $order=$order->where('status',$status);
+                break;
+            case 1:
+                $order=$order->where('status',$status);
+                break;
+            default:
+                break;
+
+        }
         $response->rows=$order->skip($start)->take($length)->orderBy('id','desc')->get();
         $response->total=$order->count();
         return $response->toJson();

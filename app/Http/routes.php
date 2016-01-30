@@ -36,6 +36,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::resource('api/v1/activity_page','Api\V1\ActivityPageController');
     Route::resource('api/v1/free_post','Api\V1\FreePostController');
 
+    Route::resource('api/v1/refunds','Api\V1\RefundsController');
+
 });
 
 

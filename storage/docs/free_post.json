@@ -2,93 +2,52 @@
     "basePath": "http://120.27.199.121/feise/public/api/v1",
     "swaggerVersion": "1.2",
     "apiVersion": "0.2",
-    "resourcePath": "/activity_page",
+    "resourcePath": "/free_post",
     "apis": [
         {
-            "path": "/activity_page",
-            "description": "\u7ea6\u60e0\u4e3b\u9875",
+            "path": "/free_post/{id}",
+            "description": "\u5305\u90ae\u5206\u7c7b\u8be6\u60c5",
             "operations": [
                 {
                     "method": "GET",
-                    "summary": "\u83b7\u5f97\u7ea6\u60e0\u4e3b\u9875\u5185\u5bb9",
-                    "nickname": "index",
-                    "type": "ActivityPage",
+                    "summary": "\u83b7\u5f97\u5305\u90ae\u5206\u7c7b\u8be6\u60c5",
+                    "nickname": "show",
+                    "type": "FreePostDetail",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u5206\u7c7bid"
+                        }
+                    ],
                     "responseMessages": [
                         {
                             "code": 0,
                             "message": "\u6210\u529f"
                         }
                     ],
-                    "notes": "\u83b7\u5f97\u7ea6\u60e0\u4e3b\u9875\u5185\u5bb9"
+                    "notes": "\u83b7\u5f97\u5305\u90ae\u5206\u7c7b\u8be6\u60c5"
                 }
             ]
         }
     ],
     "models": {
-        "ActivityPage": {
-            "id": "ActivityPage",
+        "FreePostDetail": {
+            "id": "FreePostDetail",
             "properties": {
-                "banners": {
-                    "description": "banner\u5217\u8868",
-                    "$ref": "Banner"
-                },
-                "activityClassification": {
-                    "description": "\u7c7b\u578b\u5217\u8868",
-                    "$ref": "ActivityClassification"
-                },
-                "freePost": {
-                    "description": "\u5305\u90ae\u5217\u8868",
+                "free_post": {
+                    "description": "\u5206\u7c7b\u8be6\u60c5",
                     "$ref": "FreePost"
                 },
-                "conversionGoods": {
-                    "description": "\u5151\u6362\u5217\u8868",
-                    "$ref": "ConversionGoods"
-                }
-            }
-        },
-        "Banner": {
-            "id": "Banner",
-            "properties": {
-                "id": {
-                    "description": "id",
-                    "type": "integer"
-                },
-                "banner_position": {
-                    "description": "\u56fe\u7247\u4f4d\u7f6e 0--->\u9996\u9875 1--->\u4f18\u60e0",
-                    "type": "string"
-                },
-                "title": {
-                    "description": "\u6807\u9898",
-                    "type": "string"
-                },
-                "path": {
-                    "description": "\u8def\u5f84",
-                    "type": "string"
-                },
-                "detail_image": {
-                    "description": "\u8be6\u60c5\u56fe\u7247\u8def\u5f84",
-                    "type": "string"
-                },
-                "order": {
-                    "description": "\u6392\u5e8f",
-                    "type": "integer"
-                },
-                "action": {
-                    "description": "\u52a8\u4f5c",
-                    "type": "string"
-                }
-            }
-        },
-        "ActivityClassification": {
-            "id": "ActivityClassification",
-            "properties": {
-                "name": {
-                    "description": "\u5206\u7c7b\u540d\u79f0",
-                    "type": "string"
-                },
-                "price": {
-                    "description": "\u6392\u5e8f",
-                    "type": "integer"
+                "goods_list": {
+                    "description": "\u5546\u54c1\u5217\u8868",
+                    "type": "array",
+                    "items": {
+                        "$ref": "FreePostGoods"
+                    }
                 }
             }
         },
@@ -117,19 +76,23 @@
                 }
             }
         },
-        "ConversionGoods": {
-            "id": "ConversionGoods",
+        "FreePostGoods": {
+            "id": "FreePostGoods",
             "properties": {
-                "id": {
-                    "description": "id",
+                "free_posts_id": {
+                    "description": "\u5206\u7c7bid",
                     "type": "integer"
                 },
                 "goods_id": {
                     "description": "\u5546\u54c1id",
                     "type": "integer"
                 },
+                "free_posts": {
+                    "description": "\u5206\u7c7b\u8be6\u60c5",
+                    "$ref": "FreePost"
+                },
                 "goods": {
-                    "description": "\u5546\u54c1\u4fe1\u606f",
+                    "description": "\u5546\u54c1\u8be6\u60c5",
                     "$ref": "Goods"
                 }
             }
