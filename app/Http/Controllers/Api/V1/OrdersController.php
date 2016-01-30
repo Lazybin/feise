@@ -41,7 +41,7 @@ class OrdersController extends Controller
      *         type="integer"
      *     ),@SWG\Parameter(
      *         name="status",
-     *         description="0---》待支付，1--》已支付，代发货，2--》取消，3-->已发货，4---》客户已签收，交易完成，5--->待发货申请退款，6----》已发货申请退款",
+     *         description="状态，-1：全部，0：待支付，1：待发货,4：历史订单",
      *         paramType="query",
      *         required=false,
      *         allowMultiple=false,
