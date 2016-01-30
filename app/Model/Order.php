@@ -58,7 +58,7 @@ class Order extends Model
     protected $fillable = [
         'user_id', 'out_trade_no', 'consignee', 'shipping_address', 'mobile', 'total_fee', 'status', 'payment_time'
     ];
-    protected $appends = ['goods_list'];
+    //protected $appends = ['goods_list'];
 
     public function getGoodsListAttribute()
     {

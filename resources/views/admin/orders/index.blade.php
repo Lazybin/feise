@@ -51,11 +51,12 @@
                         "mRender": function (data, type, full)
                         {
                             var id = full.id;
-                            if(data.status==1){
-                                return '<button type="button" onclick="onConfirmClick(\''+id+'\')" class="btn btn-primary btn-xs">确认发货</button>';
-                            }else{
-                                return '';
-                            }
+//                            if(data.status==1){
+//                                return '<button type="button" onclick="onConfirmClick(\''+id+'\')" class="btn btn-primary btn-xs">确认发货</button>';
+//                            }else{
+//                                return '';
+//                            }
+                            return '';
 
                         }
                     },
@@ -101,15 +102,21 @@
                         {
                             switch(data){
                                 case 0:
-                                    return "待支付";
+                                    return "<font color='blue'>待支付</font>";
                                 case 1:
-                                    return "已支付";
+                                    return "<font color='orange'>已支付，待发货</font>";
                                 case 2:
-                                    return "取消";
+                                    return "<font >取消</font>";
                                 case 3:
-                                    return "已发货";
+                                    return "<font color='purple'>已发货</font>";
                                 case 4:
-                                    return "客户已签收，交易完成";
+                                    return "<font color='green'>客户已签收，交易完成</font>";
+                                case 5:
+                                    return "<font color='red'>申请退款</font>";
+                                case 6:
+                                    return "<font color='red'>申请退款</font>";
+                                case 7:
+                                    return "<font >退款成功</font>";
                             }
                         }
                     }
@@ -119,8 +126,16 @@
 
         });
 
+        function onAddClick(){
+            $("#out_trade_no").val('');
+            $("#express_company_name").val('');
+            $("#title").html('发货');
 
-        function onConfirmClick(id){
+            $('#categoryModel').modal('show');
+        }
+
+
+        function onConfirmClick(){
             bootbox.confirm({
                 size: 'small',
                 message: "确认已经发货？",
@@ -134,7 +149,9 @@
                 },
                 callback: function(result){
                     if(result==true){
-                        var subUrl= "{{url('/')}}/orders/update/"+id;
+                        var out_trade_no=$("#out_trade_no").val();
+                        var express_company_name=$("#express_company_name").val();
+                        var subUrl= "{{url('/')}}/orders/update/"+out_trade_no;
                         $.ajax({
                             url: subUrl,
                             async: true,
@@ -143,7 +160,7 @@
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
-                            data: {status:3},
+                            data: {status:3,express_company_name:express_company_name},
                             success: function(recv){
                                 if(recv.meta.code=='0')
                                 {
@@ -162,6 +179,10 @@
                 }
             });
         }
+
+        function onSubmit(){
+            onConfirmClick();
+        }
     </script>
 @endsection
 @section('content')
@@ -178,6 +199,11 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         订单列表
+                    </div>
+                    <div class="panel-body" style="padding-bottom:0;">
+                        <div class="btn-toolbar">
+                            <button onclick="onAddClick();" class="btn btn-primary" ><i class="fa fa-sign-in  fa-fw"> </i>发货</button>
+                        </div>
                     </div>
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
@@ -222,14 +248,14 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">名称</label>
-                            <input type="text" class="form-control" id="name" placeholder="请输入昵称">
+                            <label for="exampleInputEmail1">订单号</label>
+                            <input type="text" class="form-control" id="out_trade_no" placeholder="请输入订单号">
 
                             <input type="hidden" class="form-control" id="id">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">排序</label>
-                            <input type="text" class="form-control" id="sort" placeholder="请输入排序" value="1">
+                            <label for="exampleInputEmail1">快递公司</label>
+                            <input type="text" class="form-control" id="express_company_name" placeholder="请输入快递公司名称">
                         </div>
                     </form>
                 </div>

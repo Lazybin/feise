@@ -35,7 +35,7 @@ class OrdersController extends Controller
     public function update(Request $requests,$id)
     {
         $params=$requests->all();
-        $order=Order::find($id);
+        $order=Order::where('out_trade_no',$id)->first();
         if($order==null){
             $ret['meta']['code']=0;
             $ret['meta']['error']='目标不存在';
