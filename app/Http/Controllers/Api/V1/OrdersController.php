@@ -404,15 +404,47 @@ class OrdersController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @SWG\Api(
+     *   path="/orders",
+     *   @SWG\Operation(
+     *     method="PUT", summary="更新订单状态", notes="更新订单状态",type="string",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="out_trade_no",
+     *         description="订单号",
+     *         paramType="path",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="status",
+     *         description="状态 2：取消订单 4：确认收货",
+     *         paramType="query",
+     *         required=true,
+     *         type="string"
+     *     )
+     *   )
+     * )
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $out_trade_no)
     {
-        //
+        $response=new BaseResponse();
+        $status=$request->input('status');
+        if($out_trade_no==null){
+            $response->Code=BaseResponse::CODE_ERROR_CHECK;
+            $response->Message='缺少参数';
+            return $response->toJson();
+        }
+        $order=Order::where('out_trade_no',$out_trade_no)->first();
+        if($order==null){
+            $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
+            $response->Message='未找到对应项目';
+            return $response->toJson();
+        }
+        $order->status=$status;
+        $order->save();
+        return $response->toJson();
     }
 
     /**

@@ -16,4 +16,9 @@ class OrderGoods extends Model
         }
         return $goods->toArray();
     }
+
+    public function goods()
+    {
+        return $this->hasOne('App\Model\Goods','id','goods_id');
+    }
 }
