@@ -406,7 +406,7 @@ class OrdersController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="/orders",
+     *   path="/orders/{out_trade_no}",
      *   @SWG\Operation(
      *     method="PUT", summary="更新订单状态", notes="更新订单状态",type="string",
      *     @SWG\ResponseMessage(code=0, message="成功"),
