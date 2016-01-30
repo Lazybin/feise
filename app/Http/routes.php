@@ -149,6 +149,11 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/conversion_goods/detail/{id}', 'Admin\ConversionGoodsController@detail');
         Route::post('/conversion_goods/update/{id}', 'Admin\ConversionGoodsController@update');
 
+
+        Route::get('/orders/', 'Admin\OrdersController@show');
+        Route::get('/orders/index', 'Admin\OrdersController@index');
+        Route::post('/orders/update/{id}', 'Admin\OrdersController@update');
+
     });
 
 

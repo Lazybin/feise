@@ -67,6 +67,9 @@
                         <!-- /.nav-second-level -->
                     </li>
                     <li>
+                        <a href="{{url('/orders/')}}"><i class="fa fa-files-o fa-fw"></i> 订单管理</a>
+                    </li>
+                    <li>
                         <a href="#"><i class="fa fa-key fa-fw"></i> 权限管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
