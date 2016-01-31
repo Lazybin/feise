@@ -157,6 +157,7 @@ class OrdersController extends Controller
         unset($content->goodsList);
 
         $content->total_fee=$total_fee;
+        $content->shipping_fee=10;//总运费
         $content->out_trade_no=$this->buildOrderNo();
         $order=Order::create((array)$content);
         foreach($goodsList as $v){

@@ -52,11 +52,12 @@ class Order extends Model
      * @SWG\Property(name="shipping_address",type="integer",description="收货地址")
      * @SWG\Property(name="mobile",type="string",description="收货人手机号")
      * @SWG\Property(name="total_fee",type="integer",description="要支付金额")
+     * @SWG\Property(name="shipping_fee",type="integer",description="总运费")
      * @SWG\Property(name="status",type="integer",description="状态：0--》未支付，1--》待发货，2--》取消，3-->已发货，4---》客户已签收，交易完成，5--->申请退货")
      * @SWG\Property(name="payment_time",type="string",description="支付时间")
      */
     protected $fillable = [
-        'user_id', 'out_trade_no', 'consignee', 'shipping_address', 'mobile', 'total_fee', 'status', 'payment_time'
+        'user_id', 'out_trade_no', 'consignee', 'shipping_address', 'mobile', 'total_fee', 'shipping_fee','status', 'payment_time'
     ];
     protected $appends = ['goods_list'];
 
