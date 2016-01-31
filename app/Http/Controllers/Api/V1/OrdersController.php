@@ -41,7 +41,7 @@ class OrdersController extends Controller
      *         type="integer"
      *     ),@SWG\Parameter(
      *         name="status",
-     *         description="状态，-1：全部，0：待支付，1：待发货,4：历史订单",
+     *         description="状态，-1：全部，1：待发货,3：已发货,4：历史订单",
      *         paramType="query",
      *         required=false,
      *         allowMultiple=false,
@@ -78,20 +78,21 @@ class OrdersController extends Controller
         $start=($start-1)*$length;
         $response=new BaseResponse();
         $order=Order::where('user_id',$user_id);
-        switch($status){
-            case 4:
-                $order=$order->where('status',$status);
-                break;
-            case 0:
-                $order=$order->where('status',$status);
-                break;
-            case 1:
-                $order=$order->where('status',$status);
-                break;
-            default:
-                break;
-
-        }
+        $order=$order->where('status',$status);
+//        switch($status){
+//            case 4:
+//                $order=$order->where('status',$status);
+//                break;
+//            case 0:
+//                $order=$order->where('status',$status);
+//                break;
+//            case 1:
+//                $order=$order->where('status',$status);
+//                break;
+//            default:
+//                break;
+//
+//        }
         $rows=$order->skip($start)->take($length)->orderBy('id','desc')->get()->toArray();
         foreach($rows as &$row){
             foreach($row['goods_list'] as &$goods){
@@ -385,7 +386,10 @@ class OrdersController extends Controller
     public function show($out_trade_no)
     {
         $response=new BaseResponse();
-        $order=Order::where('out_trade_no',$out_trade_no)->first();
+        $order=Order::where('out_trade_no',$out_trade_no)->first()->toArray();
+        foreach($order['goods_list'] as &$goods){
+            $goods['properties']=json_decode($goods['properties']);
+        }
         $response->Data=$order;
         return $response->toJson();
     }
