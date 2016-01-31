@@ -92,7 +92,13 @@ class OrdersController extends Controller
                 break;
 
         }
-        $response->rows=$order->skip($start)->take($length)->orderBy('id','desc')->get();
+        $rows=$order->skip($start)->take($length)->orderBy('id','desc')->get()->toArray();
+        foreach($rows as &$row){
+            foreach($row['goods_list'] as &$goods){
+                $goods['properties']=json_decode($goods['properties']);
+            }
+        }
+        $response->rows=$rows;
         $response->total=$order->count();
         return $response->toJson();
     }
