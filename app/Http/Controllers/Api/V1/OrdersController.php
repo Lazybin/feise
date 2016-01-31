@@ -78,21 +78,20 @@ class OrdersController extends Controller
         $start=($start-1)*$length;
         $response=new BaseResponse();
         $order=Order::where('user_id',$user_id);
-        $order=$order->where('status',$status);
-//        switch($status){
-//            case 4:
-//                $order=$order->where('status',$status);
-//                break;
-//            case 0:
-//                $order=$order->where('status',$status);
-//                break;
-//            case 1:
-//                $order=$order->where('status',$status);
-//                break;
-//            default:
-//                break;
-//
-//        }
+        switch($status){
+            case 4:
+                $order=$order->where('status',$status);
+                break;
+            case 3:
+                $order=$order->where('status',$status);
+                break;
+            case 1:
+                $order=$order->where('status',$status);
+                break;
+            default:
+                break;
+
+        }
         $rows=$order->skip($start)->take($length)->orderBy('id','desc')->get()->toArray();
         foreach($rows as &$row){
             foreach($row['goods_list'] as &$goods){
