@@ -167,11 +167,11 @@ class ShippingAddressController extends Controller
             $response->Message='未找到对应项目';
             return $response->toJson();
         }
-        $shippingAddress->user_id=$content['user_id'];
-        $shippingAddress->province=$content['province'];
-        $shippingAddress->city=$content['city'];
-        $shippingAddress->district=$content['district'];
-        $shippingAddress->detailed_address=$content['detailed_address'];
+        $shippingAddress->user_id=$content->user_id;
+        $shippingAddress->province=$content->province;
+        $shippingAddress->city=$content->city;
+        $shippingAddress->district=$content->district;
+        $shippingAddress->detailed_address=$content->detailed_address;
         $shippingAddress->save();
         return $response->toJson();
     }
