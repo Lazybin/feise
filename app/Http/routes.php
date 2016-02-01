@@ -44,6 +44,8 @@ Route::group(['middleware' => ['api']], function () {
 
     Route::resource('api/v1/area','Api\V1\AreaController');
 
+    Route::resource('api/v1/shipping_address','Api\V1\ShippingAddressController');
+
 });
 
 
