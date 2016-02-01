@@ -16,9 +16,7 @@ class TestController extends Controller
 
     public function index(){
 
-        $user = Auth::user();
-        var_dump($user);
-        echo 1111;
+        return view('test');
     }
 
     public function bannerDetail(){

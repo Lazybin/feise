@@ -46,6 +46,7 @@ Route::post('upload_file/delete','UploadFileController@delete');
 Route::get('banner_detail/{id}','WapController@bannerDetail');
 Route::get('goods_detail/{id}','WapController@goodsDetail');
 
+Route::get('test','TestController@index');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
