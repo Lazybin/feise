@@ -15,6 +15,7 @@ class CreateShippingAddressesTable extends Migration
         Schema::create('shipping_addresses', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->unsignedInteger('user_id');
             $table->string('province');
             $table->string('city');
             $table->string('district');
