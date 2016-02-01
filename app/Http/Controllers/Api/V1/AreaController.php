@@ -26,7 +26,7 @@ class AreaController extends Controller
      *   description="地区分类",
      *   @SWG\Operation(
      *     method="GET", summary="地区分类列表", notes="地区分类列表",
-     *     type="Order",
+     *     type="Area",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="pid",
