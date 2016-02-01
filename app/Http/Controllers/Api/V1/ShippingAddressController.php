@@ -131,7 +131,7 @@ class ShippingAddressController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="/shopping_cart/{id}",
+     *   path="/shipping_address/{id}",
      *   @SWG\Operation(
      *     method="PUT", summary="更新收货地址", notes="更新收货地址",
      *     @SWG\ResponseMessage(code=0, message="成功"),
