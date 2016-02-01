@@ -161,7 +161,7 @@ class ShippingAddressController extends Controller
             $response->Message='缺少参数';
             return $response->toJson();
         }
-        $shippingAddress=new ShippingAddress();
+        $shippingAddress=ShippingAddress::find($id);
         if($shippingAddress==null){
             $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
             $response->Message='未找到对应项目';
@@ -179,7 +179,7 @@ class ShippingAddressController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="/shopping_cart/{id}",
+     *   path="/shipping_address/{id}",
      *   @SWG\Operation(
      *     method="DELETE", summary="删除地址", notes="删除地址",
      *     @SWG\ResponseMessage(code=0, message="成功"),
