@@ -38,13 +38,15 @@ Route::group(['middleware' => ['api']], function () {
 
     Route::resource('api/v1/refunds','Api\V1\RefundsController');
 
+    Route::get('api/v1/wap/banner_detail/{id}','WapController@bannerDetail');
+    Route::get('api/v1/wap/goods_detail/{id}','WapController@goodsDetail');
+
 });
 
 
 Route::post('upload_file','UploadFileController@upload');
 Route::post('upload_file/delete','UploadFileController@delete');
-Route::get('wap/banner_detail/{id}','WapController@bannerDetail');
-Route::get('wap/goods_detail/{id}','WapController@goodsDetail');
+
 
 Route::get('test','TestController@index');
 /*

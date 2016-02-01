@@ -14,7 +14,7 @@ use App\Http\Controllers\Controller;
  *     apiVersion="0.2",
  *     swaggerVersion="1.2",
  *     resourcePath="/wap",
- *     basePath="http://120.27.199.121/feise/public/"
+ *     basePath="http://120.27.199.121/feise/public/api/v1"
  * )
  */
 class WapController extends Controller
