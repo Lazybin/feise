@@ -43,8 +43,8 @@ Route::group(['middleware' => ['api']], function () {
 
 Route::post('upload_file','UploadFileController@upload');
 Route::post('upload_file/delete','UploadFileController@delete');
-Route::resource('test1','TestOneController');
-
+Route::get('banner_detail/{id}','WapController@bannerDetail');
+Route::get('goods_detail/{id}','WapController@goodsDetail');
 
 /*
 |--------------------------------------------------------------------------
