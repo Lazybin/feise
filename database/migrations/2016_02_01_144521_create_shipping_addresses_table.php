@@ -16,7 +16,7 @@ class CreateShippingAddressesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('province');
-            $table->string('area');
+            $table->string('city');
             $table->string('district');
             $table->string('detailed_address');
             $table->timestamps();
