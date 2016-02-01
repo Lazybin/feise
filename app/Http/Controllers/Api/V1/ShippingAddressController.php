@@ -129,25 +129,77 @@ class ShippingAddressController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @SWG\Api(
+     *   path="/shopping_cart/{id}",
+     *   @SWG\Operation(
+     *     method="PUT", summary="更新收货地址", notes="更新收货地址",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="id",
+     *         description="收货地址ID",
+     *         paramType="path",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="address_info",
+     *         description="提交的地址信息",
+     *         paramType="body",
+     *         required=true,
+     *         type="newShippingAddress"
+     *     )
+     *   )
+     * )
      */
     public function update(Request $request, $id)
     {
-        //
+        $response=new BaseResponse();
+        $content=json_decode($request->getContent(false));
+        if($id==null){
+            $response->Code=BaseResponse::CODE_ERROR_CHECK;
+            $response->Message='缺少参数';
+            return $response->toJson();
+        }
+        $shippingAddress=new ShippingAddress();
+        if($shippingAddress==null){
+            $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
+            $response->Message='未找到对应项目';
+            return $response->toJson();
+        }
+        $shippingAddress->user_id=$content['user_id'];
+        $shippingAddress->province=$content['province'];
+        $shippingAddress->city=$content['city'];
+        $shippingAddress->district=$content['district'];
+        $shippingAddress->detailed_address=$content['detailed_address'];
+        $shippingAddress->save();
+        return $response->toJson();
     }
 
     /**
-     * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @SWG\Api(
+     *   path="/shopping_cart/{id}",
+     *   @SWG\Operation(
+     *     method="DELETE", summary="删除地址", notes="删除地址",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="id",
+     *         description="地址id",
+     *         paramType="path",
+     *         required=true,
+     *         type="integer"
+     *     )
+     *   )
+     * )
      */
     public function destroy($id)
     {
-        //
+        $response=new BaseResponse();
+        $shoppingCart=ShippingAddress::find($id);
+        if($shoppingCart!=null){
+            $shoppingCart->delete();
+        }
+        return $response->toJson();
     }
 }
