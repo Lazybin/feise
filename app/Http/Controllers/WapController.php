@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Banner;
 use App\Model\Goods;
+use App\Model\Themes;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -69,5 +70,30 @@ class WapController extends Controller
         $data['goods']=Goods::find($id)->toArray();
         //echo $data['goods']['detailed_introduction'];exit;
         return view('wap.goods_detail',$data);
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/wap/themes_description/{id}",
+     *   @SWG\Operation(
+     *     method="GET", summary="主题描述wap", notes="主题描述wap",
+     *     type="Goods",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="id",
+     *         description="商品 id",
+     *         paramType="path",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer",
+     *     )
+     *
+     *   )
+     * )
+     */
+    public function themesDescription($id){
+        $data['themes']=Themes::find($id)->toArray();
+        return view('wap.themes_description',$data);
     }
 }

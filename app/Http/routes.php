@@ -40,6 +40,7 @@ Route::group(['middleware' => ['api']], function () {
 
     Route::get('api/v1/wap/banner_detail/{id}','WapController@bannerDetail');
     Route::get('api/v1/wap/goods_detail/{id}','WapController@goodsDetail');
+    Route::get('api/v1/wap/themes_description/{id}','WapController@themesDescription');
 
 });
 
