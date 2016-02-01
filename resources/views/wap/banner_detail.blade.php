@@ -12,7 +12,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <!--<link rel="apple-touch-icon-precomposed" href="http://st.360buyimg.com/m/images/apple-touch-icon.png?v=jd2015030537">-->
     <style type="text/css">
-        *{margin:0px; padding: 0px; font-size: 24px;color: #565656;font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif; }
+        *{margin:0px; background-color: #252525; padding: 0px; font-size: 24px;color: white;font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif; }
         section{max-width: 640px;margin:0px auto;}
         section div.main{width: 90%; margin-left: 5%;}
         section div.main div{margin-bottom: 30px;}
