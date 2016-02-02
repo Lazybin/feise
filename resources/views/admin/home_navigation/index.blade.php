@@ -142,7 +142,7 @@
                             {{--initialPreview:['<img src="{{url('/')}}'+recv.meta.data.head_image+'" class="file-preview-image" >']--}}
                         {{--});--}}
                         $('#themesForm').attr('action',baseUrl+'/home_navigation/update/'+id);
-                        $("#titleModel").html('修改分类');
+                        $("#titleModel").html('修改');
                         $('#categoryModel').modal('show');
                     }
                     return true;
