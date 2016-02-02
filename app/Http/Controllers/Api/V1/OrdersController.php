@@ -77,7 +77,7 @@ class OrdersController extends Controller
         $user_id=$request->input('user_id');
         $start=($start-1)*$length;
         $response=new BaseResponse();
-        $order=Order::where('user_id',$user_id)->where('delete_at','!=',null);
+        $order=Order::where('user_id',$user_id)->whereNull('delete_at');
         switch($status){
             case 4:
                 $order=$order->where('status',$status);
