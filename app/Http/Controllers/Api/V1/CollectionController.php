@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 /**
  * @SWG\Model(
  * id="newCollection",
+ * @SWG\Property(name="user_id",type="integer",description="用户id"),
  * @SWG\Property(name="type",type="integer",description="类型，0---》商品 1---》主题"),
  * @SWG\Property(name="item_id",type="integer",description="项id")
  * )
@@ -120,6 +121,7 @@ class CollectionController extends Controller
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
         $collection=new Collection();
+        $collection->user_id=$content->user_id;
         $collection->type=$content->type;
         $collection->item_id=$content->item_id;
         $collection->save();
