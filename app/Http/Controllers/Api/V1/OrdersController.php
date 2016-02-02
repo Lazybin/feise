@@ -77,7 +77,7 @@ class OrdersController extends Controller
         $user_id=$request->input('user_id');
         $start=($start-1)*$length;
         $response=new BaseResponse();
-        $order=Order::where('user_id',$user_id);
+        $order=Order::where('user_id',$user_id)->where('delete_at','!=',null);
         switch($status){
             case 4:
                 $order=$order->where('status',$status);
@@ -481,13 +481,30 @@ class OrdersController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @SWG\Api(
+     *   path="/orders/{out_trade_no}",
+     *   @SWG\Operation(
+     *     method="DELETE", summary="删除订单", notes="删除订单",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="out_trade_no",
+     *         description="订单号",
+     *         paramType="path",
+     *         required=true,
+     *         type="string"
+     *     ),
+     *   )
+     * )
      */
-    public function destroy($id)
+    public function destroy($out_trade_no)
     {
-        //
+        $response=new BaseResponse();
+        $order=Order::where('out_trade_no',$out_trade_no)->first();
+        if($order!=null){
+            $order->delete_at=date("Y-m-d H:i:s",time());
+            $order->save();
+        }
+        return $response->toJson();
     }
 }
