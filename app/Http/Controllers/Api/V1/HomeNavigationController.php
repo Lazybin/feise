@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Model\Banner;
 use App\Model\BaseResponse;
 use App\Model\HomeNavigation;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
+/**
+ * @SWG\Model(
+ * id="HomeNavigationAndBanner",
+ *  @SWG\Property(name="button_list",type="array",@SWG\Items("HomeNavigation"),description="分类详情"),
+ *  @SWG\Property(name="banner_list",type="array",@SWG\Items("Banner"),description="banner列表"),
+ * )
+ */
 
 /**
  * @SWG\Resource(
@@ -25,10 +34,10 @@ class HomeNavigationController extends Controller
      *
      * @SWG\Api(
      *   path="/home_navigation",
-     *   description="首页按钮",
+     *   description="首页按钮和banner",
      *   @SWG\Operation(
-     *     method="GET", summary="获得首页按钮列表", notes="点击详情时：当type=0的时候调用 APP WAP 页 中的导航按钮详情图片接口来访问详情，当type=1时，直接跳转action字段中的链接",
-     *     type="HomeNavigation",
+     *     method="GET", summary="获得首页和banner按钮列表", notes="对于按钮列表点击详情时：当type=0的时候调用 APP WAP 页 中的导航按钮详情图片接口来访问详情，当type=1时，直接跳转action字段中的链接",
+     *     type="HomeNavigationAndBanner",
      *     @SWG\ResponseMessage(code=0, message="成功")
      *   )
      * )
@@ -36,9 +45,12 @@ class HomeNavigationController extends Controller
     public function index(Request $request)
     {
         $response=new BaseResponse();
-        $home=HomeNavigation::orderBy('sort')->orderBy('id');
-        $response->rows=$home->get();
-        $response->total=HomeNavigation::count();
+        $ret=(object)null;
+        $button_list=HomeNavigation::orderBy('sort')->orderBy('id')->get();
+        $banners=Banner::where('banner_position',0)->get();
+        $ret->button_list=$button_list;
+        $ret->banner_list=$banners;
+        $response->Data=$ret;
         return $response->toJson();
     }
 
