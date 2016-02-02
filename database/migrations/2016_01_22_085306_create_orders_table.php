@@ -15,6 +15,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->unsignedInteger('user_id');
             $table->string('out_trade_no');//订单号
             $table->string('consignee');//收货人
             $table->string('shipping_address');//收货地址
