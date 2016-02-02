@@ -1,0 +1,189 @@
+<?php
+
+namespace App\Http\Controllers\Api\V1;
+
+use App\Model\BaseResponse;
+use App\Model\Collection;
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+/**
+ * @SWG\Model(
+ * id="newCollection",
+ * @SWG\Property(name="type",type="integer",description="类型，0---》商品 1---》主题"),
+ * @SWG\Property(name="item_id",type="integer",description="项id")
+ * )
+ */
+
+/**
+ * @SWG\Resource(
+ *     apiVersion="0.2",
+ *     swaggerVersion="1.2",
+ *     resourcePath="/collection",
+ *     basePath="http://120.27.199.121/feise/public/api/v1"
+ * )
+ */
+class CollectionController extends Controller
+{
+    /**
+     *
+     * @SWG\Api(
+     *   path="/collection",
+     *   description="收藏",
+     *   @SWG\Operation(
+     *     method="GET", summary="获得用户收藏列表", notes="获得用户收藏列表",
+     *     type="Order",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="user_id",
+     *         description="用户id",
+     *         paramType="query",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer"
+     *     ),@SWG\Parameter(
+     *         name="type",
+     *         description="类型，0---》商品 1---》主题",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=0
+     *     ),
+     *     @SWG\Parameter(
+     *         name="PageNum",
+     *         description="分页开始位置",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=1
+     *     ),@SWG\Parameter(
+     *         name="PerPage",
+     *         description="取得长度",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=10
+     *     )
+     *
+     *   )
+     * )
+     */
+    public function index(Request $request)
+    {
+        $start=$request->input('PageNum', 0);
+        $length=$request->input('PerPage', 5);
+        $type=$request->input('type',0);
+        $user_id=$request->input('user_id');
+        $start=($start-1)*$length;
+        $response=new BaseResponse();
+        $collection=Collection::where('user_id',$user_id)->where('type',$type);
+
+        $rows=$collection->skip($start)->take($length)->orderBy('id','desc')->get();
+        $response->rows=$rows;
+        $response->total=$collection->count();
+        return $response->toJson();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/collection",
+     *   @SWG\Operation(
+     *     method="POST", summary="添加收藏", notes="添加收藏",type="Order",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="collection_info",
+     *         description="提交的收藏信息",
+     *         paramType="body",
+     *         required=true,
+     *         type="newCollection"
+     *     )
+     *   )
+     * )
+     */
+    public function store(Request $request)
+    {
+        $response=new BaseResponse();
+        $content = json_decode($request->getContent(false));
+        $collection=new Collection();
+        $collection->type=$content->type;
+        $collection->item_id=$content->id;
+        $collection->save();
+        return $response->toJson();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/collection/{id}",
+     *   @SWG\Operation(
+     *     method="DELETE", summary="删除收藏", notes="删除收藏",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="id",
+     *         description="id",
+     *         paramType="path",
+     *         required=true,
+     *         type="integer"
+     *     )
+     *   )
+     * )
+     */
+    public function destroy($id)
+    {
+        $response=new BaseResponse();
+        $order=Collection::find($id);
+        if($order!=null){
+            $order->delete();
+        }
+        return $response->toJson();
+    }
+}
