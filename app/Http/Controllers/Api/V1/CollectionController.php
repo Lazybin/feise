@@ -121,7 +121,7 @@ class CollectionController extends Controller
         $content = json_decode($request->getContent(false));
         $collection=new Collection();
         $collection->type=$content->type;
-        $collection->item_id=$content->id;
+        $collection->item_id=$content->item_id;
         $collection->save();
         return $response->toJson();
     }
