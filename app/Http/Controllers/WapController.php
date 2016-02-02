@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Banner;
 use App\Model\Goods;
+use App\Model\HomeNavigation;
 use App\Model\Themes;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,6 @@ class WapController extends Controller
      *   description="APP WAP 页",
      *   @SWG\Operation(
      *     method="GET", summary="banner详情wap", notes="banner详情wap",
-     *     type="Goods",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="id",
@@ -52,7 +52,6 @@ class WapController extends Controller
      *   path="/wap/goods_detail/{id}",
      *   @SWG\Operation(
      *     method="GET", summary="商品详情wap", notes="商品详情wap",
-     *     type="Goods",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="id",
@@ -78,7 +77,6 @@ class WapController extends Controller
      *   path="/wap/themes_description/{id}",
      *   @SWG\Operation(
      *     method="GET", summary="主题描述wap", notes="主题描述wap",
-     *     type="Goods",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="id",
@@ -95,5 +93,29 @@ class WapController extends Controller
     public function themesDescription($id){
         $data['themes']=Themes::find($id)->toArray();
         return view('wap.themes_description',$data);
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/wap/home_navigation_detail/{id}",
+     *   @SWG\Operation(
+     *     method="GET", summary="导航按钮详情图片", notes="导航按钮详情图片",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="id",
+     *         description="id",
+     *         paramType="path",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer",
+     *     )
+     *
+     *   )
+     * )
+     */
+    public function homeNavigationDetail($id){
+        $data['homeNavigation']=HomeNavigation::find($id)->toArray();
+        return view('wap.home_navigation_detail',$data);
     }
 }

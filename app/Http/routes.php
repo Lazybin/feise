@@ -41,6 +41,9 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('api/v1/wap/banner_detail/{id}','WapController@bannerDetail');
     Route::get('api/v1/wap/goods_detail/{id}','WapController@goodsDetail');
     Route::get('api/v1/wap/themes_description/{id}','WapController@themesDescription');
+    Route::get('api/v1/wap/home_navigation_detail/{id}','WapController@homeNavigationDetail');
+
+    Route::resource('api/v1/home_navigation', 'Api\V1\HomeNavigationController');
 
     Route::resource('api/v1/area','Api\V1\AreaController');
 
@@ -163,6 +166,11 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/orders/', 'Admin\OrdersController@show');
         Route::get('/orders/index', 'Admin\OrdersController@index');
         Route::post('/orders/update/{id}', 'Admin\OrdersController@update');
+
+        Route::get('/home_navigation/', 'Admin\HomeNavigationController@show');
+        Route::get('/home_navigation/index', 'Admin\HomeNavigationController@index');
+        Route::get('/home_navigation/detail/{id}', 'Admin\HomeNavigationController@detail');
+        Route::post('/home_navigation/update/{id}', 'Admin\HomeNavigationController@update');
 
     });
 
