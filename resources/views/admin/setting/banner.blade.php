@@ -174,6 +174,7 @@
             $("#newTitle").val('');
             $("#newAction").val('');
             $("#banner_position").val(0);
+            onPositionChange();
             $("#newOrder").val('');
             $("#modelTitle").html('添加banner');
             $cover.fileinput("refresh", {
@@ -209,6 +210,7 @@
                         $("#id").val(recv.meta.data.id);
                         $("#newTitle").val(recv.meta.data.title);
                         $("#banner_position").val(recv.meta.data.banner_position);
+                        onPositionChange();
                         $("#newOrder").val(recv.meta.data.order);
                         $("#newAction").val(recv.meta.data.action);
                         $("#modelTitle").html('修改banner');
@@ -292,7 +294,17 @@
             $("#chooseShow").val('当前选择，id:'+id+' '+title);
             $("#chooseId").val(id);
         }
-
+        function onPositionChange(){
+            var banner_position=$("#banner_position").val();
+            if(banner_position==0){
+                $("#type").val(0);
+                $("#typeDiv").css('display','inline');
+            }else{
+                $("#type").val(2);
+                $("#typeDiv").css('display','none');
+            }
+            onTypeChange();
+        }
         function onTypeChange(){
             var type=$("#type").val();
             $("#chooseShow").val('');
@@ -394,13 +406,13 @@
                         <div class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">位置</label>
                             <div class="col-sm-5">
-                                <select name="banner_position" id="banner_position" class="form-control">
+                                <select name="banner_position" onchange="onPositionChange()" id="banner_position" class="form-control">
                                     <option value="0">首页</option>
                                     <option value="1">约惠</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div id="typeDiv" class="form-group">
                             <label for="inputGoodsName"  class="col-sm-2 control-label">类型</label>
                             <div class="col-sm-5">
                                 <select name="type" id="type" onchange="onTypeChange()" class="form-control">
