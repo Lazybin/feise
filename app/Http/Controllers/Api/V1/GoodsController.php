@@ -65,16 +65,32 @@ class GoodsController extends Controller
      *         required=true,
      *         allowMultiple=false,
      *         type="integer",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="user_id",
+     *         description="用户id",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=-1
      *     )
      *
      *   )
      * )
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
-        //
+        $user_id=$request->input('user_id',-1);
         $response=new BaseResponse();
         $theme=Goods::find($id);
+        $theme['has_collection']=0;
+        if($user_id!=-1){
+            $c=Collection::where('user_id',$user_id)->where('type',0)->where('item_id',$theme['id'])->first();
+            if($c!=null){
+                $theme['has_collection']=1;
+            }
+        }
         $response->Data=$theme;
         return $response->toJson();
     }
