@@ -120,7 +120,6 @@ class HomeController extends Controller
         if($home['type']==1){
             $home['has_collection']=0;
             if($user_id!=-1){
-                echo $home['item_id'];
                 $collection=Collection::where('user_id',$user_id)->where('type',1)->where('item_id',$home['item_id'])->first();
                 if($collection!=null){
                     $home['has_collection']=1;

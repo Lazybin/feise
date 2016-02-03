@@ -15,6 +15,5 @@ class Banner extends Model
      * @SWG\Property(name="path",type="string",description="路径")
      * @SWG\Property(name="detail_image",type="string",description="详情图片路径")
      * @SWG\Property(name="order",type="integer",description="排序")
-     * @SWG\Property(name="action",type="string",description="动作")
      */
 }

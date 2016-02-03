@@ -47,10 +47,8 @@ class BannerController extends Controller
         $banner=new Banner();
         $banner->title=$params['title'];
         $banner->order=$params['order'];
-
-        $banner->action=$params['action'];
-
         $banner->banner_position=$params['banner_position'];
+        $banner->type=$params['type'];
 
         if ($request->hasFile('coverImage'))
         {
@@ -61,17 +59,19 @@ class BannerController extends Controller
 
             $banner->path='/upload/'.$fileName;
         }
+        if($banner->type==2){
+            if ($request->hasFile('detailImage'))
+            {
+                $file = $request->file('detailImage');
+                $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
+                $file->move(base_path().'/public/upload',$fileName);
 
-        if ($request->hasFile('detailImage'))
-        {
-            $file = $request->file('detailImage');
-            $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
-            $file->move(base_path().'/public/upload',$fileName);
 
+                $banner->detail_image='/upload/'.$fileName;
+            }
+        }else{
 
-            $banner->detail_image='/upload/'.$fileName;
         }
-
 
         $banner->save();
         return redirect()->action('Admin\BannerController@show');
