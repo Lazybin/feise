@@ -57,7 +57,7 @@ class SubjectController extends Controller
      *   description="获取专题题详情",
      *   @SWG\Operation(
      *     method="GET", summary="获取专题题详情", notes="获取专题题详情",
-     *     type="Home",
+     *     type="Subject",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="id",
