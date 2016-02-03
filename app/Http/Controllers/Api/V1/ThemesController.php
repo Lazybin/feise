@@ -139,8 +139,8 @@ class ThemesController extends Controller
     {
         $user_id=$request->input('user_id',-1);
         $response=new BaseResponse();
-        $theme=Themes::find($id);
-        foreach($theme->goods as &$v){
+        $theme=Themes::find($id)->toArray();
+        foreach($theme['goods'] as &$v){
             $v['has_collection']=0;
             if($user_id!=-1){
                 $collection=Collection::where('user_id',$user_id)->where('type',0)->where('id',$v['id'])->first();
