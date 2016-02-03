@@ -26,6 +26,7 @@ class Goods extends Model
      * @SWG\Property(name="returned_goods",type="integer",description="是否支持七天无理由退货 0：不支持，1：支持")
      * @SWG\Property(name="goods_description",type="string",description="商品描述")
      * @SWG\Property(name="collect_count",type="integer",description="收藏数")
+     * @SWG\Property(name="has_collection",type="integer",description="是否收藏，0-》未收藏，1-》已收藏")
      * @SWG\Property(name="detailed_introduction",type="string",description="详细描述（富文本框）")
      * @SWG\Property(name="category",type="string",description="所属分类 id-->分类id，name-->分类名称")
      * @SWG\Property(name="properties",type="array",description="所属分类 id-->分类id，name-->属性名字，type-->属性类型 0->选项 1->数字，properties-->属性对应的值列表(id->值id,value-->名称)")

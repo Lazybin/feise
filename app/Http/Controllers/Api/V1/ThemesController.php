@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Model\BaseResponse;
+use App\Model\Collection;
 use App\Model\Themes;
 use Illuminate\Http\Request;
 
@@ -30,6 +31,15 @@ class ThemesController extends Controller
      *     type="Themes",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
+     *         name="user_id",
+     *         description="用户id",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=-1
+     *     ),
+     *     @SWG\Parameter(
      *         name="PageNum",
      *         description="分页开始位置",
      *         paramType="query",
@@ -55,9 +65,21 @@ class ThemesController extends Controller
         $start=$request->input('PageNum', 0);
         $length=$request->input('PerPage', 5);
         $start=($start-1)*$length;
+        $user_id=$request->input('user_id',-1);
         $response=new BaseResponse();
         $themes=Themes::skip($start)->take($length)->orderBy('id','desc');
-        $response->rows=$themes->get();
+        $rows=$themes->get()->toArray();
+
+        foreach($rows as &$v){
+            $v['has_collection']=0;
+            if($user_id!=-1){
+                $collection=Collection::where('user_id',$user_id)->where('type',1)->where('id',$v['id'])->first();
+                if($collection!=null){
+                    $v['has_collection']=1;
+                }
+            }
+        }
+        $response->rows=$rows;
         $response->total=Themes::count();
         return $response->toJson();
     }
@@ -99,15 +121,34 @@ class ThemesController extends Controller
      *         required=true,
      *         allowMultiple=false,
      *         type="integer",
+     *     ),
+     *     @SWG\Parameter(
+     *         name="user_id",
+     *         description="用户id",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=-1
      *     )
      *
      *   )
      * )
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
+        $user_id=$request->input('user_id',-1);
         $response=new BaseResponse();
         $theme=Themes::find($id);
+        foreach($theme->goods as &$v){
+            $v['has_collection']=0;
+            if($user_id!=-1){
+                $collection=Collection::where('user_id',$user_id)->where('type',0)->where('id',$v['id'])->first();
+                if($collection!=null){
+                    $v['has_collection']=1;
+                }
+            }
+        }
         $response->Data=$theme;
         return $response->toJson();
     }

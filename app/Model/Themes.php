@@ -19,6 +19,7 @@ class Themes extends Model
      * @SWG\Property(name="intro",type="string",description="简介")
      * @SWG\Property(name="type",type="integer",description="0-->普通模式,1-->图文结合模式")
      * @SWG\Property(name="collect_count",type="integer",description="收藏数")
+     * @SWG\Property(name="has_collection",type="integer",description="是否收藏，0-》未收藏，1-》已收藏")
      * @SWG\Property(name="is_new",type="integer",description="是否是今天发布的 0---》否 1----》是")
      * @SWG\Property(name="category",type="string",description="包含商品")
      * @SWG\Property(name="goods",type="Goods",description="包含商品")
