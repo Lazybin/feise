@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Model\BaseResponse;
+use App\Model\Collection;
 use App\Model\Home;
 use Illuminate\Http\Request;
 
@@ -97,16 +98,34 @@ class HomeController extends Controller
      *         required=true,
      *         allowMultiple=false,
      *         type="integer",
-     *     )
+     *     ),@SWG\Parameter(
+     *         name="user_id",
+     *         description="用户id",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=-1
+     *     ),
      *
      *   )
      * )
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
         //
         $response=new BaseResponse();
-        $home=Home::find($id);
+        $user_id=$request->input('user_id',-1);
+        $home=Home::find($id)->toArray();
+        if($home['type']==1){
+            $home['has_collection']=0;
+            if($user_id!=-1){
+                $collection=Collection::where('user_id',$user_id)->where('type',1)->where('id',$home['item_id'])->first();
+                if($collection!=null){
+                    $home['has_collection']=1;
+                }
+            }
+        }
         $response->Data=$home;
         return $response->toJson();
     }
