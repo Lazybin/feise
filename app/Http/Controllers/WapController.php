@@ -80,7 +80,7 @@ class WapController extends Controller
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="id",
-     *         description="商品 id",
+     *         description="主题id",
      *         paramType="path",
      *         required=true,
      *         allowMultiple=false,
