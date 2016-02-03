@@ -212,6 +212,28 @@
                         $("#newOrder").val(recv.meta.data.order);
                         $("#newAction").val(recv.meta.data.action);
                         $("#modelTitle").html('修改banner');
+                        $("#type").val(recv.meta.data.type);
+                        if(recv.meta.data.type==0){
+                            $("#tableName").html('主题列表');
+                            tableChoose.ajax.url("{{url('/')}}/themes/index").load();
+                            onChooseClick(recv.meta.data.theme_item.id,recv.meta.data.theme_item.title);
+                            $("#chooseDiv").css('display','inline');
+                            $("#tableDiv").css('display','inline');
+                            $("#divActive").css('display','none');
+                        }else if(recv.meta.data.type==1){
+                            $("#tableName").html('专题列表');
+                            tableChoose.ajax.url("{{url('/')}}/subjects/index").load();
+                            onChooseClick(recv.meta.data.subject_item.id,recv.meta.data.subject_item.title);
+                            $("#chooseDiv").css('display','inline');
+                            $("#tableDiv").css('display','inline');
+                            $("#divActive").css('display','none');
+                        }else{
+                            $("#chooseDiv").css('display','none');
+                            $("#tableDiv").css('display','none');
+                            $("#divActive").css('display','inline');
+                        }
+
+
                         $cover.fileinput("refresh", {
                             rowseClass: "btn btn-primary btn-block",
                             showCaption: false,

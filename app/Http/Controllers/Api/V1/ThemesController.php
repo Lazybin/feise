@@ -140,10 +140,17 @@ class ThemesController extends Controller
         $user_id=$request->input('user_id',-1);
         $response=new BaseResponse();
         $theme=Themes::find($id)->toArray();
+        $theme['has_collection']=0;
+        if($user_id!=-1){
+            $c=Collection::where('user_id',$user_id)->where('type',1)->where('item_id',$theme['id'])->first();
+            if($c!=null){
+                $theme['has_collection']=1;
+            }
+        }
         foreach($theme['goods'] as &$v){
             $v['has_collection']=0;
             if($user_id!=-1){
-                $collection=Collection::where('user_id',$user_id)->where('type',0)->where('id',$v['id'])->first();
+                $collection=Collection::where('user_id',$user_id)->where('type',0)->where('item_id',$v['id'])->first();
                 if($collection!=null){
                     $v['has_collection']=1;
                 }
