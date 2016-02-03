@@ -74,7 +74,8 @@ class SubjectController extends Controller
     {
         $response=new BaseResponse();
         $subject=Subject::find($id)->toArray();
-        $response->Data=$subject;
+        $ret['item']=$subject;
+        $response->Data=$ret;
         return $response->toJson();
     }
 
