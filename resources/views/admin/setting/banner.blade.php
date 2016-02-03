@@ -19,6 +19,54 @@
     <script src="{{ url('/js/bootbox.min.js') }}"></script>
     <script src="{{ url('../resources/assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
     <script>
+        var tableChoose=$('#dataTables-themes').DataTable({
+            responsive: true,
+            "dom": 'rtip',
+            "processing": true,
+            "iDisplayLength": 5,
+            "autoWidth": false,
+            "serverSide": true,
+            "searching": false,
+            "ordering": false,
+            "ajax": "{{url('/')}}/themes/index",
+            "language": {
+                "lengthMenu": "每页显示 _MENU_ 条",
+                "zeroRecords": "暂无记录",
+                "info": "正在显示第_PAGE_页，总共_PAGES_页",
+                "infoEmpty": "",
+                "loadingRecords": "加载中...",
+                "processing":     "处理中...",
+                "infoFiltered": "(filtered from _MAX_ total records)",
+                "paginate": {
+                    "next":       "下一页",
+                    "previous":   "上一页"
+                }
+            },
+            "columnDefs": [
+                { //给每个单独的列设置不同的填充，或者使用aoColumns也行           {
+                    "targets": -1,
+                    "mData": null,
+                    "searchable": false,
+                    "orderable": false,
+                    'sClass':'align-center',
+                    "mRender": function (data, type, full)
+                    {
+                        return '<button type="button" onclick="onChooseClick(\''+full.id+'\',\''+full.title+'\')" class="btn btn-primary btn-xs">选择</button>';
+                    }
+                },
+                {
+                    "targets":0,
+                    "mData": 'id'
+                },
+                {
+                    "targets": 1,
+                    'sClass':'align-center',
+                    "mData": 'title'
+                }
+
+            ]
+
+        });
         $(document).ready(function() {
             $('#dataTables-example').DataTable({
                 responsive: true,
@@ -35,7 +83,7 @@
                         "previous":   "上一页"
                     }
                 },
-                "iDisplayLength": 5,
+                "iDisplayLength": 20,
                 "lengthMenu" : [[5, 10, 20, 50, -1], [5, 10, 20, 50, "全部"]],
                 "processing": true,
                 "autoWidth": false,
@@ -67,12 +115,23 @@
                         "mData": 'title'
                     },
                     {
-                        "targets": 2,
+                        "targets":2,
+                        "mData": 'banner_position',
+                        "mRender": function (data, type, full)
+                        {
+                            if(data==0)
+                                return '主页';
+                            else
+                                return '约惠';
+                        }
+                    },
+                    {
+                        "targets": 3,
                         'sClass':'align-center',
                         "mData": 'order'
                     },
                     {
-                        "targets": 3,
+                        "targets": 4,
                         'sClass':'align-center',
                         "mData": 'created_at'
                     }
@@ -123,6 +182,13 @@
             $detailImage.fileinput("refresh", {
                 initialPreview:[]
             });
+
+            $("#chooseShow").val('');
+            $("#chooseId").val('');
+
+            $("#type").val(0);
+            onTypeChange();
+
 
             $('#bannerForm').attr('action',"{{url('/')}}/banner/store");
             $('#newBannerModel').modal('show');
@@ -200,6 +266,33 @@
                 }
             });
         }
+        function onChooseClick(id,title){
+            $("#chooseShow").val('当前选择，id:'+id+' '+title);
+            $("#chooseId").val(id);
+        }
+
+        function onTypeChange(){
+            var type=$("#type").val();
+            $("#chooseShow").val('');
+            $("#chooseId").val('');
+            if(type==0){
+                $("#tableName").html('主题列表');
+                tableChoose.ajax.url("{{url('/')}}/themes/index").load();
+                $("#chooseDiv").css('display','inline');
+                $("#tableDiv").css('display','inline');
+                $("#divActive").css('display','none');
+            }else if(type==1){
+                $("#tableName").html('专题列表');
+                tableChoose.ajax.url("{{url('/')}}/subjects/index").load();
+                $("#chooseDiv").css('display','inline');
+                $("#tableDiv").css('display','inline');
+                $("#divActive").css('display','none');
+            }else{
+                $("#chooseDiv").css('display','none');
+                $("#tableDiv").css('display','none');
+                $("#divActive").css('display','inline');
+            }
+        }
 
 
     </script>
@@ -214,7 +307,7 @@
         </div>
         <!-- /.row -->
         <div class="row">
-            <div class="col-lg-5">
+            <div class="col-lg-8">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         banner列表
@@ -235,6 +328,7 @@
                                 <tr>
                                     <th>id</th>
                                     <th>标题</th>
+                                    <th>位置</th>
                                     <th>排序</th>
                                     <th>创建时间</th>
                                     <th>操作</th>
@@ -260,7 +354,7 @@
     <div class="modal fade" id="newBannerModel">
         <form enctype="multipart/form-data" id="bannerForm" class="row-border form-horizontal" method="post"  action="">
             {!! csrf_field() !!}
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -274,6 +368,7 @@
                                 <input type="text" class="form-control" id="newTitle" name="title" placeholder="请输入标题">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">位置</label>
                             <div class="col-sm-5">
@@ -284,12 +379,46 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="inputGoodsName"  class="col-sm-2 control-label">类型</label>
+                            <div class="col-sm-5">
+                                <select name="type" id="type" onchange="onTypeChange()" class="form-control">
+                                    <option value="0">主题</option>
+                                    <option value="1">专题</option>
+                                    <option value="2">活动</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">封面图片</label>
                             <div class="col-sm-10">
                                 <input id="coverImage" name="coverImage" type="file" class="file" data-preview-file-type="text" >
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div id="chooseDiv" class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">当前选择</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="chooseShow"  disabled>
+                                <input type="hidden" class="form-control" id="chooseId" name="item_id" >
+                            </div>
+                        </div>
+                        <div id="tableDiv" class="form-group">
+                            <label for="inputGoodsName" id="tableName" class="col-sm-2 control-label">主题列表</label>
+                            <div class="col-sm-9">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-themes">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>名称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="divActive" class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">内容图片</label>
                             <div class="col-sm-10">
                                 <input id="detailImage" name="detailImage" type="file" class="file" data-preview-file-type="text" >
@@ -299,12 +428,6 @@
                             <label for="inputGoodsName" class="col-sm-2 control-label">排序</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="newOrder" name="order" value="1" placeholder="请输入排序">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputGoodsName" class="col-sm-2 control-label">动作</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="newAction" name="action"  placeholder="请输入动作">
                             </div>
                         </div>
                     </div>
