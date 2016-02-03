@@ -34,7 +34,7 @@ class CollectionController extends Controller
      *   description="收藏",
      *   @SWG\Operation(
      *     method="GET", summary="获得用户收藏列表", notes="获得用户收藏列表",
-     *     type="Order",
+     *     type="Collection",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="user_id",
@@ -104,7 +104,7 @@ class CollectionController extends Controller
      * @SWG\Api(
      *   path="/collection",
      *   @SWG\Operation(
-     *     method="POST", summary="添加收藏", notes="添加收藏",type="Order",
+     *     method="POST", summary="添加收藏", notes="添加收藏",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="collection_info",
