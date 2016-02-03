@@ -105,7 +105,7 @@ class CollectionController extends Controller
      * @SWG\Api(
      *   path="/collection",
      *   @SWG\Operation(
-     *     method="POST", summary="添加收藏", notes="添加收藏",
+     *     method="POST", summary="添加/删除收藏", notes="添加/删除收藏",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="collection_info",
