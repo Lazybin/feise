@@ -74,8 +74,14 @@ class SubjectController extends Controller
     {
         $response=new BaseResponse();
         $subject=Subject::find($id)->toArray();
-        $ret['item']=$subject;
+        $themes=$subject['themes'];
+        $subjects['themes']=[];
+        foreach($themes as $t){
+            array_push($subjects['themes'],$t['themes'][0]);
+        }
+        $ret['item']=$subjects;
         $response->Data=$ret;
+
         return $response->toJson();
     }
 
