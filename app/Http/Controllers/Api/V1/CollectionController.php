@@ -13,7 +13,8 @@ use App\Http\Controllers\Controller;
  * id="newCollection",
  * @SWG\Property(name="user_id",type="integer",description="用户id"),
  * @SWG\Property(name="type",type="integer",description="类型，0---》商品 1---》主题"),
- * @SWG\Property(name="item_id",type="integer",description="项id")
+ * @SWG\Property(name="item_id",type="integer",description="项id"),
+ * @SWG\Property(name="status",type="integer",description="操作类型，0--》删除，1---》新增")
  * )
  */
 
@@ -120,11 +121,20 @@ class CollectionController extends Controller
     {
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
-        $collection=new Collection();
-        $collection->user_id=$content->user_id;
-        $collection->type=$content->type;
-        $collection->item_id=$content->item_id;
-        $collection->save();
+        if($content->status==1){
+            $collection=new Collection();
+            $collection->user_id=$content->user_id;
+            $collection->type=$content->type;
+            $collection->item_id=$content->item_id;
+            $collection->save();
+        }else{
+            $response=new BaseResponse();
+            $order=Collection::where('user_id',$content->user_id)->where('type',$content->type)->where('item_id',$content->item_id)->first();
+            if($order!=null){
+                $order->delete();
+            }
+        }
+
         return $response->toJson();
     }
 
@@ -162,23 +172,7 @@ class CollectionController extends Controller
         //
     }
 
-    /**
-     *
-     * @SWG\Api(
-     *   path="/collection/{id}",
-     *   @SWG\Operation(
-     *     method="DELETE", summary="删除收藏", notes="删除收藏",
-     *     @SWG\ResponseMessage(code=0, message="成功"),
-     *     @SWG\Parameter(
-     *         name="id",
-     *         description="id",
-     *         paramType="path",
-     *         required=true,
-     *         type="integer"
-     *     )
-     *   )
-     * )
-     */
+
     public function destroy($id)
     {
         $response=new BaseResponse();
