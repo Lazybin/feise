@@ -15,8 +15,8 @@ class Collection extends Model
      * @SWG\Property(name="user_id",type="integer",description="用户id")
      * @SWG\Property(name="type",type="integer",description="类型，0---》商品 1---》主题")
      * @SWG\Property(name="item_id",type="integer",description="项id")
-     * @SWG\Property(name="goods_item",type="Goods",description="收藏的商品，type=0时有值")
-     * @SWG\Property(name="theme_item",type="Themes",description="收藏的主题，type=1时有值")
+     * @SWG\Property(name="goods_item",type="Goods",description="收藏的商品type=0时有值")
+     * @SWG\Property(name="theme_item",description="收藏的主题type=1时有值",type="Themes")
      */
     protected $appends=['goods_item','theme_item'];
 
