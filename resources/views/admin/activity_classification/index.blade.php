@@ -175,7 +175,7 @@
         </div>
         <!-- /.row -->
         <div class="row">
-            <div class="col-lg-5">
+            <div class="col-lg-10">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         活动分类列表

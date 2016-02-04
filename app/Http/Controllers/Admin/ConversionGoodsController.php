@@ -39,6 +39,18 @@ class ConversionGoodsController extends Controller
         $ret['meta']['data']=$category->toArray();
         echo json_encode($ret);
     }
+    public function store(Request $request)
+    {
+        $params=$request->all();
+        $conversionGoods=new ConversionGoods();
+
+        $goods_id=$params['goods_id'];
+
+        $conversionGoods->goods_id=$goods_id;
+        $conversionGoods->save();
+
+        return redirect()->action('Admin\ConversionGoodsController@show');
+    }
 
     public function update(Request $request,$id)
     {
@@ -51,5 +63,12 @@ class ConversionGoodsController extends Controller
             $conversionGoods->save();
         }
         return redirect()->action('Admin\ConversionGoodsController@show');
+    }
+
+    public function delete($id)
+    {
+        ConversionGoods::find($id)->delete();
+        $ret['meta']['code']=1;
+        echo json_encode($ret);
     }
 }

@@ -26,8 +26,10 @@
             "processing": true,
             "iDisplayLength": 5,
             "autoWidth": false,
+            "serverSide": true,
             "searching": false,
             "ordering": false,
+            "ajax": "{{url('/')}}/goods/index",
             "language": {
                 "lengthMenu": "每页显示 _MENU_ 条",
                 "zeroRecords": "暂无记录",
@@ -100,7 +102,8 @@
                         "mRender": function (data, type, full)
                         {
                             var id = full.id;
-                            return '<button type="button" onclick="onEditClick(\''+id+'\')" class="btn btn-primary btn-xs">编辑</button>&nbsp;';
+                            return '<button type="button" onclick="onEditClick(\''+id+'\')" class="btn btn-primary btn-xs">编辑</button>&nbsp;'+
+                                    '<button type="button" onclick="onDelete(\''+id+'\')" class="btn btn-danger btn-xs">删除</button>';
                         }
                     },
                     {
@@ -117,6 +120,15 @@
             });
 
         });
+
+        function onAddClick(){
+            $("#goods_info").val('');
+            $("#goods_id").val('');
+            $("#titleModel").html('添加商品');
+            tableGoods.ajax.url("{{url('/')}}/goods/index").load();
+            $('#themesForm').attr('action',baseUrl+'/conversion_goods/store');
+            $('#categoryModel').modal('show');
+        }
         function onEditClick(id){
             $.ajax({
                 url: "{{url('/')}}/conversion_goods/detail/"+id,
@@ -135,8 +147,30 @@
                         onChooseClick(recv.meta.data.goods.id,recv.meta.data.goods.name);
 
                         $('#themesForm').attr('action',baseUrl+'/conversion_goods/update/'+id);
-                        $("#title").html('修改商品');
+                        $("#titleModel").html('修改商品');
                         $('#categoryModel').modal('show');
+                    }
+                    return true;
+                }
+            });
+        }
+
+        function onDelete(id){
+            $.ajax({
+                url: "{{url('/')}}/conversion_goods/delete/"+id,
+                async: true,
+                type: "DELETE",
+                dataType:'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(recv){
+                    if(recv.meta.code=='0'){
+                        var val=recv.meta.error;
+                        bootbox.alert(val, function(){
+                        });
+                    }else if(recv.meta.code=='1'){
+                        window.location.reload();
                     }
                     return true;
                 }
@@ -154,16 +188,21 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">兑换商品管理</h1>
+                <h1 class="page-header">爆品推荐管理</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
         <!-- /.row -->
         <div class="row">
-            <div class="col-lg-5">
+            <div class="col-lg-10">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         商品列表
+                    </div>
+                    <div class="panel-body" style="padding-bottom:0;">
+                        <div class="btn-toolbar">
+                            <button onclick="onAddClick();" class="btn btn-primary" ><i class="fa fa-plus fa-fw"> </i>添加</button>
+                        </div>
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -197,7 +236,7 @@
     <div class="modal fade" id="categoryModel">
         <form id="themesForm" enctype="multipart/form-data" class="row-border form-horizontal" method="post"  action="">
             {!! csrf_field() !!}
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -206,7 +245,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">选择商品</label>
-                            <div class="col-sm-10">
+                            <div class="col-sm-8">
                                 <input type="text" class="form-control" id="goods_info"  placeholder="">
                                 <input type="hidden" class="form-control" id="goods_id" name="goods_id" >
                             </div>

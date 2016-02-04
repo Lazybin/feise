@@ -162,8 +162,11 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::get('/conversion_goods/', 'Admin\ConversionGoodsController@show');
         Route::get('/conversion_goods/index', 'Admin\ConversionGoodsController@index');
+        Route::post('/conversion_goods/store', 'Admin\ConversionGoodsController@store');
         Route::get('/conversion_goods/detail/{id}', 'Admin\ConversionGoodsController@detail');
         Route::post('/conversion_goods/update/{id}', 'Admin\ConversionGoodsController@update');
+        Route::delete('/conversion_goods/delete/{id}', 'Admin\ConversionGoodsController@delete');
+
 
 
         Route::get('/orders/', 'Admin\OrdersController@show');
