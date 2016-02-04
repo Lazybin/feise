@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Model\ActivityClassificationGoods;
+use App\Model\ConversionGoods;
+use App\Model\FreePostGoods;
 use Illuminate\Support\Facades\Log;
 use App\Model\BaseResponse;
 use App\Model\Goods;
@@ -142,7 +145,15 @@ class OrdersController extends Controller
             $goods=Goods::select('price','coupon_amount')->find($g->goods_id);
             if($goods!=null){
                 if($g->use_coupon==1){
-                    $total_fee=$total_fee+$goods->price-$goods->coupon_amount;
+                    //如果在约惠列表里，不减去优惠金额 要扣券
+                    if(ActivityClassificationGoods::where('goods_id',$goods->id)->count()>0||
+                        FreePostGoods::where('goods_id',$goods->id)->count()>0||
+                        ConversionGoods::where('goods_id',$goods->id)->count()>0
+                    ){
+                        $total_fee=$total_fee+$goods->price;
+                    }else{
+                        $total_fee=$total_fee+$goods->price-$goods->coupon_amount;
+                    }
                 }else{
                     $total_fee=$total_fee+$goods->price;
                 }
