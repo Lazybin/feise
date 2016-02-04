@@ -111,16 +111,54 @@
         }
 
 
-        .zhufubiaoti{left:58%;top:70%;position:absolute;width: 2%;float: left;line-height: 1.1em; font-size:1.5em;font-weight:600;color: #FCCDA3;}
-        .zhuwenzi{left:45%;top:70%;position:absolute;width: 2%;float: left;line-height: 1.2em; font-size:1.8em;font-weight:700;color: #FCCDA3;}
+        .itemlist li{font-size: 1em;}
+        .itemlist p.text1{font-size: 1.2em;}
+        .tishi1{line-height: 1em; font-size:1.4em;color: #FCCDA3;}
+        .tishi2{line-height: 1em; font-size:1.2em;color: #FCCDA3;}
+
+        #tishi1{margin: auto;left:0;right:0;bottom:-190%;position:absolute;display: none}
+        #tishi2{margin: auto;left:0;right:0;bottom:-205%;position:absolute;display: none}
+
+        .zhufubiaoti{
+            left:57%;top:70%;
+            position:absolute;
+            width: 2%;float: left;line-height: 1em;
+            font-size:1.8em;font-weight:600;color: #FCCDA3;
+        }
+
+        .zhuwenzi{
+            left:47%;top:70%;
+            position:absolute;width: 2%;
+            float: left;line-height: 1.2em;
+            font-size:2em;font-weight:700;
+            color: #FCCDA3;
+        }
 
 
         @media screen and (max-width: 580px){
             body{font-size: 14px;}
             .itemlist li{font-size: 1em;}
             .itemlist p.text1{font-size: 1.2em;}
-            .tishi1{line-height: 1em; font-size:3em;color: #FCCDA3;}
-            .tishi2{line-height: 1em; font-size:2em;color: #FCCDA3;}
+            .tishi1{line-height: 1em; font-size:1.4em;color: #FCCDA3;}
+            .tishi2{line-height: 1em; font-size:1.2em;color: #FCCDA3;}
+
+            #tishi1{margin: auto;left:0;right:0;bottom:-190%;position:absolute;display: none}
+            #tishi2{margin: auto;left:0;right:0;bottom:-205%;position:absolute;display: none}
+
+            .zhufubiaoti{
+                left:57%;top:70%;
+                position:absolute;
+                width: 2%;float: left;line-height: 1em;
+                font-size:1.8em;font-weight:600;color: #FCCDA3;
+            }
+
+            .zhuwenzi{
+                left:47%;top:70%;
+                position:absolute;width: 2%;
+                float: left;line-height: 1.2em;
+                font-size:2em;font-weight:700;
+                color: #FCCDA3;
+            }
         }
         @media screen and (max-width: 520px){
             body{font-size: 12px;}
