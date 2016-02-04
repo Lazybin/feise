@@ -42,8 +42,6 @@
     <p class="img"><img src="img/first_head.png" alt=""></p>
     <p class="img" style="position:absolute;left:0px;top:0px;z-index:-1"><img src="img/first_background.png" alt=""></p>
     <p class="img" style="position: absolute;bottom: -210%;"><img style="width:30%" src="img/first_box.png" alt=""></p>
-
-
 </section>
 </body>
 </html>
