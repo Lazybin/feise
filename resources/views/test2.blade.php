@@ -159,14 +159,14 @@
             #tishi2{margin: auto;left:0;right:0;bottom:-205%;position:absolute;display: none}
 
             .zhufubiaoti{
-                left:56%;top:65%;
+                left:56%;top:60%;
                 position:absolute;
                 width: 2%;float: left;line-height: 1em;
                 font-size:1.6em;font-weight:600;color: #FCCDA3;
             }
 
             .zhuwenzi{
-                left:47%;top:65%;
+                left:47%;top:60%;
                 position:absolute;width: 2%;
                 float: left;line-height: 1.2em;
                 font-size:1.8em;font-weight:700;
