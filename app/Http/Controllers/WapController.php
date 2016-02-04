@@ -148,14 +148,16 @@ class WapController extends Controller
         $t = time();
         $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));
         $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));
-
-        $record=NewYearActivity::where('user_id',$user_id)->where('created_at','>=',date('Y-m-d H:i:s',$start))
+        $times=NewYearActivity::where('user_id',$user_id)->count();
+        $today=NewYearActivity::where('user_id',$user_id)->where('created_at','>=',date('Y-m-d H:i:s',$start))
             ->where('created_at','<=',date('Y-m-d H:i:s',$end))->first();
-        if($record!=null){
-            $data['conent']=$record->content;
+        if($today!=null){
+            $data['conent']=$today->content;
+            $data['times']=7-$times;
             return view('wap.new_year_activity_has_join',$data);
         }
 
+        $data['times']=7-$times-1;
 
         return view('wap.new_year_activity',$data);
 //        if(time()<$newYearTime){

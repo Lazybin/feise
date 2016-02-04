@@ -11,7 +11,7 @@ class Banner extends Model
     /**
      * @SWG\Property(name="id",type="integer",description="id")
      * @SWG\Property(name="banner_position",type="integer",description="图片位置 0--->首页 1--->优惠")
-     * @SWG\Property(name="type",type="integer",description="类型 0--->主题 1--->专题 2---->活动")
+     * @SWG\Property(name="type",type="integer",description="类型 0--->主题 1--->专题 2---->活动 3--->春节活动")
      * @SWG\Property(name="title",type="string",description="标题")
      * @SWG\Property(name="path",type="string",description="路径，当type=2时有值")
      * @SWG\Property(name="detail_image",type="string",description="详情图片路径，当type=2时有值")
@@ -24,19 +24,19 @@ class Banner extends Model
 
     public function getSubjectItemAttribute()
     {
-        if($this->type!=1){
-            return null;
-        }else{
+        if($this->type==1){
             return Subject::find($this->item_id)->toArray();
+        }else{
+            return null;
         }
     }
 
     public function getThemeItemAttribute()
     {
-        if($this->type!=0){
-            return null;
-        }else{
+        if($this->type==0){
             return Themes::find($this->item_id)->toArray();
+        }else{
+            return null;
         }
     }
 }

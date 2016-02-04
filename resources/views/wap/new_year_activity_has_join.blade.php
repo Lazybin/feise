@@ -224,7 +224,7 @@
     </p>
     <p id="title" style="display: none;"><span class="zhufubiaoti">恭祝您</span></p>
     <p id="content" style="display: none;"><span class="zhuwenzi">{{$content}}</span></p>
-    <p id="tishi1"><span class="tishi1">已找到今日宝藏，还有<span>7</span>天，请再接再厉！</span></p>
+    <p id="tishi1"><span class="tishi1">已找到今日宝藏，还有<span>{{$times}}</span>天，请再接再厉！</span></p>
     <p id="tishi2"><span class="tishi2">要连续点击七天才能得大礼哦！</span></p>
     <p id="p_thumb" class="img" style="position: absolute;bottom: -200%;">
         <img class="thumb" onclick="onOpenClick()" style="width:15%" src="{{url('/')}}/img/thumb.png" alt="">
