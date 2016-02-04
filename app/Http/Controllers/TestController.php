@@ -16,7 +16,7 @@ class TestController extends Controller
 
     public function index(){
 
-        return view('test');
+        return view('test1');
     }
 
     public function bannerDetail(){
