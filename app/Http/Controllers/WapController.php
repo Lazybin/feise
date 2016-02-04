@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Banner;
 use App\Model\Goods;
 use App\Model\HomeNavigation;
+use App\Model\NewYearActivity;
 use App\Model\Themes;
 use Illuminate\Http\Request;
 
@@ -117,5 +118,53 @@ class WapController extends Controller
     public function homeNavigationDetail($id){
         $data['homeNavigation']=HomeNavigation::find($id)->toArray();
         return view('wap.home_navigation_detail',$data);
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/wap/new_year_activity/{user_id}",
+     *   @SWG\Operation(
+     *     method="GET", summary="春节活动", notes="春节活动",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="user_id",
+     *         description="user_id 用户id",
+     *         paramType="path",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer",
+     *     )
+     *
+     *   )
+     * )
+     */
+    public function newYearActivity($user_id){
+        $newYearTime=strtotime("2016-02-08 00:00:00");
+        $endTime=strtotime("2016-02-15 00:00:00");
+        $data['user_id']=$user_id;
+        $data['content']='运筹帷幄事业新';
+
+        $t = time();
+        $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));
+        $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));
+
+        $record=NewYearActivity::where('user_id',$user_id)->where('created_at','>=',date('Y-m-d H:i:s',$start))
+            ->where('created_at','<=',date('Y-m-d H:i:s',$end))->first();
+        if($record!=null){
+            $data['conent']=$record->content;
+            return view('wap.new_year_activity_has_join',$data);
+        }
+
+
+        return view('wap.new_year_activity',$data);
+//        if(time()<$newYearTime){
+//            return view('wap.new_year_index',$data);
+//        }else if(time()>=$newYearTime&&time<=$endTime){
+//            return view('wap.new_year_activity',$data);
+//        }else{
+//            return null;
+//        }
+
     }
 }

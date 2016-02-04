@@ -41,7 +41,12 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('api/v1/wap/banner_detail/{id}','WapController@bannerDetail');
     Route::get('api/v1/wap/goods_detail/{id}','WapController@goodsDetail');
     Route::get('api/v1/wap/themes_description/{id}','WapController@themesDescription');
+
     Route::get('api/v1/wap/home_navigation_detail/{id}','WapController@homeNavigationDetail');
+    Route::get('api/v1/wap/new_year_activity/{user_id}','WapController@newYearActivity');
+
+
+    Route::resource('api/v1/new_year_active','Api\V1\NewYearActivityController');
 
     Route::resource('api/v1/home_navigation', 'Api\V1\HomeNavigationController');
 

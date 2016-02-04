@@ -23,6 +23,7 @@ return array(
     'CreateHomeNavigationsTable' => $baseDir . '/database/migrations/2016_02_02_065607_create_home_navigations_table.php',
     'CreateHomesTable' => $baseDir . '/database/migrations/2016_01_20_081526_create_homes_table.php',
     'CreateImagesTable' => $baseDir . '/database/migrations/2016_01_18_135803_create_images_table.php',
+    'CreateNewYearActivitiesTable' => $baseDir . '/database/migrations/2016_02_04_162340_create_new_year_activities_table.php',
     'CreateOperatorsTable' => $baseDir . '/database/migrations/2016_01_12_025810_create_operators_table.php',
     'CreateOrderGoodsTable' => $baseDir . '/database/migrations/2016_01_22_091639_create_order_goods_table.php',
     'CreateOrdersTable' => $baseDir . '/database/migrations/2016_01_22_085306_create_orders_table.php',
