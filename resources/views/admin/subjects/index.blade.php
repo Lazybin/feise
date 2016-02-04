@@ -36,8 +36,10 @@
             "processing": true,
             "iDisplayLength": 10,
             "autoWidth": false,
+            "serverSide": true,
             "searching": false,
             "ordering": false,
+            "ajax": "{{url('/')}}/themes/index",
             "language": {
                 "lengthMenu": "每页显示 _MENU_ 条",
                 "zeroRecords": "暂无记录",

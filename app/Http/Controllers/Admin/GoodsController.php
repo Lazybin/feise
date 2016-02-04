@@ -35,7 +35,7 @@ class GoodsController extends Controller
 
         if($category_id!=null){
             $goods=Goods::where('category_id',$category_id);
-            $count=Goods::count();
+            $count=$goods->count();
             $goods->skip($start)->take($length)->orderBy('id','desc');
         }else{
             $count=Goods::count();
