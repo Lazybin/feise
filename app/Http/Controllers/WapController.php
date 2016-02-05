@@ -144,29 +144,27 @@ class WapController extends Controller
         $endTime=strtotime("2016-02-15 00:00:00");
         $data['user_id']=$user_id;
         $data['content']='运筹帷幄事业新';
+        
+        if(time()<$newYearTime){
+            return view('wap.new_year_index',$data);
+        }else if(time()>=$newYearTime&&time<=$endTime){
+            $t = time();
+            $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));
+            $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));
+            $times=NewYearActivity::where('user_id',$user_id)->count();
+            $today=NewYearActivity::where('user_id',$user_id)->where('created_at','>=',date('Y-m-d H:i:s',$start))
+                ->where('created_at','<=',date('Y-m-d H:i:s',$end))->first();
+            if($today!=null){
+                $data['conent']=$today->content;
+                $data['times']=7-$times;
+                return view('wap.new_year_activity_has_join',$data);
+            }
 
-        $t = time();
-        $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));
-        $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));
-        $times=NewYearActivity::where('user_id',$user_id)->count();
-        $today=NewYearActivity::where('user_id',$user_id)->where('created_at','>=',date('Y-m-d H:i:s',$start))
-            ->where('created_at','<=',date('Y-m-d H:i:s',$end))->first();
-        if($today!=null){
-            $data['conent']=$today->content;
-            $data['times']=7-$times;
-            return view('wap.new_year_activity_has_join',$data);
+            $data['times']=7-$times-1;
+            return view('wap.new_year_activity',$data);
+        }else{
+            return null;
         }
-
-        $data['times']=7-$times-1;
-
-        return view('wap.new_year_activity',$data);
-//        if(time()<$newYearTime){
-//            return view('wap.new_year_index',$data);
-//        }else if(time()>=$newYearTime&&time<=$endTime){
-//            return view('wap.new_year_activity',$data);
-//        }else{
-//            return null;
-//        }
 
     }
 }
