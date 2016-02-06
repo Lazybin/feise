@@ -144,7 +144,7 @@ class WapController extends Controller
         $endTime=strtotime("2016-02-15 00:00:00");
         $data['user_id']=$user_id;
         $data['content']='运筹帷幄事业新';
-        
+
         if(time()<$newYearTime){
             return view('wap.new_year_index',$data);
         }else if(time()>=$newYearTime&&time<=$endTime){
