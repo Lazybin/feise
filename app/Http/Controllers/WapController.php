@@ -140,7 +140,7 @@ class WapController extends Controller
      * )
      */
     public function newYearActivity($user_id){
-        $newYearTime=strtotime("2016-02-07 00:00:00");
+        $newYearTime=strtotime("2016-02-08 00:00:00");
         $endTime=strtotime("2016-02-15 00:00:00");
         $data['user_id']=$user_id;
         //$data['content']='运筹帷幄事业新';
