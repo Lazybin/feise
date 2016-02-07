@@ -40,7 +40,7 @@ class NewYearActivityController extends Controller
     {
         $newYear=new NewYearActivity();
         $user_id=$request->input('user_id');
-        if($user_id!=-1){
+        if($user_id!=0){
             $newYear->user_id=$user_id;
             $newYear->content=$request->input('content');
             $newYear->save();
