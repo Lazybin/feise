@@ -140,10 +140,23 @@ class WapController extends Controller
      * )
      */
     public function newYearActivity($user_id){
-        $newYearTime=strtotime("2016-02-08 00:00:00");
+        $newYearTime=strtotime("2016-02-07 00:00:00");
         $endTime=strtotime("2016-02-15 00:00:00");
         $data['user_id']=$user_id;
-        $data['content']='运筹帷幄事业新';
+        //$data['content']='运筹帷幄事业新';
+
+        $contentList=[
+            '运筹帷幄事业新',
+            '祥瑞降喜爱如意',
+            '大吉大利财运旺',
+            '行远高升兄弟睦',
+            '猴年大吉好运来',
+            '年年有余家业丰',
+            '吉庆安康身体健',
+
+        ];
+        $rand=rand(0,6);
+        $data['content']=$contentList[$rand];
 
         if(time()<$newYearTime){
             return view('wap.new_year_index',$data);

@@ -39,9 +39,12 @@ class NewYearActivityController extends Controller
     public function store(Request $request)
     {
         $newYear=new NewYearActivity();
-        $newYear->user_id=$request->input('user_id');
-        $newYear->content=$request->input('content');
-        $newYear->save();
+        $user_id=$request->input('user_id');
+        if($user_id!=-1){
+            $newYear->user_id=$user_id;
+            $newYear->content=$request->input('content');
+            $newYear->save();
+        }
     }
 
     /**
