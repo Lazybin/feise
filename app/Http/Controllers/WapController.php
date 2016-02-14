@@ -161,7 +161,6 @@ class WapController extends Controller
         if(time()<$newYearTime){
             return view('wap.new_year_index',$data);
         }else if(time()>=$newYearTime&&time()<=$endTime){
-            return view('wap.new_year_finish',$data);
             $t = time();
             $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));
             $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));
@@ -177,7 +176,7 @@ class WapController extends Controller
             $data['times']=7-$times-1;
             return view('wap.new_year_activity',$data);
         }else{
-            return null;
+            return view('wap.new_year_finish',$data);
         }
 
     }

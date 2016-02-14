@@ -19,27 +19,92 @@
         li{list-style: none;}
         p.img{width: 100%;}
 
+
+
+        .zhuwenzi{
+            left:34%;top:150px;
+            position:absolute;
+            font-size:1.3em;
+            color: #FCCDA3;
+        }
+        .box_pic{
+            position: absolute;top: 350px;
+        }
+
+
         @media screen and (max-width: 580px){
             body{font-size: 14px;}
             .itemlist li{font-size: 1em;}
             .itemlist p.text1{font-size: 1.2em;}
+            .tishi1{line-height: 1em; font-size:1.4em;color: #FCCDA3;}
+            .tishi2{line-height: 1em; font-size:1.2em;color: #FCCDA3;}
+
+            #tishi1{margin: auto;left:0;right:0;bottom:-190%;position:absolute;display: none}
+            #tishi2{margin: auto;left:0;right:0;bottom:-205%;position:absolute;display: none}
+
+
+
+            .zhuwenzi{
+                left:34%;top:150px;
+                position:absolute;
+                font-size:1.3em;
+                color: #FCCDA3;
+            }
+            .box_pic{
+                position: absolute;top: 350px;
+            }
         }
         @media screen and (max-width: 520px){
             body{font-size: 12px;}
             .itemlist li{font-size: 1em;}
             .itemlist p.text1{font-size: 1.2em;}
+            .tishi1{line-height: 1em; font-size:1.4em;color: #FCCDA3;}
+            .tishi2{line-height: 1em; font-size:1.2em;color: #FCCDA3;}
+
+            #tishi1{margin: auto;left:0;right:0;bottom:-190%;position:absolute;display: none}
+            #tishi2{margin: auto;left:0;right:0;bottom:-205%;position:absolute;display: none}
+
+
+
+            .zhuwenzi{
+                left:34%;top:150px;
+                position:absolute;
+                font-size:1.3em;
+                color: #FCCDA3;
+            }
+            .box_pic{
+                position: absolute;top: 350px;
+            }
 
 
         }
-        @media screen and (max-width: 425px){
+        @media screen and (max-width: 320px){
             p.text{ line-height: 1.5em; font-size: 1em; }
             .itemlist p.text2{font-size: 1.2em;width: 90%; margin-left: 5%;}
+            .tishi1{line-height: 1em; font-size:1.2em;color: #FCCDA3;}
+            .tishi2{line-height: 1em; font-size:1em;color: #FCCDA3;}
+
+            #tishi1{margin: auto;left:0;right:0;bottom:-190%;position:absolute;display: none}
+            #tishi2{margin: auto;left:0;right:0;bottom:-205%;position:absolute;display: none}
+
+
+            .zhuwenzi{
+                left:109px;top:150px;
+                position:absolute;
+                font-size:1.2em;
+                color: #FCCDA3;
+            }
+            .box_pic{
+                position: absolute;top: 280px;
+            }
         }
+
     </style>
 </head>
 <body style="background-color:#AD1929 ">
 <section style="position:relative;text-align: center">
-    <p class="img" style="position: absolute;bottom: 10%;"><img style="width:30%" src="{{url('/')}}/img/first_box.png" alt=""></p>
+    <p id="content" class="zhuwenzi"><span >活动已经结束，<br/>敬请留意中奖名单。</span></p>
+    <p class="img box_pic" ><img style="width:30%" src="{{url('/')}}/img/bb_11.png" alt=""></p>
 </section>
 </body>
 </html>
