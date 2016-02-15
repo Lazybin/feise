@@ -25,7 +25,7 @@ class SearchController extends Controller
      *
      * @SWG\Api(
      *   path="/search",
-     *   description="搜索",
+     *   description="搜索（新20160216）",
      *   @SWG\Operation(
      *     method="GET", summary="获得搜索列表", notes="获得搜索列表",
      *     type="array",
