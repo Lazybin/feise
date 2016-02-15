@@ -57,6 +57,7 @@ Route::group(['middleware' => ['api']], function () {
 
     Route::resource('api/v1/subject','Api\V1\SubjectController');
 
+    Route::resource('api/v1/search','Api\V1\SearchController');
 });
 
 
