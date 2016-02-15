@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 
 /**
  * @SWG\Resource(
- *     apiVersion="0.2",
+ *     apiVersion="1.0",
  *     swaggerVersion="1.2",
  *     resourcePath="/search",
  *     basePath="http://120.27.199.121/feise/public/api/v1"
@@ -83,6 +83,7 @@ class SearchController extends Controller
         $keywords=$request->input('keywords','');
         $user_id=$request->input('user_id',-1);
         $response=new BaseResponse();
+        $start=$start-1;
         if($type==0){
             $goods=Goods::where('name', 'like', '%'.$keywords.'%');
             $total=$goods->count();
