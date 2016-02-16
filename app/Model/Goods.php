@@ -31,7 +31,6 @@ class Goods extends Model
      * @SWG\Property(name="category",type="string",description="所属分类 id-->分类id，name-->分类名称")
      * @SWG\Property(name="properties",type="array",description="所属分类 id-->分类id，name-->属性名字，type-->属性类型 0->选项 1->数字，properties-->属性对应的值列表(id->值id,value-->名称)")
      * @SWG\Property(name="images",type="array",description="展示图片列表 image_id-->图片id，path-->图片路径")
-     * @SWG\Property(name="has_collection",type="integer",description="是否搜藏 0-》否，1-》是")
      * @SWG\Property(name="comments",type="array",description="评论列表")
      */
     protected $fillable = [
