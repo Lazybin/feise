@@ -14,6 +14,8 @@ class Home extends Model
      * @SWG\Property(name="type",type="integer",description="类型 0--->专题 1--->主题")
      * @SWG\Property(name="sort",type="integer",description="排序")
      * @SWG\Property(name="item",type="array",description="包含项 当type=0 其内容为专题，type=1其内容为主题")
+     * @SWG\Property(name="has_collection",type="integer",description="当type=1的时候存在 标记该用户是否搜藏过主题 0-》否，1-》是")
+     * @SWG\Property(name="comments",type="array",description="当type=1的时候存在 该主题对应的评论列表")
      */
     protected $fillable = [
         'item_id','type','sort'
