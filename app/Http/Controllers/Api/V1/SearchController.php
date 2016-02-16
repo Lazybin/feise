@@ -83,7 +83,7 @@ class SearchController extends Controller
         $keywords=$request->input('keywords','');
         $user_id=$request->input('user_id',-1);
         $response=new BaseResponse();
-        $start=$start-1;
+        $start=($start-1)*$length;
         if($type==0){
             $goods=Goods::where('name', 'like', '%'.$keywords.'%');
             $total=$goods->count();

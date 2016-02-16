@@ -27,7 +27,7 @@ class ShippingAddressController extends Controller
      *   description="收货地址",
      *   @SWG\Operation(
      *     method="GET", summary="收货地址列表", notes="收货地址列表",
-     *     type="Area",
+     *     type="ShippingAddress",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="user_id",
@@ -102,6 +102,9 @@ class ShippingAddressController extends Controller
     {
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
+        if($content->is_default==1){
+            ShippingAddress::where('user_id',$content->user_id)->update(['is_default'=>0]);
+        }
         ShippingAddress::create((array)$content);
         return $response->toJson();
     }
@@ -168,10 +171,16 @@ class ShippingAddressController extends Controller
             return $response->toJson();
         }
         $shippingAddress->user_id=$content->user_id;
+        $shippingAddress->consignee=$content->consignee;
+        $shippingAddress->mobile=$content->mobile;
+        $shippingAddress->is_default=$content->is_default;
         $shippingAddress->province=$content->province;
         $shippingAddress->city=$content->city;
         $shippingAddress->district=$content->district;
         $shippingAddress->detailed_address=$content->detailed_address;
+        if($content->is_default==1){
+            ShippingAddress::where('user_id',$content->user_id)->update(['is_default'=>0]);
+        }
         $shippingAddress->save();
         return $response->toJson();
     }

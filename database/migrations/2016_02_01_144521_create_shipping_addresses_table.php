@@ -16,6 +16,9 @@ class CreateShippingAddressesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->unsignedInteger('user_id');
+            $table->string('consignee');//联系人
+            $table->string('mobile');//联系电话
+            $table->string('is_default');//是否默认 0-->否，1--》是
             $table->string('province');
             $table->string('city');
             $table->string('district');
