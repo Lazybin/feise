@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Model\BaseResponse;
 use App\Model\Collection;
 use App\Model\Home;
+use App\Model\UserComment;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -125,6 +126,11 @@ class HomeController extends Controller
                     $home['has_collection']=1;
                 }
             }
+
+            $comments=UserComment::where('type',1)->where('item_id',$home['item']['id']);
+            $rows=$comments->skip(0)->take(10)->orderBy('id','desc')->get()->toArray();
+
+            $home['comments']=$rows;
         }
         $response->Data=$home;
         return $response->toJson();

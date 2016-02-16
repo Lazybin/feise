@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Model\BaseResponse;
 use App\Model\Goods;
+use App\Model\UserComment;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -91,6 +92,10 @@ class GoodsController extends Controller
                 $theme['has_collection']=1;
             }
         }
+        $comments=UserComment::where('type',0)->where('item_id',$theme['id']);
+        $rows=$comments->skip(0)->take(10)->orderBy('id','desc')->get()->toArray();
+
+        $theme['comments']=$rows;
         $response->Data=$theme;
         return $response->toJson();
     }
