@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Model\BaseResponse;
+use App\Model\Collection;
 use App\Model\Goods;
 use App\Model\Themes;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Collection;
 
 /**
  * @SWG\Resource(
