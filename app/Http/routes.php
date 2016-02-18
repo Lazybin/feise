@@ -188,6 +188,14 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/home_navigation/detail/{id}', 'Admin\HomeNavigationController@detail');
         Route::post('/home_navigation/update/{id}', 'Admin\HomeNavigationController@update');
 
+
+        Route::get('/user_level/', 'Admin\UserLevelsController@show');
+        Route::get('/user_level/index', 'Admin\UserLevelsController@index');
+        Route::post('/user_level/store', 'Admin\UserLevelsController@store');
+        Route::get('/user_level/detail/{id}', 'Admin\UserLevelsController@detail');
+        Route::post('/user_level/update/{id}', 'Admin\UserLevelsController@update');
+        Route::delete('/user_level/delete/{id}', 'Admin\UserLevelsController@delete');
+
     });
 
 

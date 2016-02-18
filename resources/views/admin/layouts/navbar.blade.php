@@ -88,6 +88,9 @@
                                 <a href="{{url('/home_navigation/')}}">首页按钮设置配置</a>
                             </li>
                             <li>
+                                <a href="{{url('/user_level/')}}">会员等级管理</a>
+                            </li>
+                            <li>
                                 <a href="{{url('/gift_token_setting/')}}">礼券设置</a>
                             </li>
                             <li>

@@ -37,6 +37,7 @@ return array(
     'CreateThemeGoodsTable' => $baseDir . '/database/migrations/2016_01_19_113636_create_theme_goods_table.php',
     'CreateThemesTable' => $baseDir . '/database/migrations/2016_01_19_061332_create_themes_table.php',
     'CreateUserCommentsTable' => $baseDir . '/database/migrations/2016_02_16_113758_create_user_comments_table.php',
+    'CreateUserLevelsTable' => $baseDir . '/database/migrations/2016_02_18_143552_create_user_levels_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
