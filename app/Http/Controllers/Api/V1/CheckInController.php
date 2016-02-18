@@ -42,7 +42,7 @@ class CheckInController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="/collection",
+     *   path="/check_in",
      *   description="普通签到（新20160218）",
      *   @SWG\Operation(
      *     method="POST", summary="签到", notes="签到，如果已经签过到或者没有登录，data=0，如果签到成功data=1",
