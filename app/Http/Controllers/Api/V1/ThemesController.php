@@ -172,15 +172,31 @@ class ThemesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @SWG\Api(
+     *   path="/themes/{id}",
+     *   @SWG\Operation(
+     *     method="PUT", summary="更新分享次数", notes="更新分享次数",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="id",
+     *         description="主题id",
+     *         paramType="path",
+     *         required=true,
+     *         type="string"
+     *     )
+     *   )
+     * )
      */
     public function update(Request $request, $id)
     {
-        //
+        $response=new BaseResponse();
+        $themes=Themes::find($id);
+        if($themes!=null){
+            $themes->share_times=$themes->share_times+1;
+            $themes->save();
+        }
+        return $response->toJson();
     }
 
     /**

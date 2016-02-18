@@ -113,15 +113,31 @@ class GoodsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @SWG\Api(
+     *   path="/goods/{id}",
+     *   @SWG\Operation(
+     *     method="PUT", summary="更新分享次数", notes="更新分享次数",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="id",
+     *         description="商品id",
+     *         paramType="path",
+     *         required=true,
+     *         type="string"
+     *     )
+     *   )
+     * )
      */
     public function update(Request $request, $id)
     {
-        //
+        $response=new BaseResponse();
+        $goods=Goods::find($id);
+        if($goods!=null){
+            $goods->share_times=$goods->share_times+1;
+            $goods->save();
+        }
+        return $response->toJson();
     }
 
     /**
