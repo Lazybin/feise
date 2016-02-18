@@ -42,6 +42,8 @@ class OrdersController extends Controller
         }else{
             $order->status=$params['status'];
             if($order->status==3){
+                $order->express_company_name=$params['express_company_name'];
+                $order->express_number=$params['express_number'];
                 $order->shipments_time=date("Y-m-d H:i:s",time());
             }
             $order->save();

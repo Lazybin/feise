@@ -50,12 +50,12 @@
                         'sClass':'align-center',
                         "mRender": function (data, type, full)
                         {
-                            var id = full.id;
-//                            if(data.status==1){
-//                                return '<button type="button" onclick="onConfirmClick(\''+id+'\')" class="btn btn-primary btn-xs">确认发货</button>';
-//                            }else{
-//                                return '';
-//                            }
+                            var id = full.out_trade_no;
+                            if(data.status==1){
+                                return '<button type="button" onclick="onAddClick(\''+id+'\')" class="btn btn-primary btn-xs">确认发货</button>';
+                            }else{
+                                return '';
+                            }
                             return '';
 
                         }
@@ -126,8 +126,9 @@
 
         });
 
-        function onAddClick(){
-            $("#out_trade_no").val('');
+        function onAddClick(id){
+            $("#out_trade_no").val(id);
+            $("#express_number").val('');
             $("#express_company_name").val('');
             $("#title").html('发货');
 
@@ -150,6 +151,7 @@
                 callback: function(result){
                     if(result==true){
                         var out_trade_no=$("#out_trade_no").val();
+                        var express_number=$("#express_number").val();
                         var express_company_name=$("#express_company_name").val();
                         var subUrl= "{{url('/')}}/orders/update/"+out_trade_no;
                         $.ajax({
@@ -160,7 +162,7 @@
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
-                            data: {status:3,express_company_name:express_company_name},
+                            data: {status:3,express_company_name:express_company_name,express_number:express_number},
                             success: function(recv){
                                 if(recv.meta.code=='0')
                                 {
@@ -200,11 +202,11 @@
                     <div class="panel-heading">
                         订单列表
                     </div>
-                    <div class="panel-body" style="padding-bottom:0;">
-                        <div class="btn-toolbar">
-                            <button onclick="onAddClick();" class="btn btn-primary" ><i class="fa fa-sign-in  fa-fw"> </i>发货</button>
-                        </div>
-                    </div>
+                    {{--<div class="panel-body" style="padding-bottom:0;">--}}
+                        {{--<div class="btn-toolbar">--}}
+                            {{--<button onclick="onAddClick();" class="btn btn-primary" ><i class="fa fa-sign-in  fa-fw"> </i>发货</button>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
                             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -248,10 +250,9 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">订单号</label>
-                            <input type="text" class="form-control" id="out_trade_no" placeholder="请输入订单号">
-
-                            <input type="hidden" class="form-control" id="id">
+                            <label for="exampleInputEmail1">快递单号</label>
+                            <input type="hidden" class="form-control" id="out_trade_no">
+                            <input type="text" class="form-control" id="express_number" placeholder="请输入快递单号">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">快递公司</label>

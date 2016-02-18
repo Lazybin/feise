@@ -24,6 +24,8 @@ class CreateOrdersTable extends Migration
             $table->double('shipping_fee')->nullable();//总运费
             $table->tinyInteger('status');//订单状态 0---》待支付，1--》已支付，代发货，2--》取消，3-->已发货，4---》客户已签收，交易完成，5--->待发货申请退款，6----》已发货申请退款，7--->退款完成
             $table->timestamp('shipments_time')->nullable();//发货时间
+            $table->string('express_company_name')->nullable();//快递公司名称
+            $table->string('express_number')->nullable();//快递号
             $table->timestamp('payment_time');//支付时间
 
             $table->timestamps();
