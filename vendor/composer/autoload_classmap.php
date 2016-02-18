@@ -12,6 +12,7 @@ return array(
     'CreateBootPagesTable' => $baseDir . '/database/migrations/2016_01_13_064557_create_boot_pages_table.php',
     'CreateCategoriesTable' => $baseDir . '/database/migrations/2016_01_15_075053_create_categories_table.php',
     'CreateCategoryPropertiesTable' => $baseDir . '/database/migrations/2016_01_16_073910_create_category_properties_table.php',
+    'CreateCheckInRecordsTable' => $baseDir . '/database/migrations/2016_02_18_102130_create_check_in_records_table.php',
     'CreateCollectionsTable' => $baseDir . '/database/migrations/2016_02_02_123621_create_collections_table.php',
     'CreateConversionGoodsTable' => $baseDir . '/database/migrations/2016_01_27_123329_create_conversion_goods_table.php',
     'CreateFreePostGoodsTable' => $baseDir . '/database/migrations/2016_01_27_092418_create_free_post_goods_table.php',

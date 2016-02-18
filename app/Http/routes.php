@@ -60,6 +60,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::resource('api/v1/search','Api\V1\SearchController');
 
     Route::resource('api/v1/comments','Api\V1\UserCommentsController');
+
+    Route::resource('api/v1/check_in','Api\V1\CheckInController');
 });
 
 

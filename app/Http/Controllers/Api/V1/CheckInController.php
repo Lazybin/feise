@@ -1,0 +1,129 @@
+<?php
+
+namespace App\Http\Controllers\Api\V1;
+
+use App\Model\BaseResponse;
+use App\Model\CheckInRecords;
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+/**
+ * @SWG\Resource(
+ *     apiVersion="0.2",
+ *     swaggerVersion="1.2",
+ *     resourcePath="/check_in",
+ *     basePath="http://120.27.199.121/feise/public/api/v1"
+ * )
+ */
+class CheckInController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/collection",
+     *   description="普通签到（新20160218）",
+     *   @SWG\Operation(
+     *     method="POST", summary="签到", notes="签到，如果已经签过到或者没有登录，data=0，如果签到成功data=1",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="user_id",
+     *         description="用户id",
+     *         paramType="query",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer"
+     *     )
+     *   )
+     * )
+     */
+    public function store(Request $request)
+    {
+        $response=new BaseResponse();
+        $user_id=$request->input('user_id',-1);
+        $response->Data=0;
+        if($user_id!=-1||$user_id!=0){
+            $t = time();
+            $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));
+            $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));
+            $today=CheckInRecords::where('user_id',$user_id)->where('created_at','>=',date('Y-m-d H:i:s',$start))
+                ->where('created_at','<=',date('Y-m-d H:i:s',$end))->first();
+
+            if($today==null){
+                $records=new CheckInRecords();
+                $records->user_id=$user_id;
+                $records->save();
+                $response->Data=1;
+            }
+        }
+
+        return $response->toJson();
+
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}
