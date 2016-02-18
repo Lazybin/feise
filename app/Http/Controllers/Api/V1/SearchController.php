@@ -150,7 +150,7 @@ class SearchController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="/get_search_records",
+     *   path="/search/get_search_records",
      *   @SWG\Operation(
      *     method="GET", summary="获得最近搜索记录", notes="获得最近搜索记录",
      *     type="SearchRecords",
