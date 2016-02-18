@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api\V1;
 use App\Model\BaseResponse;
 use App\Model\Collection;
 use App\Model\Goods;
+use App\Model\SearchRecords;
 use App\Model\Themes;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @SWG\Resource(
@@ -38,6 +40,13 @@ class SearchController extends Controller
      *         allowMultiple=false,
      *         type="integer",
      *         defaultValue=-1
+     *     ),@SWG\Parameter(
+     *         name="device_token",
+     *         description="设备号",
+     *         paramType="query",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer"
      *     ),@SWG\Parameter(
      *         name="type",
      *         description="搜索类型，0：商品，1：主题",
@@ -82,6 +91,7 @@ class SearchController extends Controller
         $type=$request->input('type',0);//0--->商品 1--->主题
         $keywords=$request->input('keywords','');
         $user_id=$request->input('user_id',-1);
+        $device_token=$request->input('device_token');
         $response=new BaseResponse();
         $start=($start-1)*$length;
         if($type==0){
@@ -98,13 +108,19 @@ class SearchController extends Controller
 
         foreach($rows as &$v){
             $v['has_collection']=0;
-            if($user_id!=-1){
+            if($user_id!=-1&&$user_id!=0){
                 $collection=Collection::where('user_id',$user_id)->where('type',$type)->where('id',$v['id'])->first();
                 if($collection!=null){
                     $v['has_collection']=1;
                 }
             }
         }
+        //搜索记录
+        $searchRecords=new SearchRecords();
+        $searchRecords->user_id=$user_id;
+        $searchRecords->device_token=$device_token;
+        $searchRecords->keywords=$keywords;
+        $searchRecords->save();
         $response->rows=$rows;
         $response->total=$total;
         return $response->toJson();
@@ -132,6 +148,57 @@ class SearchController extends Controller
     }
 
     /**
+     *
+     * @SWG\Api(
+     *   path="/get_search_records",
+     *   @SWG\Operation(
+     *     method="GET", summary="获得最近搜索记录", notes="获得最近搜索记录",
+     *     type="SearchRecords",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="user_id",
+     *         description="用户id",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=-1
+     *     ),@SWG\Parameter(
+     *         name="device_token",
+     *         description="设备号",
+     *         paramType="query",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer"
+     *     )
+     *   )
+     * )
+     */
+    public function getSearchRecords(Request $request){
+        $user_id=$request->input('user_id',-1);
+        $device_token=$request->input('device_token');
+        $response=new BaseResponse();
+        $ret=[];
+        $ret['hot']=SearchRecords::select(DB::raw('count(*) as search_times'),'keywords')
+            ->groupBy('keywords')
+            ->orderBy('search_times','desc')
+            ->limit(8)->get();
+        if($user_id!=-1&&$user_id!=0){
+            $ret['self_last']=SearchRecords::where('user_id',$user_id)->select('keywords')
+                ->groupBy('keywords')
+                ->orderBy('created_at','desc')
+                ->limit(4)->get();
+        }else{
+            $ret['self_last']=SearchRecords::where('device_token',$device_token)->select('keywords')
+                ->groupBy('keywords')
+                ->orderBy('created_at','desc')
+                ->limit(4)->get();
+        }
+        $response->Data=$ret;
+        return $response->toJson();
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -139,7 +206,7 @@ class SearchController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
