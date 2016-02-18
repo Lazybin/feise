@@ -19,6 +19,7 @@ class Themes extends Model
      * @SWG\Property(name="intro",type="string",description="简介")
      * @SWG\Property(name="type",type="integer",description="0-->普通模式,1-->图文结合模式")
      * @SWG\Property(name="collect_count",type="integer",description="收藏数")
+     * @SWG\Property(name="comments_count",type="integer",description="评论数")
      * @SWG\Property(name="has_collection",type="integer",description="是否收藏，0-》未收藏，1-》已收藏")
      * @SWG\Property(name="is_new",type="integer",description="是否是今天发布的 0---》否 1----》是")
      * @SWG\Property(name="category",type="string",description="包含商品")
@@ -28,7 +29,7 @@ class Themes extends Model
         'category_id','title','subhead','cover','head_image','themes_description','intro','type'
     ];
 
-    protected $appends=['category','goods','collect_count','is_new'];
+    protected $appends=['category','goods','collect_count','is_new','comments_count'];
 
     public function getCategoryAttribute()
     {
@@ -59,8 +60,12 @@ class Themes extends Model
 
     }
 
+    public function getCommentsCountAttribute()
+    {
+        return UserComment::where('type',1)->where('item_id',$this->id)->count();
+    }
     public function getCollectCountAttribute()
     {
-        return 0;
+        return Collection::where('type',1)->where('item_id',$this->id)->count();
     }
 }
