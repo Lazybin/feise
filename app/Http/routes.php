@@ -16,8 +16,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::resource('api/v1/setting/boot_page','Api\V1\BootPageController',['only' => ['index']]);
     Route::resource('api/v1/setting/gift_token_setting','Api\V1\GiftTokenSettingController',['only' => ['index']]);
     Route::resource('api/v1/setting/banner','Api\V1\BannerController',['only' => ['index']]);
-    Route::resource('api/v1/themes','Api\V1\ThemesController',['only' => ['index','show']]);
-    Route::resource('api/v1/goods','Api\V1\GoodsController',['only' => ['index','show']]);
+    Route::resource('api/v1/themes','Api\V1\ThemesController',['only' => ['index','show','update']]);
+    Route::resource('api/v1/goods','Api\V1\GoodsController',['only' => ['index','show','update']]);
 
     Route::post('api/v1/shopping_cart/updates','Api\V1\ShoppingCartController@updates');
     Route::post('api/v1/shopping_cart/delete','Api\V1\ShoppingCartController@delete');
