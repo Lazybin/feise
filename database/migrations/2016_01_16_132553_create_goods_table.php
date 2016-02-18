@@ -29,6 +29,7 @@ class CreateGoodsTable extends Migration
             $table->tinyInteger('returned_goods');//是否支持七天无理由退货 0：不支持，1：支持
             $table->text('description')->nullable();//商品描述
             $table->text('detailed_introduction')->nullable();//详细描述（富文本框）
+            $table->integer('num');//库存
             $table->timestamps();
         });
     }

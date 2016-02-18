@@ -34,7 +34,7 @@ class Goods extends Model
      * @SWG\Property(name="comments",type="array",description="评论列表")
      */
     protected $fillable = [
-        'name','price','category_id','evaluation_person_image','evaluation_content','cover','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','goods_description','detailed_introduction'
+        'name','price','category_id','evaluation_person_image','evaluation_content','cover','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','goods_description','detailed_introduction','num'
     ];
 
     protected $appends=['category','properties','images','collect_count'];

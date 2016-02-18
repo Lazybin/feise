@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Model\ActivityClassificationGoods;
 use App\Model\ConversionGoods;
 use App\Model\FreePostGoods;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Model\BaseResponse;
 use App\Model\Goods;
@@ -137,12 +138,13 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
         $goodsList=$content->goodsList;
         $total_fee=0;
         foreach ($goodsList as $g){
-            $goods=Goods::select('price','coupon_amount')->find($g->goods_id);
+            $goods=Goods::find($g->goods_id);
             if($goods!=null){
                 //如果在约惠列表里，不减去优惠金额 要扣券
                 if(ActivityClassificationGoods::where('goods_id',$goods->id)->count()>0||
@@ -155,10 +157,19 @@ class OrdersController extends Controller
                 }else{
                     $total_fee=$total_fee+$goods->price;
                 }
+                $goods->num=$goods->num-$g->num;
+                if($goods->num<0){
+                    $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
+                    $response->Message="商品库存不够";
+                    DB::rollback();
+                    return $response->toJson();
+                }
+                $goods->save();
 
             }else{
                 $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
                 $response->Message="get goods failed!";
+                DB::rollback();
                 return $response->toJson();
             }
 
@@ -183,6 +194,7 @@ class OrdersController extends Controller
         }
 
         $response->Data=$order;
+        DB::commit();
         return $response->toJson();
 
         //var_dump($content);
@@ -471,6 +483,7 @@ class OrdersController extends Controller
      */
     public function update(Request $request, $out_trade_no)
     {
+        DB::beginTransaction();
         $response=new BaseResponse();
         $status=$request->input('status');
         if($out_trade_no==null){
@@ -486,6 +499,21 @@ class OrdersController extends Controller
         }
         $order->status=$status;
         $order->save();
+        if($status==2){
+            $goodsList=OrderGoods::where('order_id',$order->id)->get()->toArray();
+            foreach($goodsList as $g){
+                $goods=Goods::find($g['goods_id']);
+                if($goods==null){
+                    $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
+                    $response->Message="商品不存在";
+                    DB::rollback();
+                    return $response->toJson();
+                }
+                $goods->num=$goods->num+$g['num'];
+                $goods->save();
+            }
+        }
+        DB::commit();
         return $response->toJson();
     }
 
