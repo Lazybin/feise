@@ -460,7 +460,7 @@ class OrdersController extends Controller
                 $response->Message='服务器内部错误，错误码：108';
                 return $response->toJson();
             }
-            $data['payInfo']=$this->getWeiXinPayParameter($t['responseObj']->prepay_id);
+            $data['weixinPayInfo']=$this->getWeiXinPayParameter($t['responseObj']->prepay_id);
         }else{
             $data['payInfo']=null;
         }
