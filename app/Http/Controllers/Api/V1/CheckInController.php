@@ -62,7 +62,8 @@ class CheckInController extends Controller
     {
         $response=new BaseResponse();
         $user_id=$request->input('user_id',-1);
-        $response->Data=0;
+        $ret['result']=0;
+        $response->Data=$ret;
         if($user_id!=-1||$user_id!=0){
             $t = time();
             $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));
@@ -74,7 +75,8 @@ class CheckInController extends Controller
                 $records=new CheckInRecords();
                 $records->user_id=$user_id;
                 $records->save();
-                $response->Data=1;
+                $ret['result']=1;
+                $response->Data=$ret;
             }
         }
 
