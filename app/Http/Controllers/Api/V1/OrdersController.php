@@ -469,15 +469,17 @@ class OrdersController extends Controller
     }
     public function getWeiXinPayParameter($prepay_id)
     {
-        $prepayid=(array)$prepay_id;
+
 
         $parameters["appId"]='wxad2738e1199a71b8';
         $parameters['partnerid']='1312519501';
-        $parameters['prepayid']=$prepayid[0];
+        $parameters['prepayid']=$prepay_id;
         $parameters["timeStamp"]=time();
         $parameters["nonceStr"]=$this->greatRand();//随机字符串，丌长于 32 位
         $parameters["package"]="Sign=WXPay";
         $parameters['sign']=$this->getWeiXinSign($parameters);
+        $prepayid=(array)$prepay_id;
+        $parameters['prepayid']=$prepayid;
         //$parameters['paySign']=$sign;
         return $parameters;
     }
