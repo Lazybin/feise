@@ -15,6 +15,7 @@ class CreateGiftTokenSettingsTable extends Migration
         Schema::create('gift_token_settings', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('sum');//金额
             $table->tinyInteger('status');
             $table->timestamps();
         });

@@ -16,18 +16,24 @@ class GiftTokenSettingController extends Controller
         return view('admin.setting.gift_token_setting',$data);
     }
 
+    public function detail($id)
+    {
+        $giftToken=GiftTokenSetting::find($id);
+        $ret['meta']['code']=1;
+        $ret['meta']['data']=$giftToken->toArray();
+        echo json_encode($ret);
+    }
+
     public function update(Request $requests,$id)
     {
         $params=$requests->all();
         $giftTokenSetting=GiftTokenSetting::find($id);
-        if($giftTokenSetting==null){
-            $ret['meta']['code']=0;
-            $ret['meta']['error']='目标不存在';
-        }else{
+        if($giftTokenSetting!=null){
+            $giftTokenSetting->sum=$params['sum'];
             $giftTokenSetting->status=$params['status'];
             $giftTokenSetting->save();
             $ret['meta']['code']=1;
         }
-        echo json_encode($ret);
+        return redirect()->action('Admin\GiftTokenSettingController@show');
     }
 }

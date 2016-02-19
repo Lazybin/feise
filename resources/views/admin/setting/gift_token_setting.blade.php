@@ -3,33 +3,39 @@
 
 @include('admin.layouts.navbar')
 @section('customercss')
-    <link href="{{ url('/bootstrap_switch/dist/css/bootstrap3/bootstrap-switch.min.css') }}" rel="stylesheet" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('customerjs')
-    <script src="{{ url('/bootstrap_switch/dist/js/bootstrap-switch.min.js') }}"></script>
+    <script src="{{ url('/js/bootbox.min.js') }}"></script>
     <script>
-        $("input[type=\"checkbox\"]").bootstrapSwitch();
-        $("input[type=\"checkbox\"]").on('switchChange.bootstrapSwitch', function(event, state) {
-            var id=this.attributes['data-id'].value;
-            var status=state==true?1:0;
+        function onEditClick(id){
             $.ajax({
-                url: "{{url('/')}}/gift_token_setting/update/"+id,
+                url: "{{url('/')}}/gift_token_setting/detail/"+id,
                 async: true,
                 type: "GET",
                 dataType:'json',
-                data: {status:status},
                 success: function(recv){
-//                    if(recv.meta.code=='0'){
-//                        var val=recv.meta.error;
-//                        bootbox.alert(val, function(){
-//                        });
-//                    }else if(recv.meta.code=='1'){
-//                        window.location.reload();
-//                    }
+                    if(recv.meta.code=='0'){
+                        var val=recv.meta.error;
+                        bootbox.alert(val, function(){
+                        });
+                    }else if(recv.meta.code=='1'){
+                        $("#name").val(recv.meta.data.name);
+                        $("#sum").val(recv.meta.data.sum);
+                        if(recv.meta.data.status==1){
+                            $("#statusRadios1").attr("checked","checked");
+                        }else{
+                            $("#statusRadios2").attr("checked","checked");
+                        }
+                        $("#modelTitle").html('修改礼券设置');
+
+                        $('#bannerForm').attr('action','{{url("/")}}/gift_token_setting/update/'+id);
+                        $('#newBannerModel').modal('show');
+                    }
                     return true;
                 }
             });
-        });
+        }
     </script>
 @endsection
 @section('content')
@@ -54,14 +60,18 @@
                                 <thead>
                                 <tr>
                                     <th>名称</th>
+                                    <th>赠送金额</th>
+                                    <th>状态</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($giftTokenSettings as $v)
                                     <tr><td>{{ $v['name'] }}</td>
+                                        <td>{{ $v['sum'] }}</td>
+                                        <td><?php if($v['status']==0) echo '关闭';else echo '开启'; ?></td>
                                         <td>
-                                            <input type="checkbox" data-id="{{$v['id']}}" data-on-text="开" data-off-text="关" @if($v['status'] == 1) checked @endif>
+                                            <button type="button" onclick="onEditClick('{{$v['id']}}')" class="btn btn-primary btn-xs">编辑</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -78,6 +88,53 @@
             <!-- /.col-lg-12 -->
         </div>
     </div>
+
+
+    <div class="modal fade" id="newBannerModel">
+        <form enctype="multipart/form-data" id="bannerForm" class="row-border form-horizontal" method="post"  action="">
+            {!! csrf_field() !!}
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modelTitle"></h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="name" name="name" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">赠送金额</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="sum" name="sum" placeholder="请输入赠送金额">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">状态</label>
+                            <div class="col-sm-9">
+                                <label class="radio-inline radio">
+                                    <input type="radio"  name="status" id="statusRadios1" value="1" required>开启
+                                </label>
+                                <label class="radio-inline radio">
+                                    <input type="radio" name="status" id="statusRadios2" value="0" required>关闭
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn_first" >提交</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
+    </div><!-- /.modal -->
 
 
 @endsection

@@ -104,7 +104,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/boot_page/store', 'Admin\BootPageController@store');
 
         Route::get('/gift_token_setting/', 'Admin\GiftTokenSettingController@show');
-        Route::get('/gift_token_setting/update/{id}', 'Admin\GiftTokenSettingController@update');
+        Route::get('/gift_token_setting/detail/{id}', 'Admin\GiftTokenSettingController@detail');
+        Route::post('/gift_token_setting/update/{id}', 'Admin\GiftTokenSettingController@update');
 
         Route::get('/banner/', 'Admin\BannerController@show');
         Route::get('/banner/index', 'Admin\BannerController@index');
