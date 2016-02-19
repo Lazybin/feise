@@ -471,12 +471,12 @@ class OrdersController extends Controller
     {
 
 
-        $parameters["appId"]='wxad2738e1199a71b8';
+        $parameters["appid"]='wxad2738e1199a71b8';
         $parameters['partnerid']='1312519501';
         $parameters['prepayid']=$prepay_id;
-        $parameters["timeStamp"]=time();
-        $parameters["nonceStr"]=$this->greatRand();//随机字符串，丌长于 32 位
         $parameters["package"]="Sign=WXPay";
+        $parameters["noncestr"]=$this->greatRand();//随机字符串，丌长于 32 位
+        $parameters["timestamp"]=time();
         $parameters['sign']=$this->getWeiXinSign($parameters);
         $prepayid=(array)$prepay_id;
         $parameters['prepayid']=$prepayid;
