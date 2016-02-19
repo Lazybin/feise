@@ -428,6 +428,13 @@ class OrdersController extends Controller
      *         paramType="query",
      *         required=true,
      *         type="string"
+     *     ),
+     *     @SWG\Parameter(
+     *         name="type",
+     *         description="支付方式0-->支付宝，1--->微信，2--->银联",
+     *         paramType="query",
+     *         required=true,
+     *         type="string"
      *     )
      *   )
      * )
@@ -436,14 +443,214 @@ class OrdersController extends Controller
     {
         $response=new BaseResponse();
         $out_trade_no=$request->input('out_trade_no');
-        if($out_trade_no==null){
+        $type=$request->input('type');
+
+        if($out_trade_no==null||$type==null){
             $response->Code=BaseResponse::CODE_ERROR_CHECK;
             $response->Message='缺少参数';
             return $response->toJson();
         }
-        $data['payInfo']=$this->getPayInfoStr($out_trade_no);
+        if($type==0){
+            $data['payInfo']=$this->getPayInfoStr($out_trade_no);
+        }else if($type==1){
+            $t=$this->generateWeiXinPrepayOrder($out_trade_no);
+            if($t==false)
+            {
+                $response->Code=BaseResponse::CODE_ERROR_CHECK;
+                $response->Message='服务器内部错误，错误码：108';
+                return $response->toJson();
+            }
+            $data['payInfo']=$this->getWeiXinPayParameter($t['responseObj']->prepay_id);
+        }else{
+            $data['payInfo']=null;
+        }
         $response->Data=$data;
         return $response->toJson();
+    }
+    public function getWeiXinPayParameter($prepay_id)
+    {
+
+        $parameters["appId"]='wxad2738e1199a71b8';
+        $parameters['partnerid']='1312519501';
+        $parameters['prepayid']=$prepay_id;
+        $parameters["timeStamp"]="time()";
+        $parameters["nonceStr"]=$this->greatRand();//随机字符串，丌长于 32 位
+        $parameters["package"]="Sign=WXPay";
+        $parameters['sign']=$this->getWeiXinSign($parameters);
+        //$parameters['paySign']=$sign;
+        return $parameters;
+    }
+
+    /**
+     * 生成随机数
+     *
+     */
+    public function greatRand($len=30){
+        $str = '1234567890abcdefghijklmnopqrstuvwxyz';
+        $t1='';
+        for($i=0;$i<$len;$i++){
+            $j=rand(0,35);
+            $t1 .= $str[$j];
+        }
+        return $t1;
+    }
+
+    private function getWeiXinSign($parameters){
+        $partnerkey="bc7296f8811efdf31c35da2c5d48d316";
+
+        if (null == $partnerkey || "" == $partnerkey ) {
+            return false;
+        }
+
+        ksort($parameters);
+        $unSignParaString=$this->formatQueryParaMap($parameters, false);
+        return $this->sign($unSignParaString,$partnerkey);
+
+    }
+    private function sign($content, $key) {
+        if (null == $key) {
+            return false;
+        }
+        if (null == $content) {
+            return false;
+        }
+        $signStr = $content . "&key=" . $key;
+
+        return strtoupper(md5($signStr));
+
+    }
+
+    private function formatQueryParaMap($paraMap, $urlencode){
+        $buff = "";
+        ksort($paraMap);
+        foreach ($paraMap as $k => $v){
+            if (null != $v && "null" != $v && "sign" != $k) {
+                if($urlencode){
+                    $v = urlencode($v);
+                }
+                $buff .= $k . "=" . $v . "&";
+            }
+        }
+        $reqPar="";
+        if (strlen($buff) > 0) {
+            $reqPar = substr($buff, 0, strlen($buff)-1);
+        }
+        return $reqPar;
+    }
+    function arrayToXml($arr)
+    {
+        $xml = "<xml>";
+        foreach ($arr as $key=>$val)
+        {
+            if (is_numeric($val))
+            {
+                $xml.="<".$key.">".$val."</".$key.">";
+
+            }
+            else{
+                $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
+            }
+        }
+        $xml.="</xml>";
+        return $xml;
+    }
+
+    private function generateWeiXinPrepayOrder($out_trade_no)
+    {
+        $order=Order::where('out_trade_no',$out_trade_no)->first();
+
+        $parameters["appid"]='wxad2738e1199a71b8';
+        $parameters["mch_id"]='1312519501';
+        $parameters["nonce_str"]=$this->greatRand();
+
+        $subject='';
+        $goodsList=$order->goods_list;
+        foreach($goodsList as $g){
+            $subject.=$g['goods']['name'].'+';
+        }
+        if(mb_strlen($subject)>120){
+            $subject=mb_substr($subject,0,120,'utf-8');
+            $subject.='...';
+        }else{
+            $subject=mb_substr($subject,0,mb_strlen($subject)-1,'utf-8');
+        }
+
+
+        $parameters["body"]=$subject;
+        $parameters["attach"]='';
+        $parameters["total_fee"]=1;
+        $parameters["trade_type"]="APP";
+        $parameters["notify_url"]="http://120.27.199.121/feise/public/api/v1/orders/weixin_notify";
+
+        $parameters["out_trade_no"]=$out_trade_no;
+
+        $parameters["spbill_create_ip"]="127.0.0.1";
+
+        $sign=$this->getWeiXinSign($parameters);
+        if($sign!=false)
+        {
+            $parameters['sign']=$sign;
+            $postXml= $this->arrayToXml($parameters);
+            if($postXml==false)
+            {
+                return false;
+            }
+
+            $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+            $responseXml = $this->curlPostSsl($url, $postXml);
+            $responseObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+            if($responseObj->return_code=='SUCCESS'&&$responseObj->result_code=='SUCCESS')
+            {
+                $ret['responseObj']=$responseObj;
+                $ret['out_trade_no']= $parameters["out_trade_no"];
+                return $ret;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+    private function curlPostSsl($url, $vars, $second=30,$aHeader=array())
+    {
+        $ch = curl_init();
+        //超时时间
+        curl_setopt($ch,CURLOPT_TIMEOUT,$second);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+        //这里设置代理，如果有的话
+        curl_setopt($ch,CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,false);
+
+        //cert 与 key 分别属于两个.pem文件
+//        curl_setopt($ch,CURLOPT_SSLCERT,dirname(__FILE__).DIRECTORY_SEPARATOR.'zhengshu'.DIRECTORY_SEPARATOR.'apiclient_cert.pem');
+//        curl_setopt($ch,CURLOPT_SSLKEY,dirname(__FILE__).DIRECTORY_SEPARATOR.'zhengshu'.DIRECTORY_SEPARATOR.'apiclient_key.pem');
+//        curl_setopt($ch,CURLOPT_CAINFO,dirname(__FILE__).DIRECTORY_SEPARATOR.'zhengshu'.DIRECTORY_SEPARATOR.'rootca.pem');
+
+
+        if( count($aHeader) >= 1 ){
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $aHeader);
+        }
+
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$vars);
+        $data = curl_exec($ch);
+        if($data){
+            curl_close($ch);
+            return $data;
+        }
+        else {
+            $error = curl_errno($ch);
+            curl_close($ch);
+            return false;
+        }
     }
 
     /**
