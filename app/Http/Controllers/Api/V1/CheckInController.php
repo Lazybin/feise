@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Model\BaseResponse;
 use App\Model\CheckInRecords;
+use App\Model\GiftTokenSetting;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -76,6 +77,14 @@ class CheckInController extends Controller
                 $records->user_id=$user_id;
                 $records->save();
                 $ret['result']=1;
+                //签到成功，赠送礼券
+                $giftTokenSetting=GiftTokenSetting::find(3);
+                if($giftTokenSetting!=null&&$giftTokenSetting->status==1){
+                    //赠送礼券接口
+                    //存储记录
+                }
+
+
                 $response->Data=$ret;
             }
         }
