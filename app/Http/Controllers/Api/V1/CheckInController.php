@@ -93,6 +93,21 @@ class CheckInController extends Controller
 
     }
 
+    private function post($url,$data=null)
+    {
+        $request_url=$url;
+        $ch = curl_init ();
+        curl_setopt ( $ch, CURLOPT_URL, $request_url );
+        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
+        curl_setopt ( $ch, CURLOPT_CONNECTTIMEOUT, 10 );
+        curl_setopt ( $ch, CURLOPT_POST, 1 ); //启用POST提交
+        if($data!=null)
+            curl_setopt ( $ch, CURLOPT_POSTFIELDS, $data );
+        $file_contents = curl_exec ( $ch );
+        curl_close ( $ch );
+        return $file_contents;
+    }
+
     /**
      * Display the specified resource.
      *
