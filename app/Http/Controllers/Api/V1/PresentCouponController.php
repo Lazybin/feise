@@ -111,7 +111,7 @@ class PresentCouponController extends Controller
                 $couponRecrods->user_id=$user_id;
                 $couponRecrods->account=$account;
                 $couponRecrods->sum=$giftTokenSetting->sum;
-                $couponRecrods->type=3;
+                $couponRecrods->type=$type;
                 $couponRecrods->save();
                 $ret['sum']=$giftTokenSetting->sum;
 
