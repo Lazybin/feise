@@ -202,6 +202,9 @@
             $("#original_price").val('');
 
             $("#useCouponRadios1").attr("checked","checked");
+            $("#isTaobaokeRadios1").attr("checked","checked");
+            $("#platform").val(-1);
+            $("#taobaoke_url").val('');
             $("#coupon_amount").val('');
             $("#num").val('');
             $("#express_way").val(1);
@@ -270,6 +273,14 @@
                         }else{
                             $("#returnedGoodsRadios2").attr("checked","checked");
                         }
+
+                        if(recv.meta.data.is_taobaoke==1){
+                            $("#isTaobaokeRadios1").attr("checked","checked");
+                        }else{
+                            $("#isTaobaokeRadios2").attr("checked","checked");
+                        }
+                        $("#platform").val(recv.meta.data.platform);
+                        $("#taobaoke_url").val(recv.meta.data.taobaoke_url);
 
                         $("#activityClassification").val(recv.meta.data.activityClassification);
 
@@ -599,6 +610,32 @@
                                 <label for="inputGoodsName" class="col-sm-2 control-label">抵用金额</label>
                                 <div class="col-sm-4">
                                     <input type="text" value="0" class="form-control" id="coupon_amount" name="coupon_amount" placeholder="请输入抵用金额">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputGoodsName" class="col-sm-2 control-label">淘宝客商品</label>
+                                <div class="col-sm-3">
+                                    <label class="radio-inline">
+                                        <input type="radio"  name="is_taobaoke" id="isTaobaokeRadios1" value="1">是
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="is_taobaoke" id="isTaobaokeRadios2" value="0">不是
+                                    </label>
+                                </div>
+                                <label for="inputGoodsName" class="col-sm-2 control-label">平台</label>
+                                <div class="col-sm-4">
+                                    <select name="platform" id="platform" class="form-control" >
+                                        <option value="-1" selected>请选择平台</option>
+                                        <option value="1">淘宝</option>
+                                        <option value="2">京东</option>
+                                        <option value="3">天猫</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputGoodsName" class="col-sm-2 control-label">淘宝客链接</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="taobaoke_url" name="taobaoke_url" placeholder="请输入淘宝客链接">
                                 </div>
                             </div>
                             <div class="form-group">

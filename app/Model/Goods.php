@@ -28,6 +28,9 @@ class Goods extends Model
      * @SWG\Property(name="collect_count",type="integer",description="收藏数")
      * @SWG\Property(name="comments_count",type="integer",description="评论数")
      * @SWG\Property(name="share_times",type="integer",description="分享次数")
+     * @SWG\Property(name="is_taobaoke",type="integer",description="是否是淘宝客商品 0：不是，1：是")
+     * @SWG\Property(name="platform",type="integer",description="平台：1淘宝，2京东，3天猫")
+     * @SWG\Property(name="taobaoke_url",type="integer",description="淘宝客链接")
      * @SWG\Property(name="has_collection",type="integer",description="是否收藏，0-》未收藏，1-》已收藏")
      * @SWG\Property(name="detailed_introduction",type="string",description="详细描述（富文本框）")
      * @SWG\Property(name="category",type="string",description="所属分类 id-->分类id，name-->分类名称")
@@ -36,7 +39,7 @@ class Goods extends Model
      * @SWG\Property(name="comments",type="array",description="评论列表")
      */
     protected $fillable = [
-        'name','price','category_id','evaluation_person_image','evaluation_content','cover','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','goods_description','detailed_introduction','num','share_times'
+        'name','price','category_id','evaluation_person_image','evaluation_content','cover','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','goods_description','detailed_introduction','num','share_times','is_taobaoke','platform','taobaoke_url'
     ];
 
     protected $appends=['category','properties','images','collect_count','comments_count'];

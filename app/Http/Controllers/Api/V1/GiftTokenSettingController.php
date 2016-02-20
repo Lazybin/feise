@@ -42,7 +42,7 @@ class GiftTokenSettingController extends Controller
     {
         $id=$request->input('id');
         $response=new BaseResponse();
-        $status=GiftTokenSetting::select('status')->find($id);
+        $status=GiftTokenSetting::find($id);
         $response->Data=$status;
         return $response->toJson();
     }

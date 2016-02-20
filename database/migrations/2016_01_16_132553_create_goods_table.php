@@ -29,6 +29,10 @@ class CreateGoodsTable extends Migration
             $table->tinyInteger('returned_goods');//是否支持七天无理由退货 0：不支持，1：支持
             $table->text('description')->nullable();//商品描述
             $table->text('detailed_introduction')->nullable();//详细描述（富文本框）
+            $table->tinyInteger('is_taobaoke')->nullable();//是否是淘宝客商品 0：不是，1：是
+            $table->tinyInteger('platform')->nullable();//平台：1淘宝，2京东，3天猫
+            $table->string('taobaoke_url')->nullable();//淘宝客链接
+
             $table->integer('num');//库存
             $table->timestamps();
         });
