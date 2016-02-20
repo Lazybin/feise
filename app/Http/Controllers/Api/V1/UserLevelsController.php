@@ -77,7 +77,12 @@ class UserLevelsController extends Controller
     {
         $response=new BaseResponse();
         $sum=Order::select(DB::raw('SUM(total_fee) as total_pay'))->where('user_id',$id)->where('status',4)->first()->toArray();
-        $sum=$sum['total_pay'];
+        if($sum==null||$sum['total_pay']==null){
+            $sum=0;
+        }else{
+            $sum=$sum['total_pay'];
+        }
+
         $level=UserLevel::where('sum_lowest','<=',$sum)->where('sum_highest','>',$sum)->first()->toArray();
         $ret['level']=$level['name'];
         $response->Data=$ret;
