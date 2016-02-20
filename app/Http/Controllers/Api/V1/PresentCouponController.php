@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Model\BaseResponse;
 use App\Model\GiftTokenSetting;
 use App\Model\PresentCouponRecords;
+use App\Model\ShippingAddress;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -91,9 +92,15 @@ class PresentCouponController extends Controller
         if($user_id!=-1||$user_id!=0){
             //检测是否赠送过
             $hasRecords=PresentCouponRecords::where('user_id',$user_id)->where('type',$type)->first();
+            $shippingAddress=ShippingAddress::where('user_id',$user_id)->first();
+            if($shippingAddress==null){//未填写收货地址
+                $ret['sum']=-1;
+                $response->Data=$ret;
+                return $response->toJson();
+            }
             if($hasRecords!=null){
-                $response->Code=BaseResponse::CODE_ERROR_AUTH;
-                $response->Message='已经赠送过了';
+                $ret['sum']=-1;
+                $response->Data=$ret;
                 return $response->toJson();
             }
             $giftTokenSetting=GiftTokenSetting::find($type);

@@ -53,8 +53,8 @@
                         "mRender": function (data, type, full)
                         {
                             var id = full.id;
-                            return '<button type="button" onclick="onEditClick(\''+id+'\')" class="btn btn-primary btn-xs">编辑</button>'+
-                                    '<button type="button" onclick="onDelete(\''+id+'\')" class="btn btn-danger btn-xs">删除</button>';
+                            return '<button type="button" onclick="onEditClick(\''+id+'\')" class="btn btn-primary btn-xs">编辑</button>';
+//                                    '<button type="button" onclick="onDelete(\''+id+'\')" class="btn btn-danger btn-xs">删除</button>';
                         }
                     },
                     {
@@ -159,14 +159,14 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         会员等级列表
-                        <div style="margin-top: -5px;" class="btn-group pull-right">
-                            <button onclick="onAddClick();"  class="btn btn-primary btn-circle">
-                                <i class="glyphicon glyphicon-plus"></i>
-                            </button>
-                            <button onclick="reload()" class="btn btn-default btn-circle">
-                                <i class="fa fa-refresh"></i>
-                            </button>
-                        </div>
+                        {{--<div style="margin-top: -5px;" class="btn-group pull-right">--}}
+                            {{--<button onclick="onAddClick();"  class="btn btn-primary btn-circle">--}}
+                                {{--<i class="glyphicon glyphicon-plus"></i>--}}
+                            {{--</button>--}}
+                            {{--<button onclick="reload()" class="btn btn-default btn-circle">--}}
+                                {{--<i class="fa fa-refresh"></i>--}}
+                            {{--</button>--}}
+                        {{--</div>--}}
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -208,12 +208,12 @@
                     </div>
                     <div class="modal-body">
 
-                        <div class="form-group">
-                            <label for="inputGoodsName" class="col-sm-2 control-label">等级名称</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="请输入等级名称">
-                            </div>
-                        </div>
+                        {{--<div class="form-group">--}}
+                            {{--<label for="inputGoodsName" class="col-sm-2 control-label">等级名称</label>--}}
+                            {{--<div class="col-sm-10">--}}
+                                {{--<input type="text" class="form-control" id="name" name="name" placeholder="请输入等级名称">--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
 
                         <div class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">金额区间</label>

@@ -35,7 +35,7 @@ class UserLevelsController extends Controller
     {
         $params=$request->all();
         $level=new UserLevel();
-        $level->name=$params['name'];
+        //$level->name=$params['name'];
         $level->sum_lowest=$params['sum_lowest'];
         $level->sum_highest=$params['sum_highest'];
         $level->save();
@@ -55,7 +55,7 @@ class UserLevelsController extends Controller
         $params=$request->all();
         $level=UserLevel::find($id);
         if($level!=null){
-            $level->name=$params['name'];
+            //$level->name=$params['name'];
             $level->sum_lowest=$params['sum_lowest'];
             $level->sum_highest=$params['sum_highest'];
             $level->save();

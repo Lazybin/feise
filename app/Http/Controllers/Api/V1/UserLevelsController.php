@@ -84,7 +84,8 @@ class UserLevelsController extends Controller
         }
 
         $level=UserLevel::where('sum_lowest','<=',$sum)->where('sum_highest','>',$sum)->first()->toArray();
-        $ret['level']=$level['name'];
+        $ret['level']=$level['id'];
+        $ret['sum']=$sum;
         $response->Data=$ret;
         return $response->toJson();
     }
