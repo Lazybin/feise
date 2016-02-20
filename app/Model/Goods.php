@@ -32,6 +32,7 @@ class Goods extends Model
      * @SWG\Property(name="platform",type="integer",description="平台：1淘宝，2京东，3天猫")
      * @SWG\Property(name="taobaoke_url",type="integer",description="淘宝客链接")
      * @SWG\Property(name="has_collection",type="integer",description="是否收藏，0-》未收藏，1-》已收藏")
+     * @SWG\Property(name="is_yuehui",type="integer",description="是否是约惠商品，0-》不是，1-》是")
      * @SWG\Property(name="detailed_introduction",type="string",description="详细描述（富文本框）")
      * @SWG\Property(name="category",type="string",description="所属分类 id-->分类id，name-->分类名称")
      * @SWG\Property(name="properties",type="array",description="所属分类 id-->分类id，name-->属性名字，type-->属性类型 0->选项 1->数字，properties-->属性对应的值列表(id->值id,value-->名称)")
@@ -42,7 +43,7 @@ class Goods extends Model
         'name','price','category_id','evaluation_person_image','evaluation_content','cover','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','goods_description','detailed_introduction','num','share_times','is_taobaoke','platform','taobaoke_url'
     ];
 
-    protected $appends=['category','properties','images','collect_count','comments_count'];
+    protected $appends=['category','properties','images','collect_count','comments_count','is_yuehui'];
 
     public function category()
     {
@@ -56,6 +57,17 @@ class Goods extends Model
             return '';
         }
         return $category->toArray();
+    }
+    public function getIsYuehuiAttribute()
+    {
+        if(ActivityClassificationGoods::where('goods_id',$this->id)->count()>0||
+            FreePostGoods::where('goods_id',$this->id)->count()>0||
+            ConversionGoods::where('goods_id',$this->id)->count()>0
+        ){
+            return 1;
+        }else{
+            return 0;
+        }
     }
     public function getPropertiesAttribute()
     {

@@ -24,7 +24,7 @@ class GiftTokenSettingController extends Controller
      * @SWG\Api(
      *   path="/setting/gift_token_setting",
      *   @SWG\Operation(
-     *     method="GET", summary="返回礼券获取开启状态", notes="返回礼券获取开启状态",
+     *     method="GET", summary="返回礼券获取开启状态", notes="返回礼券获取开启状态",type="GiftTokenSetting",
      *     @SWG\ResponseMessage(code=404, message="page not found"),
      *     @SWG\Parameter(
      *         name="id",
