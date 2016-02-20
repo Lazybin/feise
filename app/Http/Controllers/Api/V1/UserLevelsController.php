@@ -59,7 +59,7 @@ class UserLevelsController extends Controller
      *   path="/user_levels/{user_id}",
      *   description="用户等级(新20160220)",
      *   @SWG\Operation(
-     *     method="GET", summary="查询用户等级", notes="查询用户等级",
+     *     method="GET", summary="查询用户等级", notes="查询用户等级 level代表用户当前等级（1-5中的一个）sum代表用户消费总金额",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="user_id",
