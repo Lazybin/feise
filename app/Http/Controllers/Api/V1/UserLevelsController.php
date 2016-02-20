@@ -60,7 +60,6 @@ class UserLevelsController extends Controller
      *   description="用户等级(新20160220)",
      *   @SWG\Operation(
      *     method="GET", summary="查询用户等级", notes="查询用户等级",
-     *     type="Goods",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="user_id",
