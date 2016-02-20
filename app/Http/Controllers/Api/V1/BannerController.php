@@ -23,7 +23,7 @@ class BannerController extends Controller
      *
      * @SWG\Api(
      *   path="/setting/banner",
-     *   description="系统设置",
+     *   description="系统设置（更新20160210）",
      *   @SWG\Operation(
      *     method="GET", type="Banner",summary="取得banner", notes="返回的为相对路径，使用时请在前面加上http://120.27.199.121/feise/public",
      *     @SWG\ResponseMessage(code=0, message=""),
