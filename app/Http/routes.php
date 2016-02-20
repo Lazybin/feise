@@ -63,6 +63,9 @@ Route::group(['middleware' => ['api']], function () {
     Route::resource('api/v1/comments','Api\V1\UserCommentsController');
 
     Route::resource('api/v1/check_in','Api\V1\CheckInController');
+
+    Route::resource('api/v1/present_coupon','Api\V1\PresentCouponController');
+    Route::resource('api/v1/user_levels','Api\V1\UserLevelsController');
 });
 
 

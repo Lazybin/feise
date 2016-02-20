@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Model\BaseResponse;
-use App\Model\CheckInRecords;
 use App\Model\GiftTokenSetting;
 use App\Model\PresentCouponRecords;
 use Illuminate\Http\Request;
@@ -15,11 +14,11 @@ use App\Http\Controllers\Controller;
  * @SWG\Resource(
  *     apiVersion="0.2",
  *     swaggerVersion="1.2",
- *     resourcePath="/check_in",
+ *     resourcePath="/present_coupon",
  *     basePath="http://120.27.199.121/feise/public/api/v1"
  * )
  */
-class CheckInController extends Controller
+class PresentCouponController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -44,10 +43,10 @@ class CheckInController extends Controller
     /**
      *
      * @SWG\Api(
-     *   path="/check_in",
-     *   description="普通签到（新20160218）",
+     *   path="/present_coupon",
+     *   description="赠送礼券（新20160220）",
      *   @SWG\Operation(
-     *     method="POST", summary="签到", notes="签到，如果已经签过到或者没有登录，data=0，如果签到成功data=1",
+     *     method="POST", summary="赠送礼券", notes="赠送礼券",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="user_id",
@@ -70,6 +69,13 @@ class CheckInController extends Controller
      *         required=true,
      *         allowMultiple=false,
      *         type="string"
+     *     ),@SWG\Parameter(
+     *         name="type",
+     *         description="类型，1--》注册赠送礼券，2---》完善资料赠送",
+     *         paramType="query",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="string"
      *     )
      *   )
      * )
@@ -79,48 +85,41 @@ class CheckInController extends Controller
         $response=new BaseResponse();
         $user_id=$request->input('user_id',-1);
         $account=$request->input('account');
+        $type=$request->input('type');
         $accessToken=$request->input('access_token');
-        $ret['result']=0;
-        $response->Data=$ret;
+
         if($user_id!=-1||$user_id!=0){
-            $t = time();
-            $start = mktime(0,0,0,date("m",$t),date("d",$t),date("Y",$t));
-            $end = mktime(23,59,59,date("m",$t),date("d",$t),date("Y",$t));
-            $today=CheckInRecords::where('user_id',$user_id)->where('created_at','>=',date('Y-m-d H:i:s',$start))
-                ->where('created_at','<=',date('Y-m-d H:i:s',$end))->first();
+            //检测是否赠送过
+            $hasRecords=PresentCouponRecords::where('user_id',$user_id)->where('type',$type)->first();
+            if($hasRecords!=null){
+                $response->Code=BaseResponse::CODE_ERROR_AUTH;
+                $response->Message='已经赠送过了';
+                return $response->toJson();
+            }
+            $giftTokenSetting=GiftTokenSetting::find($type);
+            if($giftTokenSetting!=null&&$giftTokenSetting->status==1){
+                //赠送礼券接口
+                $apiParam=[
+                    'accessToken'=>$accessToken,
+                    'coupon'=>$giftTokenSetting->sum,
+                    'expiry'=>date('Y-m-d H:i:s' ,strtotime('+3 month'))
+                ];
+                $this->post($apiParam);
 
-            if($today==null){
-                $records=new CheckInRecords();
-                $records->user_id=$user_id;
-                $records->save();
-                $ret['result']=1;
-                //签到成功，赠送礼券
-                $giftTokenSetting=GiftTokenSetting::find(3);
-                if($giftTokenSetting!=null&&$giftTokenSetting->status==1){
-                    //赠送礼券接口
-                    $apiParam=[
-                        'accessToken'=>$accessToken,
-                        'coupon'=>$giftTokenSetting->sum,
-                        'expiry'=>date('Y-m-d H:i:s' ,strtotime('+3 month'))
-                    ];
-                    $this->post($apiParam);
-
-                    //存储记录
-                    $couponRecrods=new PresentCouponRecords();
-                    $couponRecrods->user_id=$user_id;
-                    $couponRecrods->account=$account;
-                    $couponRecrods->sum=$giftTokenSetting->sum;
-                    $couponRecrods->type=3;
-                    $couponRecrods->save();
-                }
-
+                //存储记录
+                $couponRecrods=new PresentCouponRecords();
+                $couponRecrods->user_id=$user_id;
+                $couponRecrods->account=$account;
+                $couponRecrods->sum=$giftTokenSetting->sum;
+                $couponRecrods->type=3;
+                $couponRecrods->save();
+                $ret['sum']=$giftTokenSetting->sum;
 
                 $response->Data=$ret;
             }
         }
 
         return $response->toJson();
-
     }
 
     private function post($data=null)

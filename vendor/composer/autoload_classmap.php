@@ -29,6 +29,7 @@ return array(
     'CreateOrderGoodsTable' => $baseDir . '/database/migrations/2016_01_22_091639_create_order_goods_table.php',
     'CreateOrdersTable' => $baseDir . '/database/migrations/2016_01_22_085306_create_orders_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+    'CreatePresentCouponRecordsTable' => $baseDir . '/database/migrations/2016_02_20_125916_create_present_coupon_records_table.php',
     'CreateRefundsTable' => $baseDir . '/database/migrations/2016_01_30_143447_create_refunds_table.php',
     'CreateSearchRecordsTable' => $baseDir . '/database/migrations/2016_02_18_162517_create_search_records_table.php',
     'CreateShippingAddressesTable' => $baseDir . '/database/migrations/2016_02_01_144521_create_shipping_addresses_table.php',
