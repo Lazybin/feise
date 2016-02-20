@@ -93,7 +93,7 @@ class PresentCouponController extends Controller
             //检测是否赠送过
             $hasRecords=PresentCouponRecords::where('user_id',$user_id)->where('type',$type)->first();
             $shippingAddress=ShippingAddress::where('user_id',$user_id)->first();
-            if($shippingAddress==null){//未填写收货地址
+            if($type==2&&$shippingAddress==null){//未填写收货地址
                 $ret['sum']=-1;
                 $response->Data=$ret;
                 return $response->toJson();
