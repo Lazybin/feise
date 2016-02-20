@@ -47,7 +47,8 @@ class PresentCouponController extends Controller
      *   path="/present_coupon",
      *   description="赠送礼券（新20160220）",
      *   @SWG\Operation(
-     *     method="POST", summary="赠送礼券", notes="赠送礼券",
+     *     method="POST", summary="赠送礼券", notes="赠送礼券,sum值-1 是未填写收货地址 -2是已经赠送过 -3是关闭赠送  非负是 赠送成功
+    ",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="user_id",
@@ -99,7 +100,7 @@ class PresentCouponController extends Controller
                 return $response->toJson();
             }
             if($hasRecords!=null){
-                $ret['sum']=-1;
+                $ret['sum']=-2;
                 $response->Data=$ret;
                 return $response->toJson();
             }
@@ -123,6 +124,10 @@ class PresentCouponController extends Controller
                 $ret['sum']=$giftTokenSetting->sum;
 
                 $response->Data=$ret;
+            }else{
+                $ret['sum']=-3;
+                $response->Data=$ret;
+                return $response->toJson();
             }
         }
 
