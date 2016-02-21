@@ -512,7 +512,7 @@ class OrdersController extends Controller
             if ($result_arr["respCode"] == "00"){
                 //成功
                 //TODO
-                $data['yinlianPayInfo']="".$result_arr["tn"]."";
+                $data['yinlianPayInfo']="".(string)$result_arr["tn"]."";
             } else {
                 $response->Code=BaseResponse::CODE_ERROR_CHECK;
                 $response->Message='服务器内部错误，错误码：108';
