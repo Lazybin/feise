@@ -521,7 +521,7 @@ class OrdersController extends Controller
 
         }
         $response->Data=$data;
-        $response->rows=[];
+        $response->rows=null;
         return $response->toJson();
     }
     public function getWeiXinPayParameter($prepay_id)
