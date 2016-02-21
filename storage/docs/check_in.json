@@ -1,0 +1,52 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/check_in",
+    "apis": [
+        {
+            "path": "/check_in",
+            "description": "\u666e\u901a\u7b7e\u5230\uff08\u65b020160218\uff09",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "\u7b7e\u5230",
+                    "nickname": "store",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "user_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237id"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "access_token",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "accessToken"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "account",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237\u8d26\u53f7"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u7b7e\u5230\uff0c\u5982\u679c\u5df2\u7ecf\u7b7e\u8fc7\u5230\u6216\u8005\u6ca1\u6709\u767b\u5f55\uff0cdata=0\uff0c\u5982\u679c\u7b7e\u5230\u6210\u529fdata=1"
+                }
+            ]
+        }
+    ]
+}

@@ -28,7 +28,7 @@
                             "type": "integer",
                             "required": false,
                             "allowMultiple": false,
-                            "description": "0---\u300b\u5f85\u652f\u4ed8\uff0c1--\u300b\u5df2\u652f\u4ed8\uff0c\u4ee3\u53d1\u8d27\uff0c2--\u300b\u53d6\u6d88\uff0c3-->\u5df2\u53d1\u8d27\uff0c4---\u300b\u5ba2\u6237\u5df2\u7b7e\u6536\uff0c\u4ea4\u6613\u5b8c\u6210\uff0c5--->\u5f85\u53d1\u8d27\u7533\u8bf7\u9000\u6b3e\uff0c6----\u300b\u5df2\u53d1\u8d27\u7533\u8bf7\u9000\u6b3e",
+                            "description": "\u72b6\u6001\uff0c-1\uff1a\u5168\u90e8\uff0c1\uff1a\u5f85\u53d1\u8d27,3\uff1a\u5df2\u53d1\u8d27,4\uff1a\u5386\u53f2\u8ba2\u5355",
                             "defaultValue": -1
                         },
                         {
@@ -97,6 +97,13 @@
                             "type": "string",
                             "required": true,
                             "description": "\u8ba2\u5355\u53f7"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "type",
+                            "type": "string",
+                            "required": true,
+                            "description": "\u652f\u4ed8\u65b9\u5f0f0-->\u652f\u4ed8\u5b9d\uff0c1--->\u5fae\u4fe1\uff0c2--->\u94f6\u8054"
                         }
                     ],
                     "responseMessages": [
@@ -169,6 +176,27 @@
                         }
                     ],
                     "notes": "\u66f4\u65b0\u8ba2\u5355\u72b6\u6001"
+                },
+                {
+                    "method": "DELETE",
+                    "summary": "\u5220\u9664\u8ba2\u5355",
+                    "nickname": "destroy",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "out_trade_no",
+                            "type": "string",
+                            "required": true,
+                            "description": "\u8ba2\u5355\u53f7"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u5220\u9664\u8ba2\u5355"
                 }
             ]
         }
@@ -205,8 +233,12 @@
                     "description": "\u8981\u652f\u4ed8\u91d1\u989d",
                     "type": "integer"
                 },
+                "shipping_fee": {
+                    "description": "\u603b\u8fd0\u8d39",
+                    "type": "integer"
+                },
                 "status": {
-                    "description": "\u72b6\u6001\uff1a0--\u300b\u672a\u652f\u4ed8\uff0c1--\u300b\u5df2\u652f\u4ed8\uff0c2--\u300b\u53d6\u6d88\uff0c3-->\u5df2\u53d1\u8d27\uff0c4---\u300b\u5ba2\u6237\u5df2\u7b7e\u6536\uff0c\u4ea4\u6613\u5b8c\u6210\uff0c5--->\u7533\u8bf7\u9000\u8d27",
+                    "description": "\u72b6\u6001\uff1a0--\u300b\u672a\u652f\u4ed8\uff0c1--\u300b\u5f85\u53d1\u8d27\uff0c2--\u300b\u53d6\u6d88\uff0c3-->\u5df2\u53d1\u8d27\uff0c4---\u300b\u5ba2\u6237\u5df2\u7b7e\u6536\uff0c\u4ea4\u6613\u5b8c\u6210\uff0c5--->\u7533\u8bf7\u9000\u8d27",
                     "type": "integer"
                 },
                 "payment_time": {

@@ -2,34 +2,52 @@
     "basePath": "http://120.27.199.121/feise/public/api/v1",
     "swaggerVersion": "1.2",
     "apiVersion": "0.2",
-    "resourcePath": "/goods",
+    "resourcePath": "/collection",
     "apis": [
         {
-            "path": "/goods/{id}",
-            "description": "\u5546\u54c1",
+            "path": "/collection",
+            "description": "\u6536\u85cf",
             "operations": [
                 {
                     "method": "GET",
-                    "summary": "\u83b7\u5f97\u5546\u54c1\u8be6\u60c5",
-                    "nickname": "show",
-                    "type": "Goods",
+                    "summary": "\u83b7\u5f97\u7528\u6237\u6536\u85cf\u5217\u8868",
+                    "nickname": "index",
+                    "type": "Collection",
                     "parameters": [
-                        {
-                            "paramType": "path",
-                            "name": "id",
-                            "type": "integer",
-                            "required": true,
-                            "allowMultiple": false,
-                            "description": "\u5546\u54c1id"
-                        },
                         {
                             "paramType": "query",
                             "name": "user_id",
                             "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237id"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "type",
+                            "type": "integer",
                             "required": false,
                             "allowMultiple": false,
-                            "description": "\u7528\u6237id",
-                            "defaultValue": -1
+                            "description": "\u7c7b\u578b\uff0c0---\u300b\u5546\u54c1 1---\u300b\u4e3b\u9898",
+                            "defaultValue": 0
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PageNum",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u5206\u9875\u5f00\u59cb\u4f4d\u7f6e",
+                            "defaultValue": 1
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PerPage",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u53d6\u5f97\u957f\u5ea6",
+                            "defaultValue": 10
                         }
                     ],
                     "responseMessages": [
@@ -38,19 +56,19 @@
                             "message": "\u6210\u529f"
                         }
                     ],
-                    "notes": "\u83b7\u5f97\u5546\u54c1\u8be6\u60c5"
+                    "notes": "\u83b7\u5f97\u7528\u6237\u6536\u85cf\u5217\u8868"
                 },
                 {
-                    "method": "PUT",
-                    "summary": "\u66f4\u65b0\u5206\u4eab\u6b21\u6570",
-                    "nickname": "update",
+                    "method": "POST",
+                    "summary": "\u6dfb\u52a0/\u5220\u9664\u6536\u85cf",
+                    "nickname": "store",
                     "parameters": [
                         {
-                            "paramType": "path",
-                            "name": "id",
-                            "type": "string",
+                            "paramType": "body",
+                            "name": "collection_info",
+                            "type": "newCollection",
                             "required": true,
-                            "description": "\u5546\u54c1id"
+                            "description": "\u63d0\u4ea4\u7684\u6536\u85cf\u4fe1\u606f"
                         }
                     ],
                     "responseMessages": [
@@ -59,12 +77,62 @@
                             "message": "\u6210\u529f"
                         }
                     ],
-                    "notes": "\u66f4\u65b0\u5206\u4eab\u6b21\u6570"
+                    "notes": "\u6dfb\u52a0/\u5220\u9664\u6536\u85cf"
                 }
             ]
         }
     ],
     "models": {
+        "Collection": {
+            "id": "Collection",
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "\u7c7b\u578b\uff0c0---\u300b\u5546\u54c1 1---\u300b\u4e3b\u9898",
+                    "type": "integer"
+                },
+                "item_id": {
+                    "description": "\u9879id",
+                    "type": "integer"
+                },
+                "goods_item": {
+                    "description": "\u6536\u85cf\u7684\u5546\u54c1type=0\u65f6\u6709\u503c",
+                    "$ref": "Goods"
+                },
+                "theme_item": {
+                    "description": "\u6536\u85cf\u7684\u4e3b\u9898type=1\u65f6\u6709\u503c",
+                    "$ref": "Themes"
+                }
+            }
+        },
+        "newCollection": {
+            "id": "newCollection",
+            "properties": {
+                "user_id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "\u7c7b\u578b\uff0c0---\u300b\u5546\u54c1 1---\u300b\u4e3b\u9898",
+                    "type": "integer"
+                },
+                "item_id": {
+                    "description": "\u9879id",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "\u64cd\u4f5c\u7c7b\u578b\uff0c0--\u300b\u5220\u9664\uff0c1---\u300b\u65b0\u589e",
+                    "type": "integer"
+                }
+            }
+        },
         "Goods": {
             "id": "Goods",
             "properties": {
@@ -171,6 +239,71 @@
                 "comments": {
                     "description": "\u8bc4\u8bba\u5217\u8868",
                     "type": "array"
+                }
+            }
+        },
+        "Themes": {
+            "id": "Themes",
+            "properties": {
+                "category": {
+                    "description": "\u5305\u542b\u5546\u54c1",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "\u4e3b\u9898\u540d\u79f0",
+                    "type": "string"
+                },
+                "subhead": {
+                    "description": "\u526f\u6807\u9898",
+                    "type": "string"
+                },
+                "category_id": {
+                    "description": "\u5206\u7c7b\u5bf9\u5e94\u7684id",
+                    "type": "integer"
+                },
+                "cover": {
+                    "description": "\u5c01\u9762\u56fe\u7247",
+                    "type": "string"
+                },
+                "head_image": {
+                    "description": "\u9875\u9762\u9876\u90e8\u56fe\u7247",
+                    "type": "string"
+                },
+                "themes_description": {
+                    "description": "\u4e3b\u9898\u63cf\u8ff0",
+                    "type": "string"
+                },
+                "intro": {
+                    "description": "\u7b80\u4ecb",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "0-->\u666e\u901a\u6a21\u5f0f,1-->\u56fe\u6587\u7ed3\u5408\u6a21\u5f0f",
+                    "type": "integer"
+                },
+                "collect_count": {
+                    "description": "\u6536\u85cf\u6570",
+                    "type": "integer"
+                },
+                "comments_count": {
+                    "description": "\u8bc4\u8bba\u6570",
+                    "type": "integer"
+                },
+                "share_times": {
+                    "description": "\u5206\u4eab\u6b21\u6570",
+                    "type": "integer"
+                },
+                "has_collection": {
+                    "description": "\u662f\u5426\u6536\u85cf\uff0c0-\u300b\u672a\u6536\u85cf\uff0c1-\u300b\u5df2\u6536\u85cf",
+                    "type": "integer"
+                },
+                "is_new": {
+                    "description": "\u662f\u5426\u662f\u4eca\u5929\u53d1\u5e03\u7684 0---\u300b\u5426 1----\u300b\u662f",
+                    "type": "integer"
+                },
+                "goods": {
+                    "description": "\u5305\u542b\u5546\u54c1",
+                    "$ref": "Goods"
                 }
             }
         }

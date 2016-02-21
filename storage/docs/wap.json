@@ -1,0 +1,144 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/wap",
+    "apis": [
+        {
+            "path": "/wap/banner_detail/{id}",
+            "description": "APP WAP \u9875",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "banner\u8be6\u60c5wap",
+                    "nickname": "bannerDetail",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "banner id"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "banner\u8be6\u60c5wap"
+                }
+            ]
+        },
+        {
+            "path": "/wap/goods_detail/{id}",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u5546\u54c1\u8be6\u60c5wap",
+                    "nickname": "goodsDetail",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u5546\u54c1 id"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u5546\u54c1\u8be6\u60c5wap"
+                }
+            ]
+        },
+        {
+            "path": "/wap/home_navigation_detail/{id}",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u5bfc\u822a\u6309\u94ae\u8be6\u60c5\u56fe\u7247",
+                    "nickname": "homeNavigationDetail",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "id"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u5bfc\u822a\u6309\u94ae\u8be6\u60c5\u56fe\u7247"
+                }
+            ]
+        },
+        {
+            "path": "/wap/new_year_activity/{user_id}",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u6625\u8282\u6d3b\u52a8",
+                    "nickname": "newYearActivity",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "user_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "user_id \u7528\u6237id"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u6625\u8282\u6d3b\u52a8"
+                }
+            ]
+        },
+        {
+            "path": "/wap/themes_description/{id}",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u4e3b\u9898\u63cf\u8ff0wap",
+                    "nickname": "themesDescription",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u4e3b\u9898id"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u4e3b\u9898\u63cf\u8ff0wap"
+                }
+            ]
+        }
+    ]
+}

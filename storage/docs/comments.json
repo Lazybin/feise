@@ -1,0 +1,162 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/comments",
+    "apis": [
+        {
+            "path": "/comments",
+            "description": "\u8bc4\u8bba\uff08\u65b020160216\uff09",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u8bc4\u8bba\u5217\u8868",
+                    "nickname": "index",
+                    "type": "UserComment",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "type",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7c7b\u578b\uff0c0---\u300b\u5546\u54c1 1---\u300b\u4e3b\u9898"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "item_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u9879id"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PageNum",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u5206\u9875\u5f00\u59cb\u4f4d\u7f6e",
+                            "defaultValue": 1
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PerPage",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u53d6\u5f97\u957f\u5ea6",
+                            "defaultValue": 10
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u8bc4\u8bba\u5217\u8868"
+                },
+                {
+                    "method": "POST",
+                    "summary": "\u65b0\u589e\u8bc4\u8bba",
+                    "nickname": "store",
+                    "parameters": [
+                        {
+                            "paramType": "body",
+                            "name": "comments_info",
+                            "type": "newComment",
+                            "required": true,
+                            "description": "\u63d0\u4ea4\u7684\u8bc4\u8bba\u4fe1\u606f"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u65b0\u589e\u8bc4\u8bba"
+                }
+            ]
+        },
+        {
+            "path": "/comments/{id}",
+            "operations": [
+                {
+                    "method": "DELETE",
+                    "summary": "\u5220\u9664\u8bc4\u8bba",
+                    "nickname": "destroy",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "description": "\u8bc4\u8bbaid"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u5220\u9664\u8bc4\u8bba"
+                }
+            ]
+        }
+    ],
+    "models": {
+        "UserComment": {
+            "id": "UserComment",
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "\u7c7b\u578b\uff0c0---\u300b\u5546\u54c1 1---\u300b\u4e3b\u9898",
+                    "type": "integer"
+                },
+                "item_id": {
+                    "description": "\u9879id",
+                    "type": "integer"
+                },
+                "content": {
+                    "description": "\u8bc4\u8bba\u5185\u5bb9",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "\u8bc4\u8bba\u65f6\u95f4",
+                    "type": "string"
+                }
+            }
+        },
+        "newComment": {
+            "id": "newComment",
+            "properties": {
+                "user_id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "\u7c7b\u578b\uff0c0---\u300b\u5546\u54c1 1---\u300b\u4e3b\u9898",
+                    "type": "integer"
+                },
+                "item_id": {
+                    "description": "\u9879id",
+                    "type": "integer"
+                },
+                "content": {
+                    "description": "\u8bc4\u8bba\u5185\u5bb9",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -16,6 +16,15 @@
                     "parameters": [
                         {
                             "paramType": "query",
+                            "name": "user_id",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237id",
+                            "defaultValue": -1
+                        },
+                        {
+                            "paramType": "query",
                             "name": "PageNum",
                             "type": "integer",
                             "required": false,
@@ -60,6 +69,15 @@
                             "required": true,
                             "allowMultiple": false,
                             "description": "\u4e3b\u9898id"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "user_id",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237id",
+                            "defaultValue": -1
                         }
                     ],
                     "responseMessages": [
@@ -69,6 +87,27 @@
                         }
                     ],
                     "notes": "\u83b7\u5f97\u4e3b\u9898\u8be6\u60c5"
+                },
+                {
+                    "method": "PUT",
+                    "summary": "\u66f4\u65b0\u5206\u4eab\u6b21\u6570",
+                    "nickname": "update",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "string",
+                            "required": true,
+                            "description": "\u4e3b\u9898id"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u66f4\u65b0\u5206\u4eab\u6b21\u6570"
                 }
             ]
         }
@@ -115,6 +154,18 @@
                 },
                 "collect_count": {
                     "description": "\u6536\u85cf\u6570",
+                    "type": "integer"
+                },
+                "comments_count": {
+                    "description": "\u8bc4\u8bba\u6570",
+                    "type": "integer"
+                },
+                "share_times": {
+                    "description": "\u5206\u4eab\u6b21\u6570",
+                    "type": "integer"
+                },
+                "has_collection": {
+                    "description": "\u662f\u5426\u6536\u85cf\uff0c0-\u300b\u672a\u6536\u85cf\uff0c1-\u300b\u5df2\u6536\u85cf",
                     "type": "integer"
                 },
                 "is_new": {
@@ -190,6 +241,34 @@
                     "description": "\u6536\u85cf\u6570",
                     "type": "integer"
                 },
+                "comments_count": {
+                    "description": "\u8bc4\u8bba\u6570",
+                    "type": "integer"
+                },
+                "share_times": {
+                    "description": "\u5206\u4eab\u6b21\u6570",
+                    "type": "integer"
+                },
+                "is_taobaoke": {
+                    "description": "\u662f\u5426\u662f\u6dd8\u5b9d\u5ba2\u5546\u54c1 0\uff1a\u4e0d\u662f\uff0c1\uff1a\u662f",
+                    "type": "integer"
+                },
+                "platform": {
+                    "description": "\u5e73\u53f0\uff1a1\u6dd8\u5b9d\uff0c2\u4eac\u4e1c\uff0c3\u5929\u732b",
+                    "type": "integer"
+                },
+                "taobaoke_url": {
+                    "description": "\u6dd8\u5b9d\u5ba2\u94fe\u63a5",
+                    "type": "integer"
+                },
+                "has_collection": {
+                    "description": "\u662f\u5426\u6536\u85cf\uff0c0-\u300b\u672a\u6536\u85cf\uff0c1-\u300b\u5df2\u6536\u85cf",
+                    "type": "integer"
+                },
+                "is_yuehui": {
+                    "description": "\u662f\u5426\u662f\u7ea6\u60e0\u5546\u54c1\uff0c0-\u300b\u4e0d\u662f\uff0c1-\u300b\u662f",
+                    "type": "integer"
+                },
                 "category": {
                     "description": "\u6240\u5c5e\u5206\u7c7b id-->\u5206\u7c7bid\uff0cname-->\u5206\u7c7b\u540d\u79f0",
                     "type": "string"
@@ -200,6 +279,10 @@
                 },
                 "images": {
                     "description": "\u5c55\u793a\u56fe\u7247\u5217\u8868 image_id-->\u56fe\u7247id\uff0cpath-->\u56fe\u7247\u8def\u5f84",
+                    "type": "array"
+                },
+                "comments": {
+                    "description": "\u8bc4\u8bba\u5217\u8868",
                     "type": "array"
                 }
             }

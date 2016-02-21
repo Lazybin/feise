@@ -1,0 +1,57 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/area",
+    "apis": [
+        {
+            "path": "/area",
+            "description": "\u5730\u533a\u5206\u7c7b",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u5730\u533a\u5206\u7c7b\u5217\u8868",
+                    "nickname": "index",
+                    "type": "Area",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "pid",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7236id,\u9ed8\u8ba4\u4e3a0---\u300b\u83b7\u53d6\u7701\u4efd",
+                            "defaultValue": 0
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u5730\u533a\u5206\u7c7b\u5217\u8868"
+                }
+            ]
+        }
+    ],
+    "models": {
+        "Area": {
+            "id": "Area",
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "\u540d\u79f0",
+                    "type": "string"
+                },
+                "pid": {
+                    "description": "\u7236id",
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,210 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/shipping_address",
+    "apis": [
+        {
+            "path": "/shipping_address",
+            "description": "\u6536\u8d27\u5730\u5740",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u6536\u8d27\u5730\u5740\u5217\u8868",
+                    "nickname": "index",
+                    "type": "ShippingAddress",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "user_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237id"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PageNum",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u5206\u9875\u5f00\u59cb\u4f4d\u7f6e",
+                            "defaultValue": 1
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "PerPage",
+                            "type": "integer",
+                            "required": false,
+                            "allowMultiple": false,
+                            "description": "\u53d6\u5f97\u957f\u5ea6",
+                            "defaultValue": 10
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u6536\u8d27\u5730\u5740\u5217\u8868"
+                },
+                {
+                    "method": "POST",
+                    "summary": "\u65b0\u589e\u6536\u8d27\u5730\u5740",
+                    "nickname": "store",
+                    "parameters": [
+                        {
+                            "paramType": "body",
+                            "name": "address_info",
+                            "type": "newShippingAddress",
+                            "required": true,
+                            "description": "\u63d0\u4ea4\u7684\u5730\u5740\u4fe1\u606f"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u65b0\u589e\u6536\u8d27\u5730\u5740"
+                }
+            ]
+        },
+        {
+            "path": "/shipping_address/{id}",
+            "operations": [
+                {
+                    "method": "PUT",
+                    "summary": "\u66f4\u65b0\u6536\u8d27\u5730\u5740",
+                    "nickname": "update",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "string",
+                            "required": true,
+                            "description": "\u6536\u8d27\u5730\u5740ID"
+                        },
+                        {
+                            "paramType": "body",
+                            "name": "address_info",
+                            "type": "newShippingAddress",
+                            "required": true,
+                            "description": "\u63d0\u4ea4\u7684\u5730\u5740\u4fe1\u606f"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u66f4\u65b0\u6536\u8d27\u5730\u5740"
+                },
+                {
+                    "method": "DELETE",
+                    "summary": "\u5220\u9664\u5730\u5740",
+                    "nickname": "destroy",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "id",
+                            "type": "integer",
+                            "required": true,
+                            "description": "\u5730\u5740id"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u5220\u9664\u5730\u5740"
+                }
+            ]
+        }
+    ],
+    "models": {
+        "ShippingAddress": {
+            "id": "ShippingAddress",
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer"
+                },
+                "consignee": {
+                    "description": "\u8054\u7cfb\u4eba",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "\u8054\u7cfb\u7535\u8bdd",
+                    "type": "string"
+                },
+                "is_default": {
+                    "description": "\u662f\u5426\u9ed8\u8ba4 0-->\u5426\uff0c1--\u300b\u662f",
+                    "type": "integer"
+                },
+                "province": {
+                    "description": "\u7701",
+                    "type": "string"
+                },
+                "city": {
+                    "description": "\u5e02",
+                    "type": "string"
+                },
+                "district": {
+                    "description": "\u533a\\\u53bf",
+                    "type": "string"
+                },
+                "detailed_address": {
+                    "description": "\u8be6\u7ec6\u5730\u5740",
+                    "type": "string"
+                }
+            }
+        },
+        "newShippingAddress": {
+            "id": "newShippingAddress",
+            "properties": {
+                "user_id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer"
+                },
+                "consignee": {
+                    "description": "\u8054\u7cfb\u4eba",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "\u8054\u7cfb\u7535\u8bdd",
+                    "type": "string"
+                },
+                "is_default": {
+                    "description": "\u662f\u5426\u9ed8\u8ba4 0-->\u5426\uff0c1--\u300b\u662f",
+                    "type": "integer"
+                },
+                "province": {
+                    "description": "\u7701\u540d\u79f0",
+                    "type": "string"
+                },
+                "city": {
+                    "description": "\u5e02\u540d\u79f0",
+                    "type": "string"
+                },
+                "district": {
+                    "description": "\u533a\\\u53bf\u540d\u79f0",
+                    "type": "string"
+                },
+                "detailed_address": {
+                    "description": "\u8be6\u7ec6\u5730\u5740",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/user_levels",
+    "apis": [
+        {
+            "path": "/user_levels/{user_id}",
+            "description": "\u7528\u6237\u7b49\u7ea7(\u65b020160220)",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "\u67e5\u8be2\u7528\u6237\u7b49\u7ea7",
+                    "nickname": "show",
+                    "parameters": [
+                        {
+                            "paramType": "path",
+                            "name": "user_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237id"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u67e5\u8be2\u7528\u6237\u7b49\u7ea7 level\u4ee3\u8868\u7528\u6237\u5f53\u524d\u7b49\u7ea7\uff081-5\u4e2d\u7684\u4e00\u4e2a\uff09sum\u4ee3\u8868\u7528\u6237\u6d88\u8d39\u603b\u91d1\u989d"
+                }
+            ]
+        }
+    ]
+}

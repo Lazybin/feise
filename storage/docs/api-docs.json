@@ -11,6 +11,22 @@
             "description": "\u7ea6\u60e0\u4e3b\u9875"
         },
         {
+            "path": "/area",
+            "description": "\u5730\u533a\u5206\u7c7b"
+        },
+        {
+            "path": "/check_in",
+            "description": "\u666e\u901a\u7b7e\u5230\uff08\u65b020160218\uff09"
+        },
+        {
+            "path": "/collection",
+            "description": "\u6536\u85cf"
+        },
+        {
+            "path": "/comments",
+            "description": "\u8bc4\u8bba\uff08\u65b020160216\uff09"
+        },
+        {
             "path": "/free_post",
             "description": "\u5305\u90ae\u5206\u7c7b\u8be6\u60c5"
         },
@@ -23,23 +39,52 @@
             "description": "\u9996\u9875"
         },
         {
+            "path": "/home_navigation",
+            "description": "\u9996\u9875\u6309\u94ae\u548cbanner"
+        },
+        {
             "path": "/orders",
             "description": "\u8ba2\u5355"
         },
         {
-            "path": "/refunds"
+            "path": "/present_coupon",
+            "description": "\u8d60\u9001\u793c\u5238\uff08\u65b020160220\uff09"
+        },
+        {
+            "path": "/refunds",
+            "description": "\u9000\u6b3e"
+        },
+        {
+            "path": "/search",
+            "description": "\u641c\u7d22\uff08\u65b020160216\uff09"
         },
         {
             "path": "/setting",
-            "description": "\u7cfb\u7edf\u8bbe\u7f6e"
+            "description": "\u7cfb\u7edf\u8bbe\u7f6e\uff08\u66f4\u65b020160210\uff09"
+        },
+        {
+            "path": "/shipping_address",
+            "description": "\u6536\u8d27\u5730\u5740"
         },
         {
             "path": "/shopping_cart",
             "description": "\u8d2d\u7269\u8f66"
         },
         {
+            "path": "/subject",
+            "description": "\u83b7\u53d6\u4e13\u9898\u9898\u8be6\u60c5"
+        },
+        {
             "path": "/themes",
             "description": "\u4e3b\u9898"
+        },
+        {
+            "path": "/user_levels",
+            "description": "\u7528\u6237\u7b49\u7ea7(\u65b020160220)"
+        },
+        {
+            "path": "/wap",
+            "description": "APP WAP \u9875"
         }
     ]
 }

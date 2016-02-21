@@ -1,0 +1,60 @@
+{
+    "basePath": "http://120.27.199.121/feise/public/api/v1",
+    "swaggerVersion": "1.2",
+    "apiVersion": "0.2",
+    "resourcePath": "/present_coupon",
+    "apis": [
+        {
+            "path": "/present_coupon",
+            "description": "\u8d60\u9001\u793c\u5238\uff08\u65b020160220\uff09",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "\u8d60\u9001\u793c\u5238",
+                    "nickname": "store",
+                    "parameters": [
+                        {
+                            "paramType": "query",
+                            "name": "user_id",
+                            "type": "integer",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237id"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "access_token",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "accessToken"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "account",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7528\u6237\u8d26\u53f7"
+                        },
+                        {
+                            "paramType": "query",
+                            "name": "type",
+                            "type": "string",
+                            "required": true,
+                            "allowMultiple": false,
+                            "description": "\u7c7b\u578b\uff0c1--\u300b\u6ce8\u518c\u8d60\u9001\u793c\u5238\uff0c2---\u300b\u5b8c\u5584\u8d44\u6599\u8d60\u9001"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 0,
+                            "message": "\u6210\u529f"
+                        }
+                    ],
+                    "notes": "\u8d60\u9001\u793c\u5238,sum\u503c-1 \u662f\u672a\u586b\u5199\u6536\u8d27\u5730\u5740 -2\u662f\u5df2\u7ecf\u8d60\u9001\u8fc7 -3\u662f\u5173\u95ed\u8d60\u9001  \u975e\u8d1f\u662f \u8d60\u9001\u6210\u529f\r\n    "
+                }
+            ]
+        }
+    ]
+}
