@@ -463,7 +463,6 @@ class OrdersController extends Controller
             $data['weixinPayInfo']=$this->getWeiXinPayParameter($t['responseObj']->prepay_id);
         }else{
             include_once '../vendor/yinlian_sdk/acp_service.php';
-
             $params = array(
 
                 //以下信息非特殊情况不需要改动
@@ -512,7 +511,8 @@ class OrdersController extends Controller
             if ($result_arr["respCode"] == "00"){
                 //成功
                 //TODO
-                $data['yinlianPayInfo']="".(string)$result_arr["tn"]."";
+                //var_dump(gettype($result_arr["tn"]));exit;
+                $data["yinlianPayInfo"]="".(string)$result_arr["tn"]."";
             } else {
                 $response->Code=BaseResponse::CODE_ERROR_CHECK;
                 $response->Message='服务器内部错误，错误码：108';
