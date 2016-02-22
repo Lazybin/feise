@@ -38,7 +38,7 @@ const SDK_App_Request_Url = 'https://101.231.204.80:5000/gateway/api/appTransReq
 const SDK_FRONT_NOTIFY_URL = 'http://localhost:8085/upacp_sdk_php/demo/api_05_app/FrontReceive.php';
 
 // 后台通知地址 (商户自行配置通知地址，需配置外网能访问的地址)
-const SDK_BACK_NOTIFY_URL = 'http://222.222.222.222/upacp_sdk_php/demo/api_05_app/BackReceive.php';
+const SDK_BACK_NOTIFY_URL = 'http://120.27.199.121/feise/public/notify/yinlian';
 
 //文件下载目录 
 const SDK_FILE_DOWN_PATH = 'E:/xampp/htdocs/feise/vendor/yinlian_sdk/file/';
