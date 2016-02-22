@@ -62,15 +62,27 @@ class WxNotifyDeal extends WxPayNotify
         }
         //根据订单号判定用户数据
 
+        $servername = "120.27.199.121";
+        $username = "root";
+        $password = "mypassword";
+        $dbname = "feise";
 
-        $order=\App\Model\Order::where('out_trade_no',$data['out_trade_no'])->first();
-        if($order!=null){
-            $order->status=1;
-            $order->payment_time=$data['time_end'];
-            $order->save();
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "UPDATE orders SET status=1,payment_time='".date("Y-m-d H:i:s",time())."' WHERE out_trade_no='".$data['out_trade_no']."'";
+
+        if ($conn->query($sql) === TRUE) {
+            $conn->close();
             return true;
-        }else{
+        } else {
+            $conn->close();
             return false;
         }
+
     }
 }
