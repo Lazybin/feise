@@ -6,9 +6,9 @@
  * Date: 2016/2/22
  * Time: 15:35
  */
-require_once $_SERVER['DOCUMENT_ROOT']."/mywww/feise/vendor/weixin_sdk/WxPay.Api.php";
-require_once $_SERVER['DOCUMENT_ROOT'].'/mywww/feise/vendor/weixin_sdk/WxPay.Notify.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/mywww/feise/vendor/weixin_sdk/log.php';
+require_once $_SERVER['DOCUMENT_ROOT']."/feise/vendor/weixin_sdk/WxPay.Api.php";
+require_once $_SERVER['DOCUMENT_ROOT'].'/feise/vendor/weixin_sdk/WxPay.Notify.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/feise/vendor/weixin_sdk/log.php';
 class WxNotifyDeal extends WxPayNotify
 {
     private $log;
