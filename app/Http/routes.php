@@ -72,6 +72,7 @@ Route::group(['middleware' => ['api']], function () {
 Route::post('upload_file','UploadFileController@upload');
 Route::post('upload_file/delete','UploadFileController@delete');
 
+Route::post('notify/weixin','NotifyController@weixin');
 
 Route::get('test','TestController@index');
 /*

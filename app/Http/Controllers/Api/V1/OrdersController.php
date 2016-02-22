@@ -637,7 +637,7 @@ class OrdersController extends Controller
         $parameters["attach"]='';
         $parameters["total_fee"]=1;
         $parameters["trade_type"]="APP";
-        $parameters["notify_url"]="http://120.27.199.121/feise/public/api/v1/orders/weixin_notify";
+        $parameters["notify_url"]="http://120.27.199.121/feise/public/notify/weixin";
 
         $parameters["out_trade_no"]=$out_trade_no;
 
