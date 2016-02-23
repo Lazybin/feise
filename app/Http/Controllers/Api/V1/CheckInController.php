@@ -127,6 +127,9 @@ class CheckInController extends Controller
     {
         $request_url='http://112.124.27.45:8080/zhmf/member/consumerCoupon/presentCoupon';
         $ch = curl_init ();
+        $header = array ();
+        $header [] = 'Content-Type: application/json';
+        curl_setopt ( $ch, CURLOPT_HTTPHEADER, $header );
         curl_setopt ( $ch, CURLOPT_URL, $request_url );
         curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
         curl_setopt ( $ch, CURLOPT_CONNECTTIMEOUT, 10 );
