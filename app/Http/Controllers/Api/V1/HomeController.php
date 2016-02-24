@@ -45,6 +45,14 @@ class HomeController extends Controller
      *         allowMultiple=false,
      *         type="integer",
      *         defaultValue=10
+     *     ),@SWG\Parameter(
+     *         name="user_id",
+     *         description="用户id",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=-1
      *     )
      *
      *   )
@@ -54,10 +62,22 @@ class HomeController extends Controller
     {
         $start=$request->input('PageNum', 0);
         $length=$request->input('PerPage', 5);
+        $user_id=$request->input('user_id',-1);
         $start=($start-1)*$length;
         $response=new BaseResponse();
-        $home=Home::skip($start)->take($length)->orderBy('sort')->orderBy('id','desc');
-        $response->rows=$home->get();
+        $home=Home::skip($start)->take($length)->orderBy('sort')->orderBy('id','desc')->get()->toArray();
+
+        foreach($home as &$v){
+            $v['item']['has_collection']=0;
+            if($user_id!=-1&&$v['type']==1){
+                $collection=Collection::where('user_id',$user_id)->where('type',1)->where('id',$v['item']['id'])->first();
+                if($collection!=null){
+                    $v['item']['has_collection']=1;
+                }
+            }
+        }
+
+        $response->rows=$home;
         $response->total=Home::count();
         return $response->toJson();
     }
