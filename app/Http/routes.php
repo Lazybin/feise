@@ -70,6 +70,8 @@ Route::group(['middleware' => ['api']], function () {
 
     Route::resource('api/v1/present_coupon','Api\V1\PresentCouponController');
     Route::resource('api/v1/user_levels','Api\V1\UserLevelsController');
+
+    Route::resource('api/v1/use_coupon_records','Api\V1\UseCouponRecordsController');
 });
 
 
