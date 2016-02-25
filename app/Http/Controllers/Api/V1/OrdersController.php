@@ -132,13 +132,6 @@ class OrdersController extends Controller
      *         paramType="body",
      *         required=true,
      *         type="newOrderParams"
-     *     ),@SWG\Parameter(
-     *         name="access_token",
-     *         description="accessToken",
-     *         paramType="query",
-     *         required=true,
-     *         allowMultiple=false,
-     *         type="string"
      *     )
      *   )
      * )
@@ -148,7 +141,7 @@ class OrdersController extends Controller
         DB::beginTransaction();
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
-        $accessToken=$request->input('access_token');
+        $accessToken=$content->accessToken;
         $goodsList=$content->goodsList;
         $total_fee=0;
         $coupon_total=0;
@@ -190,12 +183,11 @@ class OrdersController extends Controller
 
         $apiParam=[
             'accessToken'=>$accessToken,
-            'coupon'=>2199
-            //'coupon'=>$coupon_total
+            'coupon'=>$coupon_total
         ];
         $res=$this->post('/zhmf/member/consumerCoupon/isCouponEnough',$apiParam);
         $res=json_decode($res);
-        if($res['Code']==0&&$res['Data']['enough']==false){
+        if($res->Code==0&&$res->Data->enough==false){
             $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
             $response->Message="礼券不足1";
             DB::rollback();
