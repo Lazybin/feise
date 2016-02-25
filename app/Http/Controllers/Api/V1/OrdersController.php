@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Model\ActivityClassificationGoods;
 use App\Model\ConversionGoods;
 use App\Model\FreePostGoods;
+use App\Model\UseCouponRecords;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Model\BaseResponse;
@@ -194,10 +195,20 @@ class OrdersController extends Controller
             return $response->toJson();
         }
 
+
         $content->total_fee=$total_fee;
         $content->shipping_fee=10;//总运费
         $content->out_trade_no=$this->buildOrderNo();
         $order=Order::create((array)$content);
+
+        $useCouponRecords=new UseCouponRecords();
+        $useCouponRecords->user_id=$content->user_id;
+        $useCouponRecords->order_id=$order->id;
+        $useCouponRecords->access_token=$accessToken;
+        $useCouponRecords->coupon=$coupon_total;
+        $useCouponRecords->status=0;
+        $useCouponRecords->save();
+
         foreach($goodsList as $v){
             $orderGoods=new OrderGoods();
             $orderGoods->order_id=$order->id;
@@ -404,7 +415,28 @@ class OrdersController extends Controller
                     $time=date("Y-m-d H:i:s",time());
                 }
                 $order->payment_time=$time;
+                $order->payment_way=1;
                 $order->save();
+
+                $useCouponRecords=UseCouponRecords::where('order_id',$order->id)->first();
+                $useCouponRecords->status=2;
+                if($useCouponRecords!=null){
+                    //礼券金额
+                    $apiParam=[
+                        'accessToken'=>$useCouponRecords->access_token,
+                        'coupon'=>$useCouponRecords->coupon,
+                        'orderId'=>$out_trade_no
+                    ];
+                    $res=$this->post('/zhmf/member/consumerCoupon/useCoupon',$apiParam);
+                    $res=json_decode($res);
+
+                    if($res->Code==0){
+                        $useCouponRecords->status=1;
+                    }
+                }
+                $useCouponRecords->save();
+
+
             }
         }
         echo 'success';
