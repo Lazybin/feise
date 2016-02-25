@@ -416,7 +416,7 @@ class OrdersController extends Controller
                     $time=date("Y-m-d H:i:s",time());
                 }
                 $order->payment_time=$time;
-                //$order->payment_way=1;
+                $order->payment_way=1;
                 $order->save();
 
                 $useCouponRecords=UseCouponRecords::where('order_id',$orderId)->first();
