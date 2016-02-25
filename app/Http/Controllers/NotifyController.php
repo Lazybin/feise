@@ -26,13 +26,14 @@ class NotifyController extends Controller
         }
         $order = Order::where('out_trade_no', $out_trade_no)->first();
         if ($order != null) {
+            $orderId=$order->id;
             $order->status = 1;
             $time = date("Y-m-d H:i:s", time());
             $order->payment_time = $time;
             $order->payment_way=2;
             $order->save();
 
-            $useCouponRecords=UseCouponRecords::where('order_id',$order->id)->first();
+            $useCouponRecords=UseCouponRecords::where('order_id',$orderId)->first();
 
             if($useCouponRecords!=null){
                 $useCouponRecords->status=2;
@@ -61,13 +62,14 @@ class NotifyController extends Controller
             if(\AcpService::validate ( $_POST )&&($_POST['respCode'] == '00'||$_POST['respCode'] == 'A6')) {
                 $order = Order::where('out_trade_no', $_POST ['orderId'])->first();
                 if ($order != null) {
+                    $orderId=$order->id;
                     $order->status = 1;
                     $time = date("Y-m-d H:i:s", time());
                     $order->payment_time = $time;
                     $order->payment_way=3;
                     $order->save();
 
-                    $useCouponRecords=UseCouponRecords::where('order_id',$order->id)->first();
+                    $useCouponRecords=UseCouponRecords::where('order_id',$orderId)->first();
 
                     if($useCouponRecords!=null){
                         $useCouponRecords->status=2;

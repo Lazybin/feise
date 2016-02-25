@@ -409,16 +409,17 @@ class OrdersController extends Controller
         if($out_trade_no!=null&&$trade_status!=null&&($trade_status=='TRADE_FINISHED'||$trade_status=='TRADE_SUCCESS')){
             $order=Order::where('out_trade_no',$out_trade_no)->first();
             if($order!=null){
+                $orderId=$order->id;
                 $order->status=1;
                 $time=$request->input('gmt_payment');
                 if($time==null){
                     $time=date("Y-m-d H:i:s",time());
                 }
                 $order->payment_time=$time;
-                $order->payment_way=1;
+                //$order->payment_way=1;
                 $order->save();
 
-                $useCouponRecords=UseCouponRecords::where('order_id',$order->id)->first();
+                $useCouponRecords=UseCouponRecords::where('order_id',$orderId)->first();
 
                 if($useCouponRecords!=null){
                     //礼券金额
