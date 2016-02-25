@@ -70,7 +70,7 @@ class HomeController extends Controller
         foreach($home as &$v){
             $v['item']['has_collection']=0;
             if($user_id!=-1&&$v['type']==1){
-                $collection=Collection::where('user_id',$user_id)->where('type',1)->where('id',$v['item']['id'])->first();
+                $collection=Collection::where('user_id',$user_id)->where('type',1)->where('item_id',$v['item']['id'])->first();
                 if($collection!=null){
                     $v['item']['has_collection']=1;
                 }
