@@ -363,6 +363,9 @@ class OrdersController extends Controller
         }else{
             $body=mb_substr($body,0,mb_strlen($body)-1,'utf-8');
         }
+        if($body==''){
+            $body=$subject;
+        }
         $order->total_fee=0.01;
 
         $payInfo .= "&subject="."\"".$subject. "\"";
