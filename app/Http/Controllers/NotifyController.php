@@ -111,5 +111,22 @@ class NotifyController extends Controller
             @header('HTTP/1.1 500 Internal Server Error');
         }
     }
+    private function post($url,$data=null)
+    {
+        $request_url='http://112.124.27.45:8080'.$url;
+        $ch = curl_init ();
+        $header = array ();
+        $header [] = 'Content-Type: application/json';
+        curl_setopt ( $ch, CURLOPT_HTTPHEADER, $header );
+        curl_setopt ( $ch, CURLOPT_URL, $request_url );
+        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
+        curl_setopt ( $ch, CURLOPT_CONNECTTIMEOUT, 10 );
+        curl_setopt ( $ch, CURLOPT_POST, 1 ); //启用POST提交
+        if($data!=null)
+            curl_setopt ( $ch, CURLOPT_POSTFIELDS, json_encode($data));
+        $file_contents = curl_exec ( $ch );
+        curl_close ( $ch );
+        return $file_contents;
+    }
 
 }
