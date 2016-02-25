@@ -20,10 +20,20 @@ use Illuminate\Support\Facades\DB;
  * )
  */
 
+
+/**
+ * @SWG\Model(
+ * id="newCollection1",
+ * @SWG\Property(name="user_id",type="integer",description="用户id"),
+ * @SWG\Property(name="type",type="integer",description="类型，0---》商品 1---》主题"),
+ * @SWG\Property(name="item_id",type="integer",description="项id")
+ * )
+ */
+
 /**
  * @SWG\Model(
  * id="newCollectionList",
- * @SWG\Property(name="itemList",type="array",@SWG\Items("newCollection"),description="收藏列表")
+ * @SWG\Property(name="itemList",type="array",@SWG\Items("newCollection1"),description="收藏列表")
  * )
  */
 /**
@@ -40,7 +50,7 @@ class CollectionController extends Controller
      *
      * @SWG\Api(
      *   path="/collection",
-     *   description="收藏",
+     *   description="收藏（20160225更新）",
      *   @SWG\Operation(
      *     method="GET", summary="获得用户收藏列表", notes="获得用户收藏列表",
      *     type="Collection",

@@ -45,7 +45,7 @@ class RefundsController extends Controller
      *
      * @SWG\Api(
      *   path="/refunds",
-     *   description="退款",
+     *   description="退款（20160225更新）",
      *   @SWG\Operation(
      *     method="POST", summary="待发货申请退款", notes="申请退款",
      *     @SWG\ResponseMessage(code=0, message="成功"),
