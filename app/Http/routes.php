@@ -55,6 +55,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::resource('api/v1/area','Api\V1\AreaController');
 
     Route::resource('api/v1/shipping_address','Api\V1\ShippingAddressController');
+
+    Route::post('api/v1/collection/batch_store','Api\V1\CollectionController@batchStore');
     Route::resource('api/v1/collection','Api\V1\CollectionController');
 
     Route::resource('api/v1/subject','Api\V1\SubjectController');

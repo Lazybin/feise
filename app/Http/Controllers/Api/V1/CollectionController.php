@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+
 /**
  * @SWG\Model(
  * id="newCollection",
@@ -18,6 +20,12 @@ use App\Http\Controllers\Controller;
  * )
  */
 
+/**
+ * @SWG\Model(
+ * id="newCollectionList",
+ * @SWG\Property(name="itemList",type="array",@SWG\Items("newCollection"),description="收藏列表")
+ * )
+ */
 /**
  * @SWG\Resource(
  *     apiVersion="0.2",
@@ -141,6 +149,45 @@ class CollectionController extends Controller
         }
 
         return $response->toJson();
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/collection/batch_store",
+     *   @SWG\Operation(
+     *     method="POST", summary="批量添加收藏", notes="批量添加收藏",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="collection_list",
+     *         description="提交的收藏信息",
+     *         paramType="body",
+     *         required=true,
+     *         type="newCollectionList"
+     *     )
+     *   )
+     * )
+     */
+    public function batchStore(Request $request){
+        DB::beginTransaction();
+        $response=new BaseResponse();
+        $content = json_decode($request->getContent(false));
+        $itemList=$content->itemList;
+        foreach ($itemList as $v){
+            $co=Collection::where('user_id',$v->user_id)
+                ->where('type',$v->type)
+                ->where('item_id',$v->item_id)->first();
+            if($co==null){
+                $collection=new Collection();
+                $collection->user_id=$v->user_id;
+                $collection->type=$v->type;
+                $collection->item_id=$v->item_id;
+                $collection->save();
+            }
+        }
+        DB::commit();
+        return $response->toJson();
+
     }
 
     /**
