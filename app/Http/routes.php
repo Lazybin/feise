@@ -79,7 +79,7 @@ Route::post('upload_file/delete','UploadFileController@delete');
 Route::post('notify/weixin','NotifyController@weixin');
 Route::post('notify/yinlian','NotifyController@yinlian');
 
-Route::post('notify/wx_callback','NotifyController@wxCallBack');
+Route::get('notify/wx_callback','NotifyController@wxCallBack');
 
 Route::get('test','TestController@index');
 /*

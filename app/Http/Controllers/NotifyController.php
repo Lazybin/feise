@@ -13,9 +13,23 @@ class NotifyController extends Controller
 {
     //
     public function weixin(){
+        $url="120.27.199.121";
 
-        $deal=new \WxNotifyDeal();
-        $deal->Handle(false);
+        $fp = fsockopen($url, 80, $errno, $errstr, 30);
+        if (!$fp) {
+            echo "$errstr ($errno)<br />\n";
+        } else {
+            $out = "GET /feise/public/notify/wx_callback?out_trade_no=2016022507087&key=qj7adNDy6AdHB7SD HTTP/1.1\r\n";
+            $out .= "Host: 120.27.199.121\r\n";
+            $out .= "Connection: Close\r\n\r\n";
+            fwrite($fp, $out);
+            while (!feof($fp)) {
+                echo fgets($fp, 128);
+            }
+            fclose($fp);
+        }
+//        $deal=new \WxNotifyDeal();
+//        $deal->Handle(false);
     }
 
     public function wxCallBack(Request $request){
