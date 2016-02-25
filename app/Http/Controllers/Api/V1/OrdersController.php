@@ -190,13 +190,14 @@ class OrdersController extends Controller
 
         $apiParam=[
             'accessToken'=>$accessToken,
-            'coupon'=>$coupon_total
+            'coupon'=>2199
+            //'coupon'=>$coupon_total
         ];
         $res=$this->post('/zhmf/member/consumerCoupon/isCouponEnough',$apiParam);
         $res=json_decode($res);
         if($res['Code']==0&&$res['Data']['enough']==false){
             $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
-            $response->Message="礼券不足";
+            $response->Message="礼券不足1";
             DB::rollback();
             return $response->toJson();
         }
