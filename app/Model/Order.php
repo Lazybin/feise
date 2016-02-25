@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @SWG\Property(name="consignee",type="string",description="收货人"),
  * @SWG\Property(name="shipping_address",type="string",description="收货地址"),
  * @SWG\Property(name="mobile",type="string",description="收货人电话"),
+ * @SWG\Property(name="accessToken",type="string",description="accessToken"),
  * @SWG\Property(name="goodsList",type="array",@SWG\Items("ordersGoodsList"),description="商品列表")
  * )
  */
