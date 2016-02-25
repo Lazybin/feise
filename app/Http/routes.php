@@ -36,6 +36,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::resource('api/v1/activity_page','Api\V1\ActivityPageController');
     Route::resource('api/v1/free_post','Api\V1\FreePostController');
 
+    Route::post('api/v1/refunds/only_refund_money','Api\V1\RefundsController@onlyRefundMoney');
+    Route::post('api/v1/refunds/both_refund','Api\V1\RefundsController@bothRefund');
     Route::resource('api/v1/refunds','Api\V1\RefundsController');
 
     Route::get('api/v1/wap/banner_detail/{id}','WapController@bannerDetail');

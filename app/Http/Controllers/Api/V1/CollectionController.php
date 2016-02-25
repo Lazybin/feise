@@ -122,11 +122,16 @@ class CollectionController extends Controller
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
         if($content->status==1){
-            $collection=new Collection();
-            $collection->user_id=$content->user_id;
-            $collection->type=$content->type;
-            $collection->item_id=$content->item_id;
-            $collection->save();
+            $co=Collection::where('user_id',$content->user_id)
+                ->where('type',$content->type)
+                ->where('item_id',$content->item_id)->first();
+            if($co==null){
+                $collection=new Collection();
+                $collection->user_id=$content->user_id;
+                $collection->type=$content->type;
+                $collection->item_id=$content->item_id;
+                $collection->save();
+            }
         }else{
             $response=new BaseResponse();
             $order=Collection::where('user_id',$content->user_id)->where('type',$content->type)->where('item_id',$content->item_id)->first();

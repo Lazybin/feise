@@ -47,14 +47,14 @@ class RefundsController extends Controller
      *   path="/refunds",
      *   description="退款",
      *   @SWG\Operation(
-     *     method="POST", summary="申请退款", notes="申请退款",
+     *     method="POST", summary="待发货申请退款", notes="申请退款",
      *     @SWG\ResponseMessage(code=0, message="成功"),
      *     @SWG\Parameter(
      *         name="refunds_info",
      *         description="提交的退款信息",
      *         paramType="body",
      *         required=true,
-     *         type="Refund"
+     *         type="Refund1"
      *     )
      *   )
      * )
@@ -65,19 +65,87 @@ class RefundsController extends Controller
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
 
-        if($content->pic1!=''){
-            $content->pic1=$this->uploadFile($content->pic1);
-        }
-
-        if($content->pic2!=''){
-            $content->pic2=$this->uploadFile($content->pic2);
-        }
-
-        if($content->pic3!=''){
-            $content->pic3=$this->uploadFile($content->pic3);
-        }
+        $this->dealImage($content);
+        $content->type=1;
 
         $refund=Refund::create((array)$content);
+        $refund=Refund::create((array)$content);
+        if(!$this->dealOrder($content,$refund)){
+            return (new BaseResponse(BaseResponse::CODE_ERROR_BUSINESS, '订单状态错误'))->toJson();
+        }else{
+            return $response->toJson();
+        }
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/refunds/only_refund_money",
+     *   @SWG\Operation(
+     *     method="POST", summary="已发货仅退款", notes="申请退款",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="refunds_info",
+     *         description="提交的退款信息",
+     *         paramType="body",
+     *         required=true,
+     *         type="Refund2"
+     *     )
+     *   )
+     * )
+     */
+    public function onlyRefundMoney(Request $request){
+        $response=new BaseResponse();
+        $content = json_decode($request->getContent(false));
+
+        $this->dealImage($content);
+
+        $content->type=3;
+
+        $refund=Refund::create((array)$content);
+        if(!$this->dealOrder($content,$refund)){
+            return (new BaseResponse(BaseResponse::CODE_ERROR_BUSINESS, '订单状态错误'))->toJson();
+        }else{
+            return $response->toJson();
+        }
+
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/refunds/both_refund",
+     *   @SWG\Operation(
+     *     method="POST", summary="已发货退货退款", notes="申请退款",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="refunds_info",
+     *         description="提交的退款信息",
+     *         paramType="body",
+     *         required=true,
+     *         type="Refund1"
+     *     )
+     *   )
+     * )
+     */
+    public function bothRefund(Request $request){
+        $response=new BaseResponse();
+        $content = json_decode($request->getContent(false));
+
+        $this->dealImage($content);
+
+        $content->type=2;
+
+        $refund=Refund::create((array)$content);
+        if(!$this->dealOrder($content,$refund)){
+            return (new BaseResponse(BaseResponse::CODE_ERROR_BUSINESS, '订单状态错误'))->toJson();
+        }else{
+            return $response->toJson();
+        }
+
+    }
+
+    private function dealOrder($content,$refund){
         $order=Order::find($content->order_id);
         switch($order->status){
             case 1:
@@ -90,11 +158,24 @@ class RefundsController extends Controller
                 break;
             default :
                 $refund->delete();
-                return (new BaseResponse(BaseResponse::CODE_ERROR_BUSINESS, '订单状态错误'))->toJson();
+                return false;
+        }
+        return true;
+    }
+
+
+    private function dealImage(&$content){
+        if($content->pic1!=''){
+            $content->pic1=$this->uploadFile($content->pic1);
         }
 
+        if($content->pic2!=''){
+            $content->pic2=$this->uploadFile($content->pic2);
+        }
 
-        return $response->toJson();
+        if($content->pic3!=''){
+            $content->pic3=$this->uploadFile($content->pic3);
+        }
     }
 
     private function uploadFile($content)
