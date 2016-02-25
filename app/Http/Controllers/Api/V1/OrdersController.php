@@ -434,8 +434,9 @@ class OrdersController extends Controller
                     if($res->Code==0){
                         $useCouponRecords->status=1;
                     }
+                    $useCouponRecords->save();
                 }
-                $useCouponRecords->save();
+
 
 
             }

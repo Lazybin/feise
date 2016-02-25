@@ -48,8 +48,9 @@ class NotifyController extends Controller
                 if($res->Code==0){
                     $useCouponRecords->status=1;
                 }
+                $useCouponRecords->save();
             }
-            $useCouponRecords->save();
+
             echo 'success';
         }
     }
@@ -82,8 +83,9 @@ class NotifyController extends Controller
                         if($res->Code==0){
                             $useCouponRecords->status=1;
                         }
+                        $useCouponRecords->save();
                     }
-                    $useCouponRecords->save();
+
                     echo 'success';
                 }
             }else{
