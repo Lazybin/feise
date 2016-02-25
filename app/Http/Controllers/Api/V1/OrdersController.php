@@ -419,9 +419,10 @@ class OrdersController extends Controller
                 $order->save();
 
                 $useCouponRecords=UseCouponRecords::where('order_id',$order->id)->first();
-                $useCouponRecords->status=2;
+
                 if($useCouponRecords!=null){
                     //礼券金额
+                    $useCouponRecords->status=2;
                     $apiParam=[
                         'accessToken'=>$useCouponRecords->access_token,
                         'coupon'=>$useCouponRecords->coupon,

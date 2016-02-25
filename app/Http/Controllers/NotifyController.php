@@ -33,8 +33,9 @@ class NotifyController extends Controller
             $order->save();
 
             $useCouponRecords=UseCouponRecords::where('order_id',$order->id)->first();
-            $useCouponRecords->status=2;
+
             if($useCouponRecords!=null){
+                $useCouponRecords->status=2;
                 //礼券金额
                 $apiParam=[
                     'accessToken'=>$useCouponRecords->access_token,
@@ -66,8 +67,9 @@ class NotifyController extends Controller
                     $order->save();
 
                     $useCouponRecords=UseCouponRecords::where('order_id',$order->id)->first();
-                    $useCouponRecords->status=2;
+
                     if($useCouponRecords!=null){
+                        $useCouponRecords->status=2;
                         //礼券金额
                         $apiParam=[
                             'accessToken'=>$useCouponRecords->access_token,
