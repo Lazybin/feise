@@ -31,7 +31,7 @@ class OrdersController extends Controller
      *
      * @SWG\Api(
      *   path="/orders",
-     *   description="订单",
+     *   description="订单（新20160225）",
      *   @SWG\Operation(
      *     method="GET", summary="获得用户订单列表", notes="获得用户订单列表",
      *     type="Order",
@@ -132,6 +132,13 @@ class OrdersController extends Controller
      *         paramType="body",
      *         required=true,
      *         type="newOrderParams"
+     *     ),@SWG\Parameter(
+     *         name="access_token",
+     *         description="accessToken",
+     *         paramType="query",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="string"
      *     )
      *   )
      * )
@@ -141,8 +148,10 @@ class OrdersController extends Controller
         DB::beginTransaction();
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
+        $accessToken=$request->input('access_token');
         $goodsList=$content->goodsList;
         $total_fee=0;
+        $coupon_total=0;
         foreach ($goodsList as $g){
             $goods=Goods::find($g->goods_id);
             if($goods!=null){
@@ -154,6 +163,7 @@ class OrdersController extends Controller
                     $total_fee=$total_fee+$goods->price;
                 }else if($g->use_coupon==1){
                     $total_fee=$total_fee+$goods->price-$goods->coupon_amount;
+                    $coupon_total=$coupon_total+$goods->coupon_amount;
                 }else{
                     $total_fee=$total_fee+$goods->price;
                 }
@@ -175,6 +185,21 @@ class OrdersController extends Controller
 
         }
         unset($content->goodsList);
+
+        //检测礼券充足
+
+        $apiParam=[
+            'accessToken'=>$accessToken,
+            'coupon'=>$coupon_total
+        ];
+        $res=$this->post('/zhmf/member/consumerCoupon/isCouponEnough',$apiParam);
+        $res=json_decode($res);
+        if($res['Code']==0&&$res['Data']['enough']==false){
+            $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
+            $response->Message="礼券不足";
+            DB::rollback();
+            return $response->toJson();
+        }
 
         $content->total_fee=$total_fee;
         $content->shipping_fee=10;//总运费
@@ -199,6 +224,24 @@ class OrdersController extends Controller
 
         //var_dump($content);
         //echo $this->sign_request(['array'],'../config/rsa_private_key.pem');
+    }
+
+    private function post($url,$data=null)
+    {
+        $request_url='http://112.124.27.45:8080'.$url;
+        $ch = curl_init ();
+        $header = array ();
+        $header [] = 'Content-Type: application/json';
+        curl_setopt ( $ch, CURLOPT_HTTPHEADER, $header );
+        curl_setopt ( $ch, CURLOPT_URL, $request_url );
+        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
+        curl_setopt ( $ch, CURLOPT_CONNECTTIMEOUT, 10 );
+        curl_setopt ( $ch, CURLOPT_POST, 1 ); //启用POST提交
+        if($data!=null)
+            curl_setopt ( $ch, CURLOPT_POSTFIELDS, json_encode($data));
+        $file_contents = curl_exec ( $ch );
+        curl_close ( $ch );
+        return $file_contents;
     }
 
     /**
