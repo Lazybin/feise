@@ -30,6 +30,8 @@ class Goods extends Model
      * @SWG\Property(name="share_times",type="integer",description="分享次数")
      * @SWG\Property(name="is_taobaoke",type="integer",description="是否是淘宝客商品 0：不是，1：是")
      * @SWG\Property(name="platform",type="integer",description="平台：1淘宝，2京东，3天猫")
+     * @SWG\Property(name="is_presell",type="integer",description="是否是预售产品 0：不是，1：是")
+     * @SWG\Property(name="presell_time",type="string",description="预售时间")
      * @SWG\Property(name="taobaoke_url",type="integer",description="淘宝客链接")
      * @SWG\Property(name="has_collection",type="integer",description="是否收藏，0-》未收藏，1-》已收藏")
      * @SWG\Property(name="is_yuehui",type="integer",description="是否是约惠商品，0-》不是，1-》是")
