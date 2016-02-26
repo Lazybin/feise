@@ -326,7 +326,7 @@
         } );
 
         function deal_choose_data(){
-            var str=''
+            var str='';
             tableChoose.data().each( function (d) {
                 str+= d.id+',';
             } );

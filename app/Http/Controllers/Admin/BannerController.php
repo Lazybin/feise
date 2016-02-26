@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Model\Banner;
+use App\Model\BannerGoods;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -69,11 +70,23 @@ class BannerController extends Controller
 
                 $banner->detail_image='/upload/'.$fileName;
             }
+            $banner->save();
+        }elseif($banner->type==0||$banner->type==1){
+            $banner->item_id=substr($params['item_id'],0,strlen($params['item_id'])-1);
+            $banner->save();
         }else{
-            $banner->item_id=$params['item_id'];
+            $banner->save();
+            $items=substr($params['item_id'],0,strlen($params['item_id'])-1);
+            $items=explode(',',$items);
+            foreach($items as $v){
+                $bannerGoods=new BannerGoods();
+                $bannerGoods->banner_id=$banner->id;
+                $bannerGoods->goods_id=$v;
+                $bannerGoods->save();
+            }
         }
 
-        $banner->save();
+
         return redirect()->action('Admin\BannerController@show');
     }
 
@@ -82,6 +95,9 @@ class BannerController extends Controller
         $params=$request->all();
         $banner=Banner::find($id);
         if($banner!=null){
+            if($banner->type==3){
+                BannerGoods::where('banner_id',$banner->id)->delete();
+            }
             $banner->title=$params['title'];
             $banner->order=$params['order'];
             $banner->banner_position=$params['banner_position'];
@@ -106,10 +122,20 @@ class BannerController extends Controller
 
                     $banner->detail_image='/upload/'.$fileName;
                 }
+            }elseif($banner->type==0||$banner->type==1){
+                $banner->item_id=substr($params['item_id'],0,strlen($params['item_id'])-1);
+                $banner->save();
             }else{
-                $banner->item_id=$params['item_id'];
+                $banner->save();
+                $items=substr($params['item_id'],0,strlen($params['item_id'])-1);
+                $items=explode(',',$items);
+                foreach($items as $v){
+                    $bannerGoods=new BannerGoods();
+                    $bannerGoods->banner_id=$banner->id;
+                    $bannerGoods->goods_id=$v;
+                    $bannerGoods->save();
+                }
             }
-            $banner->save();
         }
         return redirect()->action('Admin\BannerController@show');
     }

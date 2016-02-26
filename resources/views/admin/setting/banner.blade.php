@@ -19,7 +19,54 @@
     <script src="{{ url('/js/bootbox.min.js') }}"></script>
     <script src="{{ url('../resources/assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
     <script>
-        var tableChoose=$('#dataTables-themes').DataTable({
+
+        var tableChoose=$('#dataTables-choose').DataTable({
+            responsive: true,
+            "dom": 'rtip',
+            "processing": true,
+            "iDisplayLength": 10,
+            "autoWidth": false,
+            "searching": false,
+            "ordering": false,
+            "language": {
+                "lengthMenu": "每页显示 _MENU_ 条",
+                "zeroRecords": "暂无记录",
+                "info": "正在显示第_PAGE_页，总共_PAGES_页",
+                "infoEmpty": "",
+                "loadingRecords": "加载中...",
+                "processing":     "处理中...",
+                "infoFiltered": "(filtered from _MAX_ total records)",
+                "paginate": {
+                    "next":       "下一页",
+                    "previous":   "上一页"
+                }
+            },
+            "columnDefs": [
+                { //给每个单独的列设置不同的填充，或者使用aoColumns也行           {
+                    "targets": -1,
+                    "mData": null,
+                    "searchable": false,
+                    "orderable": false,
+                    'sClass':'align-center',
+                    "mRender": function (data, type, full)
+                    {
+                        return '<button type="button"  class="btn btn-primary btn-xs">删除</button>';
+                    }
+                },
+                {
+                    "targets":0,
+                    "mData": 'id'
+                },
+                {
+                    "targets": 1,
+                    'sClass':'align-center',
+                    "mData": 'name'
+                }
+
+            ]
+
+        });
+        var tableItems=$('#dataTables-themes').DataTable({
             responsive: true,
             "dom": 'rtip',
             "processing": true,
@@ -51,7 +98,12 @@
                     'sClass':'align-center',
                     "mRender": function (data, type, full)
                     {
-                        return '<button type="button" onclick="onChooseClick(\''+full.id+'\',\''+full.title+'\')" class="btn btn-primary btn-xs">选择</button>';
+                        if(typeof(full['name'])=='undefined'){
+                            return '<button type="button" onclick="onChooseClick(\''+full.id+'\',\''+full.title+'\')" class="btn btn-primary btn-xs">选择</button>';
+                        }else{
+                            return '<button type="button" onclick="onChooseClick(\''+full.id+'\',\''+full.name+'\')" class="btn btn-primary btn-xs">选择</button>';
+                        }
+
                     }
                 },
                 {
@@ -61,7 +113,14 @@
                 {
                     "targets": 1,
                     'sClass':'align-center',
-                    "mData": 'title'
+                    "mRender": function (data, type, full)
+                    {
+                        if(typeof(full['name'])=='undefined'){
+                            return full['title'];
+                        }else{
+                            return full['name'];
+                        }
+                    }
                 }
 
             ]
@@ -132,6 +191,22 @@
                     },
                     {
                         "targets": 4,
+                        'sClass':'align-center',
+                        "mData": 'type',
+                        "mRender": function (data, type, full)
+                        {
+                            if(data==0)
+                                return '主题';
+                            else if(data==1)
+                                return '专题';
+                            else if(data==2)
+                                return '活动';
+                            else if(data==3)
+                                return '商品合集';
+                        }
+                    },
+                    {
+                        "targets": 5,
                         'sClass':'align-center',
                         "mData": 'created_at'
                     }
@@ -215,17 +290,29 @@
                         $("#newAction").val(recv.meta.data.action);
                         $("#modelTitle").html('修改banner');
                         $("#type").val(recv.meta.data.type);
+
                         if(recv.meta.data.type==0){
                             $("#tableName").html('主题列表');
-                            tableChoose.ajax.url("{{url('/')}}/themes/index").load();
+                            tableItems.ajax.url("{{url('/')}}/themes/index").load();
                             onChooseClick(recv.meta.data.theme_item.id,recv.meta.data.theme_item.title);
                             $("#chooseDiv").css('display','inline');
                             $("#tableDiv").css('display','inline');
                             $("#divActive").css('display','none');
                         }else if(recv.meta.data.type==1){
                             $("#tableName").html('专题列表');
-                            tableChoose.ajax.url("{{url('/')}}/subjects/index").load();
+                            tableItems.ajax.url("{{url('/')}}/subjects/index").load();
                             onChooseClick(recv.meta.data.subject_item.id,recv.meta.data.subject_item.title);
+                            $("#chooseDiv").css('display','inline');
+                            $("#tableDiv").css('display','inline');
+                            $("#divActive").css('display','none');
+                        }else if(recv.meta.data.type==3){
+                            $("#tableName").html('商品列表');
+                            tableItems.ajax.url("{{url('/')}}/goods/index").load();
+
+                            $.each(recv.meta.data.goods, function (key, item) {
+                                onChooseClick(item.goods.id,item.goods.name);
+                            });
+
                             $("#chooseDiv").css('display','inline');
                             $("#tableDiv").css('display','inline');
                             $("#divActive").css('display','none');
@@ -290,9 +377,33 @@
                 }
             });
         }
-        function onChooseClick(id,title){
-            $("#chooseShow").val('当前选择，id:'+id+' '+title);
-            $("#chooseId").val(id);
+
+        function deal_choose_data(){
+            var str='';
+            tableChoose.data().each( function (d) {
+                str+= d.id+',';
+            } );
+            $("#chooseId").val(str);
+        }
+        $('#dataTables-choose tbody').on( 'click', 'button', function () {
+            tableChoose.row( $(this).parents('tr') ).remove().draw();
+            deal_choose_data();
+        } );
+        function onChooseClick(id,name){
+//            $("#chooseShow").val('当前选择，id:'+id+' '+title);
+//            $("#chooseId").val(id);
+
+            var t ={};
+            t.id=id;
+            t.name=name;
+
+            var type=$("#type").val();
+            if(type!=3){
+                tableChoose.clear().draw();
+            }
+            tableChoose.row.add( t ).draw();
+            deal_choose_data();
+
         }
         function onPositionChange(){
             var banner_position=$("#banner_position").val();
@@ -311,13 +422,19 @@
             $("#chooseId").val('');
             if(type==0){
                 $("#tableName").html('主题列表');
-                tableChoose.ajax.url("{{url('/')}}/themes/index").load();
+                tableItems.ajax.url("{{url('/')}}/themes/index").load();
                 $("#chooseDiv").css('display','inline');
                 $("#tableDiv").css('display','inline');
                 $("#divActive").css('display','none');
             }else if(type==1){
                 $("#tableName").html('专题列表');
-                tableChoose.ajax.url("{{url('/')}}/subjects/index").load();
+                tableItems.ajax.url("{{url('/')}}/subjects/index").load();
+                $("#chooseDiv").css('display','inline');
+                $("#tableDiv").css('display','inline');
+                $("#divActive").css('display','none');
+            }else if(type==3){
+                $("#tableName").html('商品列表');
+                tableItems.ajax.url("{{url('/')}}/goods/index").load();
                 $("#chooseDiv").css('display','inline');
                 $("#tableDiv").css('display','inline');
                 $("#divActive").css('display','none');
@@ -326,6 +443,7 @@
                 $("#tableDiv").css('display','none');
                 $("#divActive").css('display','inline');
             }
+            tableChoose.clear().draw();
         }
 
 
@@ -364,6 +482,7 @@
                                     <th>标题</th>
                                     <th>位置</th>
                                     <th>排序</th>
+                                    <th>类型</th>
                                     <th>创建时间</th>
                                     <th>操作</th>
                                 </tr>
@@ -419,6 +538,7 @@
                                     <option value="0">主题</option>
                                     <option value="1">专题</option>
                                     <option value="2">活动</option>
+                                    <option value="3">商品合集</option>
                                 </select>
                             </div>
                         </div>
@@ -430,9 +550,25 @@
                         </div>
                         <div id="chooseDiv" class="form-group">
                             <label for="inputGoodsName" class="col-sm-2 control-label">当前选择</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="chooseShow"  disabled>
+                            {{--<div class="col-sm-10">--}}
+                                {{--<input type="text" class="form-control" id="chooseShow"  disabled>--}}
+                                {{--<input type="hidden" class="form-control" id="chooseId" name="item_id" >--}}
+                                {{----}}
+                            {{--</div>--}}
+                            <div class="col-sm-8">
                                 <input type="hidden" class="form-control" id="chooseId" name="item_id" >
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-choose">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>名称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <div id="tableDiv" class="form-group">

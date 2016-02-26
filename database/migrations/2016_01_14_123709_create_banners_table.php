@@ -13,6 +13,7 @@ class CreateBannersTable extends Migration
     public function up()
     {
         Schema::create('banners', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('title');
             $table->tinyInteger('banner_position');//0->主页 1--->约惠

@@ -20,7 +20,7 @@ class Banner extends Model
      * @SWG\Property(name="order",type="integer",description="排序")
      */
 
-    protected $appends=['subject_item','theme_item'];
+    protected $appends=['subject_item','theme_item','goods'];
 
     public function getSubjectItemAttribute()
     {
@@ -38,5 +38,15 @@ class Banner extends Model
         }else{
             return null;
         }
+    }
+
+    public function getGoodsAttribute()
+    {
+        //$goodsList=OrderGoods::with('goods')->where('order_id',$this->id)->get();
+        $goodsList=BannerGoods::where('banner_id',$this->id)->get();
+        if($goodsList == null) {
+            return '';
+        }
+        return $goodsList->toArray();
     }
 }
