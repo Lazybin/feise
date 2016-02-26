@@ -40,7 +40,7 @@ class Goods extends Model
      * @SWG\Property(name="comments",type="array",description="评论列表")
      */
     protected $fillable = [
-        'name','price','category_id','evaluation_person_image','evaluation_content','cover','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','goods_description','detailed_introduction','num','share_times','is_taobaoke','platform','taobaoke_url'
+        'name','price','category_id','evaluation_person_image','evaluation_content','cover','original_price','use_coupon','coupon_amount','express_way','express_fee','returned_goods','goods_description','detailed_introduction','num','share_times','is_taobaoke','platform','taobaoke_url','is_presell','presell_time'
     ];
 
     protected $appends=['category','properties','images','collect_count','comments_count','is_yuehui'];

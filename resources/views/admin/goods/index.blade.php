@@ -202,7 +202,9 @@
             $("#original_price").val('');
 
             $("#useCouponRadios1").attr("checked","checked");
-            $("#isTaobaokeRadios1").attr("checked","checked");
+            $("#isTaobaokeRadios2").attr("checked","checked");
+            $("#isPresellRadios2").attr("checked","checked");
+            $("#presell_time").val('');
             $("#platform").val(-1);
             $("#taobaoke_url").val('');
             $("#coupon_amount").val('');
@@ -265,6 +267,14 @@
                         }else{
                             $("#useCouponRadios2").attr("checked","checked");
                         }
+
+                        if(recv.meta.data.is_presell==1){
+                            $("#isPresellRadios1").attr("checked","checked");
+                        }else{
+                            $("#isPresellRadios2").attr("checked","checked");
+                        }
+
+                        $("#presell_time").val(recv.meta.data.presell_time);
                         $("#coupon_amount").val(recv.meta.data.coupon_amount);
                         $("#express_way").val(recv.meta.data.express_way);
                         $("#express_fee").val(recv.meta.data.express_fee);
@@ -630,6 +640,21 @@
                                         <option value="2">京东</option>
                                         <option value="3">天猫</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputGoodsName" class="col-sm-2 control-label">预售</label>
+                                <div class="col-sm-3">
+                                    <label class="radio-inline">
+                                        <input type="radio"  name="is_presell" id="isPresellRadios1" value="1">是
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="is_presell" id="isPresellRadios2" value="0">不是
+                                    </label>
+                                </div>
+                                <label for="inputGoodsName" class="col-sm-2 control-label">预售期</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="presell_time" name="presell_time" placeholder="请输入预售期">
                                 </div>
                             </div>
                             <div class="form-group">

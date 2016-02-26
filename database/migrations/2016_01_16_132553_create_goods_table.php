@@ -30,6 +30,8 @@ class CreateGoodsTable extends Migration
             $table->text('description')->nullable();//商品描述
             $table->text('detailed_introduction')->nullable();//详细描述（富文本框）
             $table->tinyInteger('is_taobaoke')->nullable();//是否是淘宝客商品 0：不是，1：是
+            $table->tinyInteger('is_presell');//是否是预售商品 0：不是，1：是
+            $table->string('presell_time')->nullable();//预售时间
             $table->tinyInteger('platform')->nullable();//平台：1淘宝，2京东，3天猫
             $table->string('taobaoke_url')->nullable();//淘宝客链接
 
