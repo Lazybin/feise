@@ -17,6 +17,7 @@ class Banner extends Model
      * @SWG\Property(name="detail_image",type="string",description="详情图片路径，当type=2时有值")
      * @SWG\Property(name="subject_item",type="Subject",description="专题 type=1时有值")
      * @SWG\Property(name="theme_item",description="主题type=0时有值",type="Themes")
+     * @SWG\Property(name="goods",description="主题type=3时有值",type="BannerGoods")
      * @SWG\Property(name="order",type="integer",description="排序")
      */
 
