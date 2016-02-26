@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\HomeButtonGoods;
 use App\Model\HomeNavigation;
 use Illuminate\Http\Request;
 
@@ -44,9 +45,23 @@ class HomeNavigationController extends Controller
     {
         $params=$request->all();
         $homeNavigation=HomeNavigation::find($id);
+
         if($homeNavigation!=null){
+            if($homeNavigation->id==1){
+                $homeNavigation->title=$params['titleNew'];
+                $homeNavigation->subhead=$params['subheadNew'];
+                $homeNavigation->save();
 
-
+                $items=substr($params['item_id'],0,strlen($params['item_id'])-1);
+                $items=explode(',',$items);
+                foreach($items as $v){
+                    $homeButtonGoods=new HomeButtonGoods();
+                    $homeButtonGoods->home_button_id=$homeNavigation->id;
+                    $homeButtonGoods->goods_id=$v;
+                    $homeButtonGoods->save();
+                }
+                return redirect()->action('Admin\HomeNavigationController@show');
+            }
             if($params['type']==0){
                 unset($params['action']);
                 if ($request->hasFile('coverImage'))

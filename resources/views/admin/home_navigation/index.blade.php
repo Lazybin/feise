@@ -40,6 +40,102 @@
             }
         }
 
+        var tableChoose=$('#dataTables-choose').DataTable({
+            responsive: true,
+            "dom": 'rtip',
+            "processing": true,
+            "iDisplayLength": 10,
+            "autoWidth": false,
+            "searching": false,
+            "ordering": false,
+            "language": {
+                "lengthMenu": "每页显示 _MENU_ 条",
+                "zeroRecords": "暂无记录",
+                "info": "正在显示第_PAGE_页，总共_PAGES_页",
+                "infoEmpty": "",
+                "loadingRecords": "加载中...",
+                "processing":     "处理中...",
+                "infoFiltered": "(filtered from _MAX_ total records)",
+                "paginate": {
+                    "next":       "下一页",
+                    "previous":   "上一页"
+                }
+            },
+            "columnDefs": [
+                { //给每个单独的列设置不同的填充，或者使用aoColumns也行           {
+                    "targets": -1,
+                    "mData": null,
+                    "searchable": false,
+                    "orderable": false,
+                    'sClass':'align-center',
+                    "mRender": function (data, type, full)
+                    {
+                        return '<button type="button"  class="btn btn-primary btn-xs">删除</button>';
+                    }
+                },
+                {
+                    "targets":0,
+                    "mData": 'id'
+                },
+                {
+                    "targets": 1,
+                    'sClass':'align-center',
+                    "mData": 'name'
+                }
+
+            ]
+
+        });
+        var tableItems=$('#dataTables-themes').DataTable({
+            responsive: true,
+            "dom": 'rtip',
+            "processing": true,
+            "iDisplayLength": 5,
+            "autoWidth": false,
+            "serverSide": true,
+            "searching": false,
+            "ordering": false,
+            "ajax": "{{url('/')}}/goods/index",
+            "language": {
+                "lengthMenu": "每页显示 _MENU_ 条",
+                "zeroRecords": "暂无记录",
+                "info": "正在显示第_PAGE_页，总共_PAGES_页",
+                "infoEmpty": "",
+                "loadingRecords": "加载中...",
+                "processing":     "处理中...",
+                "infoFiltered": "(filtered from _MAX_ total records)",
+                "paginate": {
+                    "next":       "下一页",
+                    "previous":   "上一页"
+                }
+            },
+            "columnDefs": [
+                { //给每个单独的列设置不同的填充，或者使用aoColumns也行           {
+                    "targets": -1,
+                    "mData": null,
+                    "searchable": false,
+                    "orderable": false,
+                    'sClass':'align-center',
+                    "mRender": function (data, type, full)
+                    {
+                        return '<button type="button" onclick="onChooseClick(\''+full.id+'\',\''+full.name+'\')" class="btn btn-primary btn-xs">选择</button>';
+
+                    }
+                },
+                {
+                    "targets":0,
+                    "mData": 'id'
+                },
+                {
+                    "targets": 1,
+                    'sClass':'align-center',
+                    "mData": 'name'
+                }
+
+            ]
+
+        });
+
         $(document).ready(function() {
             $('#dataTables-example').DataTable({
                 responsive: true,
@@ -74,7 +170,12 @@
                         "mRender": function (data, type, full)
                         {
                             var id = full.id;
-                            return '<button type="button" onclick="onEditClick(\''+id+'\')" class="btn btn-primary btn-xs">编辑</button>&nbsp;';
+                            if(id==1){
+                                return '<button type="button" onclick="onEditNewClick(\''+id+'\')" class="btn btn-primary btn-xs">编辑</button>&nbsp;';
+                            }else{
+                                return '<button type="button" onclick="onEditClick(\''+id+'\')" class="btn btn-primary btn-xs">编辑</button>&nbsp;';
+                            }
+
                         }
                     },
                     {
@@ -148,6 +249,58 @@
                     return true;
                 }
             });
+        }
+
+        function onEditNewClick(id){
+            $.ajax({
+                url: "{{url('/')}}/home_navigation/detail/"+id,
+                async: true,
+                type: "GET",
+                dataType:'json',
+                success: function(recv){
+                    if(recv.meta.code=='0'){
+                        var val=recv.meta.error;
+                        bootbox.alert(val, function(){
+                        });
+                    }else if(recv.meta.code=='1'){
+                        $("#titleNew").val(recv.meta.data.title);
+                        $("#subheadNew").val(recv.meta.data.subhead);
+
+                        $("#tableName").html('商品列表');
+                        tableItems.ajax.url("{{url('/')}}/goods/index").load();
+
+                        $.each(recv.meta.data.goods, function (key, item) {
+                            onChooseClick(item.goods.id,item.goods.name);
+                        });
+
+                        $('#homeForm').attr('action',baseUrl+'/home_navigation/update/'+id);
+                        $("#homeTitle").html('修改');
+                        $('#homeModel').modal('show');
+                    }
+                    return true;
+                }
+            });
+        }
+
+        function deal_choose_data(){
+            var str='';
+            tableChoose.data().each( function (d) {
+                str+= d.id+',';
+            } );
+            $("#chooseId").val(str);
+        }
+        $('#dataTables-choose tbody').on( 'click', 'button', function () {
+            tableChoose.row( $(this).parents('tr') ).remove().draw();
+            deal_choose_data();
+        } );
+        function onChooseClick(id,name){
+            var t ={};
+            t.id=id;
+            t.name=name;
+
+            tableChoose.row.add( t ).draw();
+            deal_choose_data();
+
         }
 
     </script>
@@ -246,6 +399,77 @@
                             <label for="inputGoodsName" class="col-sm-2 control-label">排序</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="sort" name="sort" placeholder="请输入排序" value="1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn_first" >提交</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </form>
+    </div><!-- /.modal -->
+
+    <!-- Modal dialog -->
+    <div class="modal fade" id="homeModel">
+        <form enctype="multipart/form-data" id="homeForm" class="row-border form-horizontal" method="post"  action="">
+            {!! csrf_field() !!}
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="homeTitle"></h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">标题</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="titleNew" name="titleNew" placeholder="请输入标题">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">副标题</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="subheadNew" name="subheadNew" placeholder="请输入副标题">
+                            </div>
+                        </div>
+
+
+                        <div id="chooseDiv" class="form-group">
+                            <label for="inputGoodsName" class="col-sm-2 control-label">当前选择</label>
+                            <div class="col-sm-8">
+                                <input type="hidden" class="form-control" id="chooseId" name="item_id" >
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-choose">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>名称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="tableDiv" class="form-group">
+                            <label for="inputGoodsName" id="tableName" class="col-sm-2 control-label">主题列表</label>
+                            <div class="col-sm-9">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-themes">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>名称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

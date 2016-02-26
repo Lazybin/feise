@@ -95,7 +95,7 @@ class BannerController extends Controller
         $params=$request->all();
         $banner=Banner::find($id);
         if($banner!=null){
-            if($banner->type==3){
+            if($banner->type==4){
                 BannerGoods::where('banner_id',$banner->id)->delete();
             }
             $banner->title=$params['title'];
