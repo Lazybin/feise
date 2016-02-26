@@ -74,7 +74,7 @@ class BannerController extends Controller
         }elseif($banner->type==0||$banner->type==1){
             $banner->item_id=substr($params['item_id'],0,strlen($params['item_id'])-1);
             $banner->save();
-        }else{
+        }elseif($banner->type==4){
             $banner->save();
             $items=substr($params['item_id'],0,strlen($params['item_id'])-1);
             $items=explode(',',$items);
@@ -125,7 +125,7 @@ class BannerController extends Controller
             }elseif($banner->type==0||$banner->type==1){
                 $banner->item_id=substr($params['item_id'],0,strlen($params['item_id'])-1);
                 $banner->save();
-            }else{
+            }elseif($banner->type==4){
                 $banner->save();
                 $items=substr($params['item_id'],0,strlen($params['item_id'])-1);
                 $items=explode(',',$items);

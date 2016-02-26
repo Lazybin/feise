@@ -201,7 +201,7 @@
                                 return '专题';
                             else if(data==2)
                                 return '活动';
-                            else if(data==3)
+                            else if(data==4)
                                 return '商品合集';
                         }
                     },
@@ -305,7 +305,7 @@
                             $("#chooseDiv").css('display','inline');
                             $("#tableDiv").css('display','inline');
                             $("#divActive").css('display','none');
-                        }else if(recv.meta.data.type==3){
+                        }else if(recv.meta.data.type==4){
                             $("#tableName").html('商品列表');
                             tableItems.ajax.url("{{url('/')}}/goods/index").load();
 
@@ -398,7 +398,7 @@
             t.name=name;
 
             var type=$("#type").val();
-            if(type!=3){
+            if(type!=4){
                 tableChoose.clear().draw();
             }
             tableChoose.row.add( t ).draw();
@@ -412,7 +412,7 @@
                 $("#typeDiv").css('display','inline');
             }else{
                 $("#type").val(2);
-                $("#typeDiv").css('display','none');
+                $("#typeDiv").css('display','inline');
             }
             onTypeChange();
         }
@@ -432,7 +432,7 @@
                 $("#chooseDiv").css('display','inline');
                 $("#tableDiv").css('display','inline');
                 $("#divActive").css('display','none');
-            }else if(type==3){
+            }else if(type==4){
                 $("#tableName").html('商品列表');
                 tableItems.ajax.url("{{url('/')}}/goods/index").load();
                 $("#chooseDiv").css('display','inline');
@@ -538,7 +538,7 @@
                                     <option value="0">主题</option>
                                     <option value="1">专题</option>
                                     <option value="2">活动</option>
-                                    <option value="3">商品合集</option>
+                                    <option value="4">商品合集</option>
                                 </select>
                             </div>
                         </div>
