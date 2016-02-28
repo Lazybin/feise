@@ -27,7 +27,7 @@ class WapController extends Controller
      *
      * @SWG\Api(
      *   path="/wap/banner_detail/{id}",
-     *   description="APP WAP 页",
+     *   description="APP WAP 页（新，20160228）",
      *   @SWG\Operation(
      *     method="GET", summary="banner详情wap", notes="banner详情wap",
      *     @SWG\ResponseMessage(code=0, message="成功"),
@@ -206,6 +206,16 @@ class WapController extends Controller
         return view('wap.app_web',$data);
     }
 
+    /**
+     *
+     * @SWG\Api(
+     *   path="/wap/app_download",
+     *   @SWG\Operation(
+     *     method="GET", summary="分享", notes="app web页",
+     *     @SWG\ResponseMessage(code=0, message="成功")     *
+     *   )
+     * )
+     */
     public function appDownload(){
         return view('wap.app_download');
     }
