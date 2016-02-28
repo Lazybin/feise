@@ -205,4 +205,8 @@ class WapController extends Controller
         $data['app_web']=AppWeb::find($id)->toArray();
         return view('wap.app_web',$data);
     }
+
+    public function appDownload(){
+        return view('wap.app_download');
+    }
 }
