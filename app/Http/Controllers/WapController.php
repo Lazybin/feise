@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\AppWeb;
 use App\Model\Banner;
 use App\Model\Goods;
 use App\Model\HomeNavigation;
@@ -179,5 +180,29 @@ class WapController extends Controller
             return view('wap.new_year_finish',$data);
         }
 
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/wap/app_web/{id}",
+     *   @SWG\Operation(
+     *     method="GET", summary="app web页", notes="app web页",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="id",
+     *         description="id:1->妃色简介,2->妃色评价,3->软件许可协议,4->常见问题,5->快速领券",
+     *         paramType="path",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer",
+     *     )
+     *
+     *   )
+     * )
+     */
+    public function appWeb($id){
+        $data['app_web']=AppWeb::find($id)->toArray();
+        return view('wap.app_web',$data);
     }
 }

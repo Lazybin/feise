@@ -47,6 +47,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('api/v1/wap/home_navigation_detail/{id}','WapController@homeNavigationDetail');
     Route::get('api/v1/wap/new_year_activity/{user_id}','WapController@newYearActivity');
 
+    Route::get('api/v1/wap/app_web/{id}','WapController@appWeb');
+
 
     Route::resource('api/v1/new_year_active','Api\V1\NewYearActivityController');
 
