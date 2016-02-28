@@ -211,6 +211,11 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/user_level/update/{id}', 'Admin\UserLevelsController@update');
         Route::delete('/user_level/delete/{id}', 'Admin\UserLevelsController@delete');
 
+        Route::get('/app_web/', 'Admin\AppWebController@show');
+        Route::get('/app_web/index', 'Admin\AppWebController@index');
+        Route::get('/app_web/detail/{id}', 'Admin\AppWebController@detail');
+        Route::post('/app_web/update/{id}', 'Admin\AppWebController@update');
+
     });
 
 

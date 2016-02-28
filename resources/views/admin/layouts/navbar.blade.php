@@ -96,6 +96,9 @@
                             <li>
                                 <a href="{{url('/banner/')}}">banner设置</a>
                             </li>
+                            <li>
+                                <a href="{{url('/app_web/')}}">app网页设置</a>
+                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
