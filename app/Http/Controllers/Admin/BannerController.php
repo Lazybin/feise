@@ -93,6 +93,7 @@ class BannerController extends Controller
     public function update(Request $request,$id)
     {
         $params=$request->all();
+
         $banner=Banner::find($id);
         if($banner!=null){
             if($banner->type==4){
@@ -103,6 +104,8 @@ class BannerController extends Controller
             $banner->banner_position=$params['banner_position'];
             $banner->type=$params['type'];
 
+
+
             if ($request->hasFile('coverImage'))
             {
                 $file = $request->file('coverImage');
@@ -112,16 +115,18 @@ class BannerController extends Controller
 
                 $banner->path='/upload/'.$fileName;
             }
+
+
             if($banner->type==2){
                 if ($request->hasFile('detailImage'))
                 {
                     $file = $request->file('detailImage');
                     $fileName=md5(uniqid()).'.'.$file->getClientOriginalExtension();
                     $file->move(base_path().'/public/upload',$fileName);
-
-
                     $banner->detail_image='/upload/'.$fileName;
                 }
+                $banner->item_id=substr($params['item_id'],0,strlen($params['item_id'])-1);
+                $banner->save();
             }elseif($banner->type==0||$banner->type==1){
                 $banner->item_id=substr($params['item_id'],0,strlen($params['item_id'])-1);
                 $banner->save();
