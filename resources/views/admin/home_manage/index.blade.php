@@ -30,6 +30,8 @@
             "autoWidth": false,
             "searching": false,
             "ordering": false,
+            "serverSide": true,
+            "ajax": "{{url('/')}}/themes/index",
             "language": {
                 "lengthMenu": "每页显示 _MENU_ 条",
                 "zeroRecords": "暂无记录",
