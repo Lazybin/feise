@@ -52,6 +52,7 @@ class HomeNavigationController extends Controller
                 $homeNavigation->subhead=$params['subheadNew'];
                 $homeNavigation->save();
 
+                HomeButtonGoods::where('home_button_id',$homeNavigation->id)->delete();
                 $items=substr($params['item_id'],0,strlen($params['item_id'])-1);
                 $items=explode(',',$items);
                 foreach($items as $v){
