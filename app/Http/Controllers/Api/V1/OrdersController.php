@@ -199,6 +199,9 @@ class OrdersController extends Controller
         $content->total_fee=$total_fee;
         $content->shipping_fee=10;//总运费
         $content->out_trade_no=$this->buildOrderNo();
+        if($total_fee==0){
+            $content->status=1;
+        }
         $order=Order::create((array)$content);
 
         $useCouponRecords=new UseCouponRecords();
