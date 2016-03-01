@@ -369,7 +369,7 @@ class OrdersController extends Controller
         if($body==''){
             $body=$subject;
         }
-        $order->total_fee=0.01;
+        //$order->total_fee=0.01;
 
         $payInfo .= "&subject="."\"".$subject. "\"";
 
@@ -540,6 +540,8 @@ class OrdersController extends Controller
             $data['weixinPayInfo']=$this->getWeiXinPayParameter($t['responseObj']->prepay_id);
         }else{
             include_once '../vendor/yinlian_sdk/acp_service.php';
+
+            $order=Order::where('out_trade_no',$out_trade_no)->first();
             $params = array(
 
                 //以下信息非特殊情况不需要改动
@@ -559,7 +561,7 @@ class OrdersController extends Controller
                 'merId' => '777290058125654',		//商户代码，请改自己的测试商户号，此处默认取demo演示页面传递的参数
                 'orderId' =>$out_trade_no,	//商户订单号，8-32位数字字母，不能含“-”或“_”，此处默认取demo演示页面传递的参数，可以自行定制规则
                 'txnTime' => date('YmdHis',time()),	//订单发送时间，格式为YYYYMMDDhhmmss，取北京时间，此处默认取demo演示页面传递的参数
-                'txnAmt' => 1,	//交易金额，单位分，此处默认取demo演示页面传递的参数
+                'txnAmt' => ($order->total_fee)*100,	//交易金额，单位分，此处默认取demo演示页面传递的参数
 // 		'reqReserved' =>'透传信息',        //请求方保留域，透传字段，查询、通知、对账文件中均会原样出现，如有需要请启用并修改自己希望透传的数据
 
                 //TODO 其他特殊用法请查看 pages/api_05_app/special_use_purchase.php
@@ -712,7 +714,7 @@ class OrdersController extends Controller
 
         $parameters["body"]=$subject;
         $parameters["attach"]='';
-        $parameters["total_fee"]=1;
+        $parameters["total_fee"]=($order->total_fee)*100;
         $parameters["trade_type"]="APP";
         $parameters["notify_url"]="http://120.27.199.121/feise/public/notify/weixin";
 
