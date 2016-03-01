@@ -95,7 +95,7 @@ class SearchController extends Controller
         $response=new BaseResponse();
         $start=($start-1)*$length;
         if($type==0){
-            $goods=Goods::where('name', 'like', '%'.$keywords.'%')->orWhere('description','like', '%'.$keywords.'%');
+            $goods=Goods::where('name', 'like', '%'.$keywords.'%')->orWhere('goods_description','like', '%'.$keywords.'%');
             $total=$goods->count();
             $goods=$goods->skip($start)->take($length)->orderBy('id','desc');
             $rows=$goods->get()->toArray();
