@@ -136,7 +136,7 @@ class PresentCouponController extends Controller
 
     private function post($data=null)
     {
-        $request_url='http://112.124.27.45:8080/zhmf/member/consumerCoupon/presentCoupon';
+        $request_url='http://zhihuimeiye.net/zhmf/member/consumerCoupon/presentCoupon';
         $ch = curl_init ();
         $header = array ();
         $header [] = 'Content-Type: application/json';

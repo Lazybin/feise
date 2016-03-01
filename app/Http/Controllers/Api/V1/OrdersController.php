@@ -235,7 +235,7 @@ class OrdersController extends Controller
 
     private function post($url,$data=null)
     {
-        $request_url='http://112.124.27.45:8080'.$url;
+        $request_url='http://zhihuimeiye.net'.$url;
         $ch = curl_init ();
         $header = array ();
         $header [] = 'Content-Type: application/json';
