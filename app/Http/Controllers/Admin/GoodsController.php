@@ -4,13 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Model\ActivityClassification;
 use App\Model\ActivityClassificationGoods;
+use App\Model\BannerGoods;
 use App\Model\Category;
 use App\Model\CategoryProperty;
+use App\Model\ConversionGoods;
 use App\Model\FreePost;
 use App\Model\FreePostGoods;
 use App\Model\Goods;
 use App\Model\GoodsCategoryProperty;
 use App\Model\GoodsImages;
+use App\Model\HomeButtonGoods;
+use App\Model\ThemeGoods;
+use App\Model\Themes;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -174,6 +179,47 @@ class GoodsController extends Controller
         $ret['meta']['code']=1;
         $ret['meta']['data']=$goods;
         echo json_encode($ret);
+    }
+    public function updatePutaway(Request $requests)
+    {
+        $id=$requests->input('id');
+        $status=$requests->input('status');
+        if($status==0){
+            $hasUse=$this->hasUse($id);
+            if($hasUse!=1){
+                $ret['meta']['code']=0;
+                $ret['meta']['error']='该商品已在使用中，不能下架';
+                echo json_encode($ret);
+                return;
+            }
+        }
+        $goods=Goods::find($id);
+        $goods->is_putaway=$status;
+        $goods->save();
+        $ret['meta']['code']=1;
+        echo json_encode($ret);
+    }
+
+    private function hasUse($id){
+        if(ThemeGoods::where('goods_id',$id)->count()>0){
+            return -1;
+        }
+        if(BannerGoods::where('goods_id',$id)->count()>0){
+            return -2;
+        }
+        if(ActivityClassificationGoods::where('goods_id',$id)->count()>0){
+            return -3;
+        }
+        if(ConversionGoods::where('goods_id',$id)->count()>0){
+            return -4;
+        }
+        if(FreePostGoods::where('goods_id',$id)->count()>0){
+            return -5;
+        }
+        if(HomeButtonGoods::where('goods_id',$id)->count()>0){
+            return -6;
+        }
+        return 1;
     }
 
     public function update(Request $requests,$id)

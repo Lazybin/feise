@@ -149,6 +149,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::delete('/goods/delete/{id}', 'Admin\GoodsController@delete');
         Route::get('/goods/detail/{id}', 'Admin\GoodsController@detail');
         Route::post('/goods/update/{id}', 'Admin\GoodsController@update');
+        Route::get('/goods/update_putaway', 'Admin\GoodsController@updatePutaway');
 
 
         Route::get('/themes/', 'Admin\ThemesController@show');

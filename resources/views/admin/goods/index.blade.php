@@ -21,6 +21,7 @@
     <script src="{{ url('/js/ueditor.all.min.js') }}"></script>
     <script src="{{ url('/js/jquery.tagsinput.min.js') }}"></script>
     <script src="{{ url('../resources/assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+    <script src="{{ url('/js/bootbox.min.js') }}"></script>
     <script>
         var baseUrl="{{url('/')}}";
         var ue = UE.getEditor('container',{
@@ -111,8 +112,14 @@
                         "mRender": function (data, type, full)
                         {
                             var id = full.id;
-                            return '<button type="button" onclick="onEditClick(\''+id+'\')" class="btn btn-primary btn-xs">编辑</button>'+
-                                    '<button type="button" onclick="onDelete(\''+id+'\')" class="btn btn-danger btn-xs">删除</button>';
+                            var ret= '<button type="button" onclick="onEditClick(\''+id+'\')" class="btn btn-primary btn-xs">编辑</button>&nbsp;';
+                            if(full.is_putaway==1){
+                                ret+='<button type="button" onclick="onPutawayClick(\''+id+'\',0,this)" class="btn btn-warning btn-xs">下架</button>&nbsp;';
+                            }else{
+                                ret+='<button type="button" onclick="onPutawayClick(\''+id+'\',1,this)" class="btn btn-info btn-xs">上架</button>&nbsp;';
+                            }
+                            ret+='<button type="button" onclick="onDelete(\''+id+'\')" class="btn btn-danger btn-xs">删除</button>';
+                            return ret;
                         }
                     },
                     {
@@ -204,6 +211,10 @@
             $("#useCouponRadios1").attr("checked","checked");
             $("#isTaobaokeRadios2").attr("checked","checked");
             $("#isPresellRadios2").attr("checked","checked");
+            $("#putawayRadios1").attr("checked","checked");
+
+            $('#isPutawayDiv').css("display","inline");
+
             $("#presell_time").val('');
             $("#platform").val(-1);
             $("#taobaoke_url").val('');
@@ -242,6 +253,34 @@
             $('#goodsForm').attr('action',baseUrl+'/goods/store');
 
             $('#adminModel').modal('show');
+        }
+
+        function onPutawayClick(id,status,obj){
+            $.ajax({
+                url: "{{url('/')}}/goods/update_putaway?id="+id+"&status="+status,
+                async: true,
+                type: "GET",
+                dataType:'json',
+                success: function(recv){
+                    if(recv.meta.code=='0'){
+                        var val=recv.meta.error;
+                        bootbox.alert(val, function(){
+                        });
+                    }else if(recv.meta.code=='1'){
+                        var ret= '<button type="button" onclick="onEditClick(\''+id+'\')" class="btn btn-primary btn-xs">编辑</button>&nbsp;';
+                        if(status==1){
+                            ret+='<button type="button" onclick="onPutawayClick(\''+id+'\',0,this)" class="btn btn-warning btn-xs">下架</button>&nbsp;';
+                        }else{
+                            ret+='<button type="button" onclick="onPutawayClick(\''+id+'\',1,this)" class="btn btn-info btn-xs">上架</button>&nbsp;';
+                        }
+                        ret+='<button type="button" onclick="onDelete(\''+id+'\')" class="btn btn-danger btn-xs">删除</button>';
+
+                        $(obj).parent().html(ret);
+                        //return ret;
+                    }
+                    return true;
+                }
+            });
         }
 
         function onEditClick(id){
@@ -289,6 +328,15 @@
                         }else{
                             $("#isTaobaokeRadios2").attr("checked","checked");
                         }
+
+                        if(recv.meta.data.is_putaway==1){
+                            $("#putawayRadios1").attr("checked","checked");
+                        }else{
+                            $("#putawayRadios2").attr("checked","checked");
+                        }
+
+                        $('#isPutawayDiv').css("display","none");
+
                         $("#platform").val(recv.meta.data.platform);
                         $("#taobaoke_url").val(recv.meta.data.taobaoke_url);
 
@@ -621,6 +669,18 @@
                                 <div class="col-sm-4">
                                     <input type="text" value="0" class="form-control" id="coupon_amount" name="coupon_amount" placeholder="请输入抵用金额">
                                 </div>
+                            </div>
+                            <div class="form-group" id="isPutawayDiv" >
+                                <label for="inputGoodsName" class="col-sm-2 control-label">是否上架</label>
+                                <div class="col-sm-3">
+                                    <label class="radio-inline">
+                                        <input type="radio"  name="is_putaway" id="putawayRadios1" value="1">是
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="is_putaway" id="putawayRadios2" value="0">否
+                                    </label>
+                                </div>
+
                             </div>
                             <div class="form-group">
                                 <label for="inputGoodsName" class="col-sm-2 control-label">淘宝客商品</label>
