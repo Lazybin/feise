@@ -35,16 +35,31 @@ class GoodsController extends Controller
         $start=$request->input('start', 0);
         $length=$request->input('length', 5);
         $draw=$request->input('draw', 1);
+        $show_putaway=$request->input('show_putaway', 0);
 
         $category_id=$request->input('category_id');
 
         if($category_id!=null){
-            $goods=Goods::where('category_id',$category_id);
+            if($show_putaway==0)
+            {
+                $goods=Goods::where('is_putaway',1);
+                $goods=$goods->where('category_id',$category_id);
+            }else{
+                $goods=Goods::where('category_id',$category_id);
+            }
+
             $count=$goods->count();
             $goods->skip($start)->take($length)->orderBy('id','desc');
         }else{
-            $count=Goods::count();
-            $goods=Goods::skip($start)->take($length)->orderBy('id','desc');
+            if($show_putaway==0)
+            {
+                $goods=Goods::where('is_putaway',1);
+                $count=$goods->count();
+                $goods=$goods->skip($start)->take($length)->orderBy('id','desc');
+            }else{
+                $count=Goods::count();
+                $goods=Goods::skip($start)->take($length)->orderBy('id','desc');
+            }
         }
 
 

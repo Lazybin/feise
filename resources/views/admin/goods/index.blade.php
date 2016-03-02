@@ -101,7 +101,7 @@
                 "serverSide": true,
                 "searching": false,
                 "ordering": false,
-                "ajax": "{{url('/')}}/goods/index",
+                "ajax": "{{url('/')}}/goods/index?show_putaway=1",
                 "columnDefs": [
                     { //给每个单独的列设置不同的填充，或者使用aoColumns也行           {
                         "targets": -1,
