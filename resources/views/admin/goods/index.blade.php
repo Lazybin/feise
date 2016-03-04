@@ -95,11 +95,13 @@
                     }
                 },
                 "iDisplayLength": 10,
-                "lengthMenu" : [[5, 10, 20, 50, -1], [5, 10, 20, 50, "全部"]],
+                //"lengthMenu" : [[5, 10, 20, 50, -1], [5, 10, 20, 50, "全部"]],
                 "processing": true,
                 "autoWidth": false,
                 "serverSide": true,
                 "searching": false,
+                "lengthChange": false,
+                //"dom":"<'row'<'dataTables_header clearfix'<'col-md-6'l><'col-md-6'>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
                 "ordering": false,
                 "ajax": "{{url('/')}}/goods/index?show_putaway=1",
                 "columnDefs": [
@@ -552,7 +554,41 @@
                         </div>
                     </div>
                     <!-- /.panel-heading -->
-                    <div class="panel-body">
+                    <div class="panel-body" style="padding-bottom: 0;">
+                        <div class="row form-group">
+                            <div class="col-md-2" style="padding-right: 0;">
+                                <label for="inputGoodsName" style="padding-right: 0;padding-left: 0" class="col-sm-3 control-label">关键字</label>
+                                <div class="col-sm-9" style="padding-left: 0">
+                                    <input class="form-control" id="key_words" type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="padding-right: 0;padding-left: 0;">
+                                <div class="col-sm-12" style="padding-left: 0;padding-right: 0">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox1" value="baopin"> 爆品
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox2" value="baoyou"> 包邮
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="inlineCheckbox2" value="guanlian"> 关联主题
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="padding-right: 0;padding-left: 0;">
+                                <div class="col-sm-12" style="padding-left: 0">
+                                    <select class="form-control" >
+                                        <option value="-1" selected>活动分类</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="padding-right: 0;padding-left: 0;">
+                                <button type="button" onclick="onSearchClick()" class="btn btn-primary">搜索</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-body" style="padding-top: 0;">
                         <div class="dataTable_wrapper">
                             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
