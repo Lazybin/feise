@@ -43,6 +43,7 @@ return array(
     'CreateThemesTable' => $baseDir . '/database/migrations/2016_01_19_061332_create_themes_table.php',
     'CreateUseCouponRecordsTable' => $baseDir . '/database/migrations/2016_02_25_203300_create_use_coupon_records_table.php',
     'CreateUserCommentsTable' => $baseDir . '/database/migrations/2016_02_16_113758_create_user_comments_table.php',
+    'CreateUserInfosTable' => $baseDir . '/database/migrations/2016_03_04_143410_create_user_infos_table.php',
     'CreateUserLevelsTable' => $baseDir . '/database/migrations/2016_02_18_143552_create_user_levels_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
