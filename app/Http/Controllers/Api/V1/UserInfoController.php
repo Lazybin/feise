@@ -62,12 +62,12 @@ class UserInfoController extends Controller
         $response=new BaseResponse();
         $content = json_decode($request->getContent(false));
 
-        if(!isset($content->user_id)){
+        if(!isset($content->id)){
             $response->Code=BaseResponse::CODE_ERROR_CHECK;
             $response->Message='用户id不能为空';
             return $response->toJson();
         }
-        $userId=$content->user_id;
+        $userId=$content->id;
         $userAccount=$content->user_account;
         $nickName=$content->nick_name;
         $headIcon=$content->head_icon;
