@@ -57,9 +57,57 @@ class GoodsController extends Controller
                 $count=$goods->count();
                 $goods=$goods->skip($start)->take($length)->orderBy('id','desc');
             }else{
-                $count=Goods::count();
-                $goods=Goods::skip($start)->take($length)->orderBy('id','desc');
+                $goods=Goods::orderBy('goods.id','desc');
+
+                $keywords=$request->input('key_words');
+                if($keywords!=null&&$keywords!=''){
+                    $goods=$goods->where('goods.name', 'like', '%'.$keywords.'%')
+                        ->orWhere('goods.goods_description','like', '%'.$keywords.'%');
+                }
+
+                $baoyou=$request->input('baoyou');
+                if($baoyou!=0){
+                    $goods=$goods->join('free_post_goods','free_post_goods.goods_id','=','goods.id');
+                }
+
+                $baopin=$request->input('baopin');
+                if($baopin!=0){
+                    $goods=$goods->join('conversion_goods','conversion_goods.goods_id','=','goods.id');
+                }
+
+                $guanlian=$request->input('guanlian');
+                if($guanlian!=0){
+                    $goods=$goods->join('theme_goods','theme_goods.goods_id','=','goods.id');
+                }
+
+                $fenlei=$request->input('fenlei');
+                if($fenlei!=-1){
+                    $goods=$goods->join('activity_classification_goods','activity_classification_goods.goods_id','=','goods.id')
+                    ->where('activity_classification_goods.activity_classification_id','=',$fenlei);
+                }
+
+                $goods=$goods->select('goods.*');
+                $count=$goods->count();
+                $goods=$goods->skip($start)->take($length);
             }
+        }
+
+
+
+        $goods=$goods->get();
+        $arrGoodsList=[];
+        foreach($goods as $g){
+            $arrGoods['id']=$g->id;
+            $arrGoods['name']=$g->name;
+            $arrGoods['price']=$g->price;
+            $arrGoods['original_price']=$g->original_price;
+            $arrGoods['use_coupon']=$g->use_coupon;
+            $arrGoods['coupon_amount']=$g->coupon_amount;
+            $arrGoods['express_way']=$g->express_way;
+            $arrGoods['express_fee']=$g->express_fee;
+            $arrGoods['returned_goods']=$g->returned_goods;
+            //$arrGoods['express_fee']=$g->express_fee;
+            $arrGoodsList[]=$arrGoods;
         }
 
 
@@ -67,7 +115,7 @@ class GoodsController extends Controller
             "draw"            => intval( $draw ),
             "recordsTotal"    => intval($count),
             "recordsFiltered" => intval($count),
-            "data"            => $goods->get()->toArray()
+            "data"            => $arrGoodsList
         ));
     }
 

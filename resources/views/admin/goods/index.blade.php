@@ -31,6 +31,8 @@
             initialFrameHeight:320  //初始化编辑器高度,默认320
         });
 
+        var t_tables;
+
         var $input = $("#uploadImages");
         $input.fileinput({
             uploadUrl: "{{url('/upload_file')}}", // server upload action
@@ -79,7 +81,7 @@
         $(document).ready(function() {
 
 
-            $('#dataTables-example').DataTable({
+            t_tables=$('#dataTables-example').DataTable({
                 responsive: true,
                 "language": {
                     "lengthMenu": "每页显示 _MENU_ 条",
@@ -103,7 +105,35 @@
                 "lengthChange": false,
                 //"dom":"<'row'<'dataTables_header clearfix'<'col-md-6'l><'col-md-6'>r>>t<'row'<'dataTables_footer clearfix'<'col-md-6'i><'col-md-6'p>>>",
                 "ordering": false,
-                "ajax": "{{url('/')}}/goods/index?show_putaway=1",
+                //"ajax": "{{url('/')}}/goods/index?show_putaway=1",
+                "ajax": {
+                    "url": "{{url('/')}}/goods/index?show_putaway=1",
+                    "data": function ( d ) {
+                        d.key_words = $("#key_words").val();
+                        var checkbox1 = document.getElementById('baoyou');//
+                        if(checkbox1.checked){
+                            d.baoyou = 1;
+                        }else{
+                            d.baoyou = 0;
+                        }
+                        var checkbox2 = document.getElementById('baopin');//
+                        if(checkbox2.checked){
+                            d.baopin = 1;
+                        }else{
+                            d.baopin = 0;
+                        }
+
+                        var checkbox3 = document.getElementById('guanlian');//
+                        if(checkbox3.checked){
+                            d.guanlian = 1;
+                        }else{
+                            d.guanlian = 0;
+                        }
+
+                        d.fenlei=$("#fenlei").val();
+
+                    }
+                },
                 "columnDefs": [
                     { //给每个单独的列设置不同的填充，或者使用aoColumns也行           {
                         "targets": -1,
@@ -202,6 +232,9 @@
             });
 
         });
+        function onSearchClick(){
+            t_tables.draw();
+        }
         function onAddClick(){
             $("#name").val('');
             $("#parentCategory").val(-1);
@@ -556,29 +589,32 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body" style="padding-bottom: 0;">
                         <div class="row form-group">
-                            <div class="col-md-2" style="padding-right: 0;">
+                            <div class="col-md-3" style="padding-right: 0;">
                                 <label for="inputGoodsName" style="padding-right: 0;padding-left: 0" class="col-sm-3 control-label">关键字</label>
                                 <div class="col-sm-9" style="padding-left: 0">
                                     <input class="form-control" id="key_words" type="text" />
                                 </div>
                             </div>
-                            <div class="col-md-2" style="padding-right: 0;padding-left: 0;">
+                            <div class="col-md-3" style="padding-right: 0;padding-left: 0;">
                                 <div class="col-sm-12" style="padding-left: 0;padding-right: 0">
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" id="inlineCheckbox1" value="baopin"> 爆品
+                                        <input type="checkbox" id="baopin"> 爆品
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" id="inlineCheckbox2" value="baoyou"> 包邮
+                                        <input type="checkbox" id="baoyou"> 包邮
                                     </label>
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" id="inlineCheckbox2" value="guanlian"> 关联主题
+                                        <input type="checkbox" id="guanlian"> 关联主题
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-1" style="padding-right: 0;padding-left: 0;">
+                            <div class="col-md-2" style="padding-right: 0;padding-left: 0;">
                                 <div class="col-sm-12" style="padding-left: 0">
-                                    <select class="form-control" >
+                                    <select id="fenlei" class="form-control" >
                                         <option value="-1" selected>活动分类</option>
+                                        @foreach($activity_classification as $ac)
+                                            <option value="{{$ac['id']}}">{{$ac['name']}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
