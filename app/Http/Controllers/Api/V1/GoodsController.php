@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Api\V1;
 use App\Model\BaseResponse;
 use App\Model\Collection;
 use App\Model\Goods;
+use App\Model\Order;
 use App\Model\UserComment;
+use App\Model\UserLevel;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+
 /**
  * @SWG\Resource(
  *     apiVersion="0.2",
@@ -93,8 +97,25 @@ class GoodsController extends Controller
                 $theme['has_collection']=1;
             }
         }
-        $comments=UserComment::select('user_comments.*','user_infos.nick_name','user_infos.head_icon')->leftJoin('user_infos','user_infos.id','=','user_comments.user_id')->where('type',0)->where('item_id',$theme['id']);
+        //var_dump($theme);exit;
+        $comments=UserComment::select('user_comments.*','user_infos.nick_name','user_infos.head_icon')->leftJoin('user_infos','user_infos.id','=','user_comments.user_id')
+            ->where('user_comments.type',0)
+            ->where('user_comments.item_id',$theme['id']);
         $rows=$comments->skip(0)->take(10)->orderBy('id','desc')->get()->toArray();
+
+        foreach($rows as &$v){
+            //$v['']
+            $sum=Order::select(DB::raw('SUM(total_fee) as total_pay'))->where('user_id',$v['user_id'])->where('status',4)->first()->toArray();
+            if($sum==null||$sum['total_pay']==null){
+                $sum=0;
+            }else{
+                $sum=$sum['total_pay'];
+            }
+
+            $level=UserLevel::where('sum_lowest','<=',$sum)->where('sum_highest','>',$sum)->first()->toArray();
+            //var_dump($level);exit;
+            $v['level']=$level['name'];
+        }
 
         $theme['comments']=$rows;
         $response->Data=$theme;
