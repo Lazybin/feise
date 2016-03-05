@@ -78,7 +78,7 @@ class UserCommentsController extends Controller
         $comments=UserComment::select('user_comments.*','user_infos.nick_name','user_infos.head_icon')->leftJoin('user_infos','user_infos.id','=','user_comments.user_id')
             ->where('user_comments.type',$type)
             ->where('user_comments.item_id',$item_id);
-        $rows=$comments->skip($start)->take($length)->orderBy('id','desc')->get()->toArray();
+        $rows=$comments->skip($start)->take($length)->orderBy('user_comments.id','desc')->get()->toArray();
 
         foreach($rows as &$v){
             //$v['']
