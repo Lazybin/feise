@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Api\V1;
 use App\Model\BaseResponse;
 use App\Model\Collection;
 use App\Model\Home;
+use App\Model\Order;
 use App\Model\UserComment;
+use App\Model\UserLevel;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+
 /**
  * @SWG\Resource(
  *     apiVersion="0.2",
