@@ -106,6 +106,7 @@ class GoodsController extends Controller
             $arrGoods['express_way']=$g->express_way;
             $arrGoods['express_fee']=$g->express_fee;
             $arrGoods['returned_goods']=$g->returned_goods;
+            $arrGoods['is_putaway']=$g->is_putaway;
             //$arrGoods['express_fee']=$g->express_fee;
             $arrGoodsList[]=$arrGoods;
         }
