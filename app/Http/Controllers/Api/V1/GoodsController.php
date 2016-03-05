@@ -93,7 +93,7 @@ class GoodsController extends Controller
                 $theme['has_collection']=1;
             }
         }
-        $comments=UserComment::where('type',0)->where('item_id',$theme['id']);
+        $comments=UserComment::select('user_comments.*','user_info.nick_name','user_info.head_icon')->leftJoin('user_info','user_info.id','=','user_comments.user_id')->where('type',0)->where('item_id',$theme['id']);
         $rows=$comments->skip(0)->take(10)->orderBy('id','desc')->get()->toArray();
 
         $theme['comments']=$rows;
