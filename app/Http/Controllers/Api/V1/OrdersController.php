@@ -155,9 +155,22 @@ class OrdersController extends Controller
                     ConversionGoods::where('goods_id',$goods->id)->count()>0
                 ){
                     $total_fee=$total_fee+($goods->price)*$g->num;
-                }else if($g->use_coupon==1){
+                    $coupon_total=$coupon_total+(($goods->coupon_amount)*$g->num);
+                    $goods->num=$goods->num-$g->num;
+                    if($goods->num<0){
+                        $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
+                        $response->Message="商品库存不够";
+                        DB::rollback();
+                        return $response->toJson();
+                    }
+                    $goods->save();
+                    continue;
+                }
+
+                if($g->use_coupon==1){
                     $total_fee=$total_fee+(($goods->price)*$g->num)-(($goods->coupon_amount)*$g->num);
                     $coupon_total=$coupon_total+(($goods->coupon_amount)*$g->num);
+
                 }else{
                     $total_fee=$total_fee+($goods->price)*$g->num;
                 }
