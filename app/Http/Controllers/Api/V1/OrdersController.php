@@ -154,12 +154,12 @@ class OrdersController extends Controller
                     FreePostGoods::where('goods_id',$goods->id)->count()>0||
                     ConversionGoods::where('goods_id',$goods->id)->count()>0
                 ){
-                    $total_fee=$total_fee+($goods->price)*$g;
+                    $total_fee=$total_fee+($goods->price)*$g->num;
                 }else if($g->use_coupon==1){
                     $total_fee=$total_fee+(($goods->price)*$g->num)-(($goods->coupon_amount)*$g->num);
                     $coupon_total=$coupon_total+(($goods->coupon_amount)*$g->num);
                 }else{
-                    $total_fee=$total_fee+($goods->price)*$g;
+                    $total_fee=$total_fee+($goods->price)*$g->num;
                 }
                 $goods->num=$goods->num-$g->num;
                 if($goods->num<0){
