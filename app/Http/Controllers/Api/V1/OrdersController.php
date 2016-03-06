@@ -382,7 +382,7 @@ class OrdersController extends Controller
         if($body==''){
             $body=$subject;
         }
-        //$order->total_fee=0.01;
+        $order->total_fee=0.01;
 
         $payInfo .= "&subject="."\"".$subject. "\"";
 
