@@ -382,7 +382,7 @@ class OrdersController extends Controller
         if($body==''){
             $body=$subject;
         }
-        $order->total_fee=0.01;
+        //$order->total_fee=0.01;
 
         $payInfo .= "&subject="."\"".$subject. "\"";
 
@@ -727,8 +727,7 @@ class OrdersController extends Controller
 
         $parameters["body"]=$subject;
         $parameters["attach"]='';
-        //$parameters["total_fee"]=($order->total_fee)*100;
-        $parameters["total_fee"]=1;
+        $parameters["total_fee"]=($order->total_fee)*100;
         $parameters["trade_type"]="APP";
         $parameters["notify_url"]="http://120.27.199.121/feise/public/notify/weixin";
 
