@@ -193,6 +193,9 @@ class OrdersController extends Controller
         }
         unset($content->goodsList);
 
+//        DB::rollback();s
+//        echo $coupon_total;exit;
+
         //检测礼券充足
 
         $apiParam=[
@@ -203,17 +206,22 @@ class OrdersController extends Controller
         $res=json_decode($res);
         if($res->Code==0&&$res->Data->enough==false){
             $response->Code=-1;
-            $response->Message="礼券不足1";
+            $response->Message="礼券不足";
             DB::rollback();
             return $response->toJson();
         }
 
+        if($total_fee<=0)
+            $total_fee=0;
 
         $content->total_fee=$total_fee;
         $content->shipping_fee=10;//总运费
         $content->out_trade_no=$this->buildOrderNo();
+
         if($total_fee==0){
             $content->status=1;
+
+
         }
         $order=Order::create((array)$content);
 
@@ -222,7 +230,24 @@ class OrdersController extends Controller
         $useCouponRecords->order_id=$order->id;
         $useCouponRecords->access_token=$accessToken;
         $useCouponRecords->coupon=$coupon_total;
-        $useCouponRecords->status=0;
+
+        if($total_fee==0){
+            $useCouponRecords->status=2;
+            $apiParam=[
+                'accessToken'=>$useCouponRecords->access_token,
+                'coupon'=>$useCouponRecords->coupon,
+                'orderId'=> $content->out_trade_no
+            ];
+            $res=$this->post('/zhmf/member/consumerCoupon/useCoupon',$apiParam);
+            $res=json_decode($res);
+
+            if($res->Code==0){
+                $useCouponRecords->status=1;
+            }
+        }else{
+            $useCouponRecords->status=0;
+        }
+
         $useCouponRecords->save();
 
         foreach($goodsList as $v){
