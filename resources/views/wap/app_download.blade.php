@@ -25,7 +25,7 @@
 </head>
 <body style="">
 <section style="position:relative;text-align: center">
-    <p id="head" style="position:relative;"  class="img show"><img src="{{url('/')}}/img/download.png" alt=""></p>
+    <p id="head" style="position:relative;"  class="img show"><img src="{{url('/')}}/img/download.jpg" alt=""></p>
     <a href="http://fir.im/LigintPinkEP" style="position:absolute;left:48%;top:82%;opacity:0;background-color: red;width: 27%;height: 4%"></a>
     <a href="http://fir.im/h38m" style="position:absolute;left:48%;top:87.5%;opacity:0;background-color: red;width: 27%;height: 4%"></a>
 </section>
