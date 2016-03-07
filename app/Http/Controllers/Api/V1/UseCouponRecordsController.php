@@ -66,6 +66,11 @@ class UseCouponRecordsController extends Controller
         $response=new BaseResponse();
         $records=UseCouponRecords::where('user_id',$user_id)->where('status',1);
         $rows=$records->skip($start)->take($length)->orderBy('id','desc')->get()->toArray();
+        foreach($rows as &$v){
+            foreach($v['order']['goods_list'] as &$g){
+                $g['properties']=json_decode($g['properties']);
+            }
+        }
         $response->rows=$rows;
         $response->total=$records->count();
         return $response->toJson();
