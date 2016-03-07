@@ -49,6 +49,7 @@ Route::group(['middleware' => ['api']], function () {
 
     Route::get('api/v1/wap/app_web/{id}','WapController@appWeb');
     Route::get('api/v1/wap/app_download','WapController@appDownload');
+    Route::get('api/v1/wap/download','WapController@download');
 
 
     Route::resource('api/v1/new_year_active','Api\V1\NewYearActivityController');

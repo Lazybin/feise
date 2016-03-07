@@ -27,7 +27,7 @@ class WapController extends Controller
      *
      * @SWG\Api(
      *   path="/wap/banner_detail/{id}",
-     *   description="APP WAP 页（新，20160228）",
+     *   description="APP WAP 页（新，20160307）",
      *   @SWG\Operation(
      *     method="GET", summary="banner详情wap", notes="banner详情wap",
      *     @SWG\ResponseMessage(code=0, message="成功"),
@@ -46,6 +46,35 @@ class WapController extends Controller
     public function bannerDetail($id){
         $data['content']=Banner::find($id)->toArray();
         return view('wap.banner_detail',$data);
+    }
+
+    /**
+     *
+     * @SWG\Api(
+     *   path="/wap/download",
+     *   @SWG\Operation(
+     *     method="GET", summary="分享下载", notes="分享下载",
+     *     @SWG\ResponseMessage(code=0, message="成功")     *
+     *   )
+     * )
+     */
+    public function download(){
+        $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+        $IOS='http://fir.im/LigintPinkEP';
+        $android='http://fir.im/h38m';
+        if(strpos($agent, 'ipod')) {
+            //$platform = 'ipod';
+            return redirect($IOS);
+        } elseif(strpos($agent, 'ipad')) {
+            //$platform = 'ipad';
+            return redirect($IOS);
+        } elseif(strpos($agent, 'iphone')) {
+            //$platform = 'iphone';
+            return redirect($IOS);
+        } elseif (strpos($agent, 'android')) {
+            //$platform = 'android';
+            return redirect($android);
+        }
     }
 
     /**
