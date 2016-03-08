@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Model\ActivityClassification;
 use App\Model\Banner;
 use App\Model\BaseResponse;
+use App\Model\Collection;
 use App\Model\ConversionGoods;
 use App\Model\FreePost;
 use Illuminate\Http\Request;
@@ -39,12 +40,22 @@ class ActivityPageController extends Controller
      *   @SWG\Operation(
      *     method="GET", summary="获得约惠主页内容", notes="获得约惠主页内容",
      *     type="ActivityPage",
-     *     @SWG\ResponseMessage(code=0, message="成功")     *
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="user_id",
+     *         description="用户id",
+     *         paramType="query",
+     *         required=false,
+     *         allowMultiple=false,
+     *         type="integer",
+     *         defaultValue=-1
+     *     )
      *   )
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
+        $user_id=$request->input('user_id',-1);
         $response=new BaseResponse();
         $ret=(object)null;
         $banners=Banner::where('banner_position',1)->get();
@@ -56,8 +67,19 @@ class ActivityPageController extends Controller
         //包邮
         $freePost=FreePost::all();
         $ret->freePost=$freePost;
-        //兑换
+        //爆品
         $conversionGoods=ConversionGoods::all();
+
+        $conversionGoods=$conversionGoods->toArray();
+        foreach($conversionGoods['goods'] as &$v){
+            $v['has_collection']=0;
+            if($user_id!=-1){
+                $collection=Collection::where('user_id',$user_id)->where('type',0)->where('item_id',$v['id'])->first();
+                if($collection!=null){
+                    $v['has_collection']=1;
+                }
+            }
+        }
         $ret->conversionGoods=$conversionGoods;
 
         $response->Data=$ret;
