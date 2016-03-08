@@ -18,6 +18,7 @@ class CreateUserLevelsTable extends Migration
             $table->integer('sum_lowest');//最低金额
             $table->integer('sum_highest');//最高金额
             $table->string('name');//等级名称
+            $table->string('img');//对应图片
             $table->timestamps();
         });
     }

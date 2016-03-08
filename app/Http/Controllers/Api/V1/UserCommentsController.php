@@ -91,7 +91,7 @@ class UserCommentsController extends Controller
 
             $level=UserLevel::where('sum_lowest','<=',$sum)->where('sum_highest','>',$sum)->first()->toArray();
             //var_dump($level);exit;
-            $v['level']=$level['name'];
+            $v['level']=$level['img'];
         }
         $response->rows=$rows;
         $response->total=$comments->count();
