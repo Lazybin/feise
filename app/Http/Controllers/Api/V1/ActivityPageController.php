@@ -36,7 +36,7 @@ class ActivityPageController extends Controller
      *
      * @SWG\Api(
      *   path="/activity_page",
-     *   description="约惠主页",
+     *   description="约惠主页(有更新20160308)",
      *   @SWG\Operation(
      *     method="GET", summary="获得约惠主页内容", notes="获得约惠主页内容",
      *     type="ActivityPage",
@@ -70,13 +70,15 @@ class ActivityPageController extends Controller
         //爆品
         $conversionGoods=ConversionGoods::all();
 
-        $conversionGoods=$conversionGoods->toArray();
-        foreach($conversionGoods['goods'] as &$v){
-            $v['has_collection']=0;
+        //$conversionGoods=$conversionGoods->toArray();
+
+        foreach($conversionGoods as &$v){
+
+            $v->has_collection=0;
             if($user_id!=-1){
-                $collection=Collection::where('user_id',$user_id)->where('type',0)->where('item_id',$v['id'])->first();
+                $collection=Collection::where('user_id',$user_id)->where('type',0)->where('item_id',$v->goods_id)->first();
                 if($collection!=null){
-                    $v['has_collection']=1;
+                    $v->has_collection=1;
                 }
             }
         }
