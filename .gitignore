@@ -5,3 +5,4 @@ public/upload/*
 public/ueditor/*
 vendor/yinlian_sdk/certs/*
 vendor/weixin_sdk/cert/*
+config/alipay_rsa_public_key.pem
