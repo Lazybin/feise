@@ -3,3 +3,4 @@ Homestead.yaml
 Homestead.json
 public/upload/*
 public/ueditor/*
+vendor/yinlian_sdk/certs/*
