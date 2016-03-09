@@ -29,6 +29,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('api/v1/orders/get_pay_info', 'Api\V1\OrdersController@getPayInfo');
     Route::post('api/v1/orders/notify', 'Api\V1\OrdersController@notify');
 
+    Route::get('api/v1/orders/remind', 'Api\V1\OrdersController@remind');
+
     Route::resource('api/v1/orders','Api\V1\OrdersController');
 
     Route::resource('api/v1/activity_classifications','Api\V1\ActivityClassificationsController');

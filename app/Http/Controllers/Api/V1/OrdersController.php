@@ -32,7 +32,7 @@ class OrdersController extends Controller
      *
      * @SWG\Api(
      *   path="/orders",
-     *   description="订单（新20160225）",
+     *   description="订单（新20160309）",
      *   @SWG\Operation(
      *     method="GET", summary="获得用户订单列表", notes="获得用户订单列表",
      *     type="Order",
@@ -530,6 +530,36 @@ class OrdersController extends Controller
         return $response->toJson();
     }
 
+    /**
+     *
+     * @SWG\Api(
+     *   path="/orders/remind",
+     *   description="提醒发货",
+     *   @SWG\Operation(
+     *     method="GET", summary="提醒发货", notes="提醒发货",
+     *     type="Order",
+     *     @SWG\ResponseMessage(code=0, message="成功"),
+     *     @SWG\Parameter(
+     *         name="out_trade_no",
+     *         description="订单号",
+     *         paramType="query",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer",
+     *     )
+     *
+     *   )
+     * )
+     */
+    public function remind(Request $request){
+        $out_trade_no=$request->input('out_trade_no');
+        $response=new BaseResponse();
+        $order=Order::where('out_trade_no',$out_trade_no)->first();
+        $order->is_remind=1;
+        $order->save();
+        return $response->toJson();
+
+    }
     /**
      *
      * @SWG\Api(

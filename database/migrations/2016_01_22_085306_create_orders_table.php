@@ -28,6 +28,7 @@ class CreateOrdersTable extends Migration
             $table->string('express_number')->nullable();//快递号
             $table->timestamp('payment_time');//支付时间
             $table->tinyInteger('payment_way');//支付方式 1--》支付宝，2--》微信，3--》银联
+            $table->tinyInteger('is_remind');//是否提醒发货，0---》否，1---》是
 
             $table->timestamps();
         });
