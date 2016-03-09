@@ -23,7 +23,7 @@ class OrdersController extends Controller
 
         $total=Order::count();
 
-        $order=Order::skip($start)->take($length)->orderBy('id','desc');
+        $order=Order::skip($start)->take($length)->orderBy('is_remind','desc')->orderBy('id','desc');
         echo json_encode(array(
             "draw"            => intval( $draw ),
             "recordsTotal"    => intval($total),

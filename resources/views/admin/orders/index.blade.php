@@ -104,7 +104,11 @@
                                 case 0:
                                     return "<font color='blue'>待支付</font>";
                                 case 1:
-                                    return "<font color='orange'>已支付，待发货</font>";
+                                    var ret="<font color='orange'>已支付，待发货</font>";
+                                    if(full.is_remind==1)
+                                        ret+=",<font color='red'>提醒发货</font>";
+                                    ret+="";
+                                    return ret;
                                 case 2:
                                     return "<font >取消</font>";
                                 case 3:
