@@ -18,6 +18,7 @@
     <script src="{{ url('../resources/assets/vendor/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ url('/js/bootbox.min.js') }}"></script>
     <script src="{{ url('../resources/assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+    <script src="{{ url('/js/jquery.validate.min.js') }}"></script>
     <script>
         var baseUrl="{{url('/')}}";
 
@@ -125,7 +126,43 @@
             ]
 
         });
+
+        var validator;
         $(document).ready(function() {
+            validator = $( "#subjectsForm" ).validate({
+                highlight: function(element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                success: function(element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorClass: 'help-block',
+                ignore: ['chooseThemes'],
+                errorPlacement: function(error, element) {
+                    if (element[0].type === "radio") {
+                        error.appendTo(element.parent().parent());
+                    }else if(element[0].type === "file"){
+                        error.appendTo(element.parent().parent());
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
+                },
+                rules: {
+                    title: "required",
+                    chooseThemes: "required",
+                    subhead:"required",
+                    coverImage:"required"
+
+                },
+                messages: {
+                    title: "请输入标题",
+                    chooseThemes: "请选择专题",
+                    subhead:"请输入副标题",
+                    coverImage:"请选择封面图片"
+                }
+            });
+
             $('#dataTables-example').DataTable({
                 responsive: true,
                 "language": {

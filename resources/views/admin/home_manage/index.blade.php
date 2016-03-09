@@ -18,6 +18,7 @@
     <script src="{{ url('../resources/assets/vendor/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ url('/js/bootbox.min.js') }}"></script>
     <script src="{{ url('../resources/assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+    <script src="{{ url('/js/jquery.validate.min.js') }}"></script>
     <script>
         var baseUrl="{{url('/')}}";
 
@@ -70,7 +71,44 @@
             ]
 
         });
+
+        var validator;
         $(document).ready(function() {
+
+            $.validator.addMethod("valueNotEquals", function(value, element, arg){
+                return arg != value;
+            }, "Value must not equal arg.");
+
+            validator = $( "#subjectsForm" ).validate({
+                highlight: function(element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                success: function(element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorClass: 'help-block',
+                ignore: ['item_id'],
+                errorPlacement: function(error, element) {
+                    if (element[0].type === "radio") {
+                        error.appendTo(element.parent().parent());
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
+                },
+                rules: {
+                    sort: "required",
+                    type: {valueNotEquals: "-1"},
+                    item_id:"required"
+
+                },
+                messages: {
+                    sort: "请输入排序",
+                    type: { valueNotEquals: "请选择类型" },
+                    item_id:"请选择主题或者专题"
+                }
+            });
+
             $('#dataTables-example').DataTable({
                 responsive: true,
                 "language": {

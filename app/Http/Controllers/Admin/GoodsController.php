@@ -14,6 +14,7 @@ use App\Model\Goods;
 use App\Model\GoodsCategoryProperty;
 use App\Model\GoodsImages;
 use App\Model\HomeButtonGoods;
+use App\Model\OrderGoods;
 use App\Model\ThemeGoods;
 use App\Model\Themes;
 use Illuminate\Http\Request;
@@ -217,6 +218,59 @@ class GoodsController extends Controller
 
     public function delete($id)
     {
+        //检查关联
+        $banner=BannerGoods::where('goods_id',$id)->first();
+        if($banner!=null){
+            $ret['meta']['code']=0;
+            $ret['meta']['error']='删除失败，该商品已绑定到banner，对应id为'.$banner->banner_id;
+            echo json_encode($ret);
+            return;
+        }
+        $activity=ActivityClassificationGoods::where('goods_id',$id)->first();
+        if($activity!=null){
+            $ret['meta']['code']=0;
+            $ret['meta']['error']='删除失败，该商品已绑定到活动商品，对应id为'.$activity->activity_classification_id;
+            echo json_encode($ret);
+            return;
+        }
+        $conversion=ConversionGoods::where('goods_id',$id)->first();
+        if($conversion!=null){
+            $ret['meta']['code']=0;
+            $ret['meta']['error']='删除失败，该商品已绑定到爆品推荐，对应id为'.$conversion->id;
+            echo json_encode($ret);
+            return;
+        }
+        $free=FreePostGoods::where('goods_id',$id)->first();
+        if($free!=null){
+            $ret['meta']['code']=0;
+            $ret['meta']['error']='删除失败，该商品已绑定到包邮专区，对应id为'.$free->free_posts_id;
+            echo json_encode($ret);
+            return;
+        }
+
+        $home=HomeButtonGoods::where('goods_id',$id)->first();
+        if($home!=null){
+            $ret['meta']['code']=0;
+            $ret['meta']['error']='删除失败，该商品已绑定到首页按钮，对应id为'.$home->home_button_id;
+            echo json_encode($ret);
+            return;
+        }
+
+        $order=OrderGoods::where('goods_id',$id)->first();
+        if($order!=null){
+            $ret['meta']['code']=0;
+            $ret['meta']['error']='删除失败，该商品已加入用户订单';
+            echo json_encode($ret);
+            return;
+        }
+        $theme=ThemeGoods::where('goods_id',$id)->first();
+        if($theme!=null){
+            $ret['meta']['code']=0;
+            $ret['meta']['error']='删除失败，该商品已绑定到主题，对应id为'.$theme->theme_id;
+            echo json_encode($ret);
+            return;
+        }
+
         Goods::find($id)->delete();
         $ret['meta']['code']=1;
         echo json_encode($ret);

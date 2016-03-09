@@ -20,6 +20,7 @@
     <script src="{{ url('/js/ueditor.config.js') }}"></script>
     <script src="{{ url('/js/ueditor.all.min.js') }}"></script>
     <script src="{{ url('../resources/assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+    <script src="{{ url('/js/jquery.validate.min.js') }}"></script>
     <script>
         var baseUrl="{{url('/')}}";
         var arrChooseGoods=[];
@@ -143,7 +144,52 @@
             ]
 
         });
+        var validator;
         $(document).ready(function() {
+            $.validator.addMethod("valueNotEquals", function(value, element, arg){
+                return arg != value;
+            }, "Value must not equal arg.");
+
+            validator = $( "#themesForm" ).validate({
+                highlight: function(element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                success: function(element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorClass: 'help-block',
+                ignore: ['chooseGoods'],
+                errorPlacement: function(error, element) {
+                    if (element[0].type === "radio") {
+                        error.appendTo(element.parent().parent());
+                    }else if(element[0].type === "file"){
+                        error.appendTo(element.parent().parent());
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
+                },
+                rules: {
+                    title: "required",
+                    chooseThemes: "required",
+                    subhead:"required",
+                    coverImage:"required",
+                    headImage:"required",
+                    category:{valueNotEquals: "-1"},
+                    chooseGoods:"required"
+
+                },
+                messages: {
+                    title: "请输入标题",
+                    chooseThemes: "请选择专题",
+                    subhead:"请输入副标题",
+                    headImage:"请选择头部图片",
+                    coverImage:"请选择封面图片",
+                    category:{valueNotEquals: "-1"},
+                    chooseGoods:"请选择商品"
+                }
+            });
+
             $('#dataTables-example').DataTable({
                 responsive: true,
                 "language": {

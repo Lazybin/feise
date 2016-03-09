@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Model\Category;
+use App\Model\SubjectThemes;
 use App\Model\ThemeGoods;
 use App\Model\Themes;
 use Illuminate\Http\Request;
@@ -161,6 +162,13 @@ class ThemesController extends Controller
 
     public function delete($id)
     {
+        $sub=SubjectThemes::where('theme_id',$id)->first();
+        if($sub!=null){
+            $ret['meta']['code']=0;
+            $ret['meta']['error']='删除失败，该商品已绑定到专题，对应id为'.$sub->subject_id;
+            echo json_encode($ret);
+            return;
+        }
         Themes::find($id)->delete();
         $ret['meta']['code']=1;
         echo json_encode($ret);
