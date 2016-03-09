@@ -196,6 +196,14 @@
                             d.guanlian = 0;
                         }
 
+                        var checkbox4 = document.getElementById('presell');//
+                        if(checkbox4.checked){
+                            d.presell = 1;
+                        }else{
+                            d.presell = 0;
+                        }
+
+
                         d.fenlei=$("#fenlei").val();
 
                     }
@@ -671,6 +679,9 @@
                                     </label>
                                     <label class="checkbox-inline">
                                         <input type="checkbox" id="guanlian"> 关联主题
+                                    </label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="presell"> 预售
                                     </label>
                                 </div>
                             </div>

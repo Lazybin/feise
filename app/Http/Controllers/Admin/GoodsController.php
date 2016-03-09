@@ -87,6 +87,11 @@ class GoodsController extends Controller
                     ->where('activity_classification_goods.activity_classification_id','=',$fenlei);
                 }
 
+                $presell=$request->input('presell');
+                if($presell!=0){
+                    $goods=$goods->where('goods.is_presell','=',1);
+                }
+
                 $goods=$goods->select('goods.*');
                 $count=$goods->count();
                 $goods=$goods->skip($start)->take($length);
