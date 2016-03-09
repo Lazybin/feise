@@ -22,6 +22,7 @@
     <script src="{{ url('/js/jquery.tagsinput.min.js') }}"></script>
     <script src="{{ url('../resources/assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
     <script src="{{ url('/js/bootbox.min.js') }}"></script>
+    <script src="{{ url('/js/jquery.validate.min.js') }}"></script>
     <script>
         var baseUrl="{{url('/')}}";
         var ue = UE.getEditor('container',{
@@ -77,9 +78,74 @@
             overwriteInitial: true
         });
 
+        var validator;
 
         $(document).ready(function() {
+            $.validator.addMethod("valueNotEquals", function(value, element, arg){
+                return arg != value;
+            }, "Value must not equal arg.");
 
+            $.validator.addMethod("selectUnionRequire", function(value, element, arg){
+                var q1='input:radio[name="'+arg+'"]:checked';
+                var radio=$(q1).val();
+                if(radio==1&&value=='-1'){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }, "");
+
+            $.validator.addMethod("unionRequire", function(value, element, arg){
+
+                //var radio=$('#'+arg);
+                var q1='input:radio[name="'+arg+'"]:checked';
+                var radio=$(q1).val();
+                if(radio==1&&value==''){
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }, "");
+
+            validator = $( "#goodsForm" ).validate({
+                highlight: function(element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                success: function(element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorClass: 'help-block',
+                ignore: [],
+                errorPlacement: function(error, element) {
+                    if (element[0].type === "radio") {
+                        error.appendTo(element.parent().parent());
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
+                },
+                rules: {
+                    name: "required",
+                    category: {valueNotEquals: "-1"},
+                    price:"required",
+                    coupon_amount: {unionRequire: "use_coupon"},
+                    taobaoke_url:{unionRequire: "is_taobaoke"},
+                    platform:{selectUnionRequire: "is_taobaoke"},
+                    presell_time:{unionRequire: "is_presell"},
+
+                },
+                messages: {
+                    name: "请输入商品名称",
+                    category: { valueNotEquals: "请选择商品分类" },
+                    price:"请输入商品价格",
+                    coupon_amount: {unionRequire: "请输入抵用金额"},
+                    taobaoke_url:{unionRequire: "请输入淘宝客链接"},
+                    platform:{selectUnionRequire: "请选择平台"},
+                    presell_time:{unionRequire: "请输入预售期"},
+                }
+            });
 
             t_tables=$('#dataTables-example').DataTable({
                 responsive: true,
@@ -248,7 +314,7 @@
             $("#isPresellRadios2").attr("checked","checked");
             $("#putawayRadios1").attr("checked","checked");
 
-            $('#isPutawayDiv').css("display","inline");
+            $('#isPutawayDiv').css("display","block");
 
             $("#presell_time").val('');
             $("#platform").val(-1);
@@ -722,7 +788,9 @@
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="price" name="price" placeholder="请输入商品价格">
                                 </div>
-                                <label for="inputGoodsName" class="col-sm-1 control-label">原价</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputGoodsName" class="col-sm-2 control-label">原价</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="original_price" name="original_price" placeholder="请输入商品原价">
                                 </div>
