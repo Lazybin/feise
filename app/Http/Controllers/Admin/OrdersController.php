@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Model\Order;
+use App\Model\OrderGoods;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -21,9 +22,40 @@ class OrdersController extends Controller
         $length=$request->input('length', 5);
         $draw=$request->input('draw', 1);
 
-        $total=Order::count();
+        $presell=$request->input('presell');
+        if($presell!=0){
+            $order=OrderGoods::join('orders','order_goods.order_id','=','orders.id')
+                ->join('goods','order_goods.goods_id','=','goods.id')
+                ->where('goods.is_presell','=',1)
+                ->orderBy('orders.is_remind','desc')->orderBy('orders.id','desc')->groupBy('order_goods.order_id')
+                ->select('orders.id','orders.out_trade_no','orders.user_id','orders.consignee','orders.shipping_address','orders.mobile','orders.total_fee','orders.status','orders.is_remind');
+        }else{
+            $order=Order::orderBy('orders.is_remind','desc')->orderBy('orders.id','desc')
+                ->select('orders.id','orders.out_trade_no','orders.user_id','orders.consignee','orders.shipping_address','orders.mobile','orders.total_fee','orders.status','orders.is_remind');;
+        }
 
-        $order=Order::skip($start)->take($length)->orderBy('is_remind','desc')->orderBy('id','desc');
+        $out_trade_no=$request->input('number');
+        if($out_trade_no!=null&&$out_trade_no!=''){
+            $order=$order->where('orders.out_trade_no', '=',$out_trade_no);
+        }
+
+        $status=$request->input('status');
+        if($status!=-1){
+            if($status==5){
+                $order=$order->where(function($query)
+                {
+                    $query->where('orders.status','=',5)->orWhere('orders.status','=',6);
+                });
+            }else{
+                $order=$order->where('orders.status','=',$status);
+            }
+        }
+
+
+
+        $total=$order->count();
+
+        $order=$order->skip($start)->take($length);
         $orders=$order->get();
         $arrOrdersList=[];
         foreach($orders as $g){

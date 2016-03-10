@@ -17,8 +17,9 @@
     <script src="{{ url('../resources/assets/vendor/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ url('/js/bootbox.min.js') }}"></script>
     <script>
+        var t_tables;
         $(document).ready(function() {
-            $('#dataTables-example').DataTable({
+            t_tables=$('#dataTables-example').DataTable({
                 responsive: true,
                 "language": {
                     "lengthMenu": "每页显示 _MENU_ 条",
@@ -33,6 +34,7 @@
                         "previous":   "上一页"
                     }
                 },
+                "lengthChange": false,
                 "iDisplayLength": 10,
                 "lengthMenu" : [[5, 10, 20, 50, -1], [5, 10, 20, 50, "全部"]],
                 "processing": true,
@@ -40,7 +42,20 @@
                 "serverSide": true,
                 "searching": false,
                 "ordering": false,
-                "ajax": "{{url('/')}}/orders/index",
+                "ajax": {
+                    "url": "{{url('/')}}/orders/index",
+                    "data": function ( d ) {
+                        d.number = $("#search_number").val();
+
+                        var checkbox1 = document.getElementById('presell');//
+                        if(checkbox1.checked){
+                            d.presell = 1;
+                        }else{
+                            d.presell = 0;
+                        }
+                        d.status=$("#status").val();
+                    }
+                },
                 "columnDefs": [
                     { //给每个单独的列设置不同的填充，或者使用aoColumns也行           {
                         "targets": -1,
@@ -129,6 +144,10 @@
             });
 
         });
+
+        function onSearchClick(){
+            t_tables.draw();
+        }
 
         function onAddClick(id){
             $("#out_trade_no").val(id);
@@ -245,7 +264,13 @@
                             $.each(properties,function(z,x){
                                 str+= x.name+':'+ x.value+' ';
                             });
-                            $("#orderGoodsList").append("<tr><td>"+v.goods.id+"</td><td>"+v.goods.name+"</td><td>"+str+"</td><td>"+v.num+"</td></tr>")
+                            var presell;
+                            if(v.goods.is_presell==1){
+                                presell='是';
+                            }else{
+                                presell='否';
+                            }
+                            $("#orderGoodsList").append("<tr><td>"+v.goods.id+"</td><td>"+v.goods.name+"</td><td>"+str+"</td><td>"+v.num+"</td><td>"+presell+"</td></tr>")
                         });
 
                         $('#orderDetailModal').modal('show');
@@ -281,7 +306,42 @@
                             {{--<button onclick="onAddClick();" class="btn btn-primary" ><i class="fa fa-sign-in  fa-fw"> </i>发货</button>--}}
                         {{--</div>--}}
                     {{--</div>--}}
-                    <div class="panel-body">
+                    <div class="panel-body" style="padding-bottom: 0;">
+                        <div class="row form-group">
+                            <div class="col-md-3" style="padding-right: 0;">
+                                <label for="inputGoodsName" style="padding-right: 0;padding-left: 0" class="col-sm-3 control-label">订单号</label>
+                                <div class="col-sm-9" style="padding-left: 0">
+                                    <input class="form-control" id="search_number" type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="padding-right: 0;padding-left: 0;">
+                                <div class="col-sm-12" style="padding-left: 0">
+                                    <select id="status" class="form-control" >
+                                        <option value="-1" selected>状态</option>
+                                        <option value="0">待支付</option>
+                                        <option value="1">已支付，待发货</option>
+                                        <option value="2">取消</option>
+                                        <option value="3">已发货</option>
+                                        <option value="4">客户已签收，交易完成</option>
+                                        <option value="5">申请退款</option>
+                                        <option value="7">退款成功</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="padding-right: 0;padding-left: 0;">
+                                <div class="col-sm-12" style="padding-left: 0;padding-right: 0">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" id="presell"> 预售
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="padding-right: 0;padding-left: 0;">
+                                <button type="button" onclick="onSearchClick()" class="btn btn-primary">搜索</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="panel-body" style="padding-top: 0;">
                         <div class="dataTable_wrapper">
                             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
@@ -390,13 +450,14 @@
                         <table id="orderGoodsList" class="table table-bordered">
                             <thead>
                             <tr align="center">
-                                <td colspan="4">商品列表</td>
+                                <td colspan="5">商品列表</td>
                             </tr>
                             <tr align="center">
                                 <td>id</td>
                                 <td>名称</td>
                                 <td>属性</td>
                                 <td>数量</td>
+                                <td>预售</td>
                             </tr>
                             </thead>
                             <tbody>
