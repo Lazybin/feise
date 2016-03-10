@@ -51,12 +51,12 @@
                         "mRender": function (data, type, full)
                         {
                             var id = full.out_trade_no;
+                            var ret='';
                             if(data.status==1){
-                                return '<button type="button" onclick="onAddClick(\''+id+'\')" class="btn btn-primary btn-xs">确认发货</button>';
-                            }else{
-                                return '';
+                                ret+= '<button type="button" onclick="onAddClick(\''+id+'\')" class="btn btn-primary btn-xs">确认发货</button>&nbsp;';
                             }
-                            return '';
+                            ret+='<button type="button" onclick="onDetailClick(\''+full.id+'\')" class="btn btn-info btn-xs">查看详情</button>';
+                            return ret;
 
                         }
                     },
@@ -185,6 +185,76 @@
                 }
             });
         }
+        function onDetailClick(id){
+            $.ajax({
+                url: "{{url('/')}}/orders/detail/"+id,
+                async: true,
+                type: "GET",
+                dataType:'json',
+                success: function(recv){
+                    if(recv.meta.code=='0'){
+                        var val=recv.meta.error;
+                        bootbox.alert(val, function(){
+                        });
+                    }else if(recv.meta.code=='1'){
+                        $("#out_trade_no_detail").html(recv.meta.data.out_trade_no);
+                        $("#consignee_detail").html(recv.meta.data.consignee);
+                        $("#shipping_address_detail").html(recv.meta.data.shipping_address);
+                        $("#mobile_detail").html(recv.meta.data.mobile);
+                        $("#total_fee_detail").html(recv.meta.data.total_fee);
+                        $("#shipping_fee_detail").html(recv.meta.data.shipping_fee);
+                        var status='';
+
+                        switch(recv.meta.data.status){
+                            case 0:
+                                status="<font color='blue'>待支付</font>";
+                                break;
+                            case 1:
+                                var ret="<font color='orange'>已支付，待发货</font>";
+                                if(recv.meta.data.is_remind==1)
+                                    ret+=",<font color='red'>提醒发货</font>";
+                                ret+="";
+                                status= ret;
+                                break;
+                            case 2:
+                                status= "<font >取消</font>";
+                                break;
+                            case 3:
+                                status= "<font color='purple'>已发货</font>";
+                                break;
+                            case 4:
+                                status= "<font color='green'>客户已签收，交易完成</font>";
+                                break;
+                            case 5:
+                                status= "<font color='red'>申请退款</font>";
+                                break;
+                            case 6:
+                                status= "<font color='red'>申请退款</font>";
+                                break;
+                            case 7:
+                                status= "<font >退款成功</font>";
+                                break;
+                        }
+                        $("#status_detail").html(status);
+
+                        $("#orderGoodsList tbody").html("");
+                        $.each(recv.meta.data.goods_list,function(k,v){
+                            var properties=eval(v.properties);
+                            console.log(properties);
+                            var str='';
+                            $.each(properties,function(z,x){
+                                str+= x.name+':'+ x.value+' ';
+                            });
+                            $("#orderGoodsList").append("<tr><td>"+v.goods.id+"</td><td>"+v.goods.name+"</td><td>"+str+"</td><td>"+v.num+"</td></tr>")
+                        });
+
+                        $('#orderDetailModal').modal('show');
+
+                    }
+                    return true;
+                }
+            });
+        }
 
         function onSubmit(){
             onConfirmClick();
@@ -245,7 +315,7 @@
 
     <!-- Modal dialog -->
     <div class="modal fade" id="categoryModel">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -266,6 +336,76 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn_first" data-dismiss="modal" onclick="onSubmit()">提交</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <!-- Modal dialog -->
+    <div class="modal fade" id="orderDetailModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >订单详情</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <input type="hidden" id="detailId" />
+
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <td colspan="7">订单单号：<span id="out_trade_no_detail"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            </tr>
+                            <tr>
+                                <td>收货人</td>
+                                <td><span id="consignee_detail"></span></td>
+                            </tr>
+                            <tr>
+                                <td>收货地址</td>
+                                <td><span id="shipping_address_detail"></span></td>
+                            </tr>
+                            <tr>
+                                <td>联系电话</td>
+                                <td><span id="mobile_detail"></span></td>
+                            </tr>
+                            <tr>
+                                <td>支付金额</td>
+                                <td><span id="total_fee_detail"></span></td>
+                            </tr>
+                            <tr>
+                                <td>快递费</td>
+                                <td><span id="shipping_fee_detail"></span></td>
+                            </tr>
+                            <tr>
+                                <td>订单状态</td>
+                                <td><span id="status_detail"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <table id="orderGoodsList" class="table table-bordered">
+                            <thead>
+                            <tr align="center">
+                                <td colspan="4">商品列表</td>
+                            </tr>
+                            <tr align="center">
+                                <td>id</td>
+                                <td>名称</td>
+                                <td>属性</td>
+                                <td>数量</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div><!-- /.modal-content -->

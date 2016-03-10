@@ -205,6 +205,7 @@ Route::group(['middleware' => ['web']], function () {
 
         Route::get('/orders/', 'Admin\OrdersController@show');
         Route::get('/orders/index', 'Admin\OrdersController@index');
+        Route::get('/orders/detail/{id}', 'Admin\OrdersController@detail');
         Route::post('/orders/update/{id}', 'Admin\OrdersController@update');
 
         Route::get('/home_navigation/', 'Admin\HomeNavigationController@show');

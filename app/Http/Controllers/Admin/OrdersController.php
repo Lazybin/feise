@@ -24,11 +24,26 @@ class OrdersController extends Controller
         $total=Order::count();
 
         $order=Order::skip($start)->take($length)->orderBy('is_remind','desc')->orderBy('id','desc');
+        $orders=$order->get();
+        $arrOrdersList=[];
+        foreach($orders as $g){
+            $arrGoods['id']=$g->id;
+            $arrGoods['out_trade_no']=$g->out_trade_no;
+            $arrGoods['user_id']=$g->user_id;
+            $arrGoods['consignee']=$g->consignee;
+            $arrGoods['shipping_address']=$g->shipping_address;
+            $arrGoods['mobile']=$g->mobile;
+            $arrGoods['total_fee']=$g->total_fee;
+            $arrGoods['status']=$g->status;
+            $arrGoods['is_remind']=$g->is_remind;
+            //$arrGoods['express_fee']=$g->express_fee;
+            $arrOrdersList[]=$arrGoods;
+        }
         echo json_encode(array(
             "draw"            => intval( $draw ),
             "recordsTotal"    => intval($total),
             "recordsFiltered" => intval($total),
-            "data"            => $order->get()->toArray()
+            "data"            => $arrOrdersList
         ));
     }
 
@@ -50,5 +65,14 @@ class OrdersController extends Controller
             $ret['meta']['code']=1;
         }
         echo json_encode($ret);
+    }
+
+    public function detail($id){
+        $order=Order::find($id)->toArray();
+
+        $ret['meta']['code']=1;
+        $ret['meta']['data']=$order;
+        echo json_encode($ret);
+
     }
 }
