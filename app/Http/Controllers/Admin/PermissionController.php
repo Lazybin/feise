@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\Operator;
+use App\Model\Role;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
     public function show()
     {
-        return view('admin.permission.index');
+        $data['roles']=Role::all()->toArray();
+        return view('admin.permission.index',$data);
     }
 
     public function index(Request $request)
@@ -20,7 +22,8 @@ class PermissionController extends Controller
         $length=$request->input('length', 5);
         $draw=$request->input('draw', 1);
 
-        $operators=Operator::skip($start)->take($length)->orderBy('id','desc');
+        $operators=Operator::select('operators.id','operators.name','operators.email','operators.password','operators.created_at','roles.name as role_name')
+            ->join('roles','roles.id','=','operators.role_id')->skip($start)->take($length)->orderBy('id','desc');
 
         echo json_encode(array(
             "draw"            => intval( $draw ),
@@ -64,7 +67,11 @@ class PermissionController extends Controller
         }else{
             $operator->name=$params['name'];
             $operator->email=$params['email'];
-            $operator->password=bcrypt($params['password']);
+            if($params['password']!=''){
+                $operator->password=bcrypt($params['password']);
+            }
+
+            $operator->role_id=$params['role_id'];
             $operator->save();
             $ret['meta']['code']=1;
         }

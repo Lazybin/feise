@@ -121,6 +121,13 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/permission/detail/{id}', 'Admin\PermissionController@detail');
         Route::delete('/permission/delete/{id}', 'Admin\PermissionController@delete');
 
+        Route::get('/role/', 'Admin\RoleController@show');
+        Route::get('/role/index', 'Admin\RoleController@index');
+        Route::post('/role/store', 'Admin\RoleController@store');
+        Route::post('/role/update/{id}', 'Admin\RoleController@update');
+        Route::get('/role/detail/{id}', 'Admin\RoleController@detail');
+        Route::delete('/role/delete/{id}', 'Admin\RoleController@destroy');
+
         Route::get('/boot_page/', 'Admin\BootPageController@show');
         Route::post('/boot_page/store', 'Admin\BootPageController@store');
 

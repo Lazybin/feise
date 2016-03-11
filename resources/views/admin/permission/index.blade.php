@@ -33,7 +33,7 @@
                     "previous":   "上一页"
                 }
             },
-            "iDisplayLength": 5,
+            "iDisplayLength": 10,
             "lengthMenu" : [[5, 10, 20, 50, -1], [5, 10, 20, 50, "全部"]],
             "processing": true,
             "autoWidth": false,
@@ -72,6 +72,11 @@
                 {
                     "targets": 3,
                     'sClass':'align-center',
+                    "mData": 'role_name'
+                },
+                {
+                    "targets": 4,
+                    'sClass':'align-center',
                     "mData": 'created_at'
                 }
 
@@ -83,6 +88,7 @@
         $("#name").val('');
         $("#email").val('');
         $("#password").val('');
+        $("#role_id").val(-1);
         $("#title").html('添加管理员');
         $("#id").val(-1);
 
@@ -104,6 +110,7 @@
                     $("#id").val(recv.meta.data.id);
                     $("#name").val(recv.meta.data.name);
                     $("#email").val(recv.meta.data.email);
+                    $("#role_id").val(recv.meta.data.role_id);
                     $("#password").val('');
                     $("#title").html('修改管理员');
                     $('#adminModel').modal('show');
@@ -144,6 +151,7 @@
         var name=$("#name").val();
         var email=$("#email").val();
         var password=$("#password").val();
+        var role_id=$("#role_id").val();
         var id=$("#id").val();
         var subUrl='';
         if(id!=-1){
@@ -159,7 +167,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            data: {name:name, email:email,password:password},
+            data: {name:name, email:email,password:password,role_id:role_id},
             success: function(recv){
                 if(recv.meta.code=='0')
                 {
@@ -209,6 +217,7 @@
                                     <th>id</th>
                                     <th>用户名</th>
                                     <th>账号</th>
+                                    <th>角色</th>
                                     <th>创建时间</th>
                                     <th>操作</th>
                                 </tr>
@@ -250,9 +259,19 @@
                             <input type="email" class="form-control" id="email" placeholder="请输入电子邮箱">
                         </div>
                         <div class="form-group">
+                            <label for="exampleInputPassword1">角色</label>
+                            <select name="role_id" id="role_id" class="form-control">
+                                <option value="-1" selected>请选择角色</option>
+                                @foreach($roles as $role)
+                                    <option value="{{$role['id']}}">{{$role['name']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="exampleInputPassword1">密码</label>
                             <input type="password" class="form-control" id="password" placeholder="请输入密码">
                         </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">

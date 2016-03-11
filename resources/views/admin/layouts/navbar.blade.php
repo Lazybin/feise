@@ -1,4 +1,13 @@
 @section('navbar')
+    <?php
+        $user=Auth::user();
+        $authorizations=\App\Model\RoleAuthorization::where('role_id','=',$user->role_id)
+                ->select('authorization_id')->get()->toArray();
+        $authList=[];
+        foreach($authorizations as $auth){
+            $authList[]=$auth['authorization_id'];
+        }
+    ?>
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -33,6 +42,7 @@
                     <li>
                         <a href="{{url('/home/')}}/"><i class="fa fa-dashboard fa-fw"></i> 控制台</a>
                     </li>
+                    @if(in_array(1,$authList))
                     <li>
                         <a href="#"><i class="fa  fa-gift fa-fw"></i> 商品管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -66,18 +76,27 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
+                    @endif
+                    @if(in_array(2,$authList))
                     <li>
                         <a href="{{url('/orders/')}}"><i class="fa fa-files-o fa-fw"></i> 订单管理</a>
                     </li>
+                    @endif
+                    @if(in_array(3,$authList))
                     <li>
                         <a href="#"><i class="fa fa-key fa-fw"></i> 权限管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="{{url('/permission/')}}">管理员管理</a>
                             </li>
+                            <li>
+                                <a href="{{url('/role/')}}">角色管理</a>
+                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
+                    @endif
+                    @if(in_array(4,$authList))
                     <li>
                         <a href="#"><i class="fa  fa-gear fa-fw"></i> 系统配置<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -102,6 +121,7 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
+                    @endif
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
