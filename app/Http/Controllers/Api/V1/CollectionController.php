@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Model\BaseResponse;
 use App\Model\Collection;
+use App\Model\Goods;
+use App\Model\Themes;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -144,6 +146,14 @@ class CollectionController extends Controller
                 ->where('type',$content->type)
                 ->where('item_id',$content->item_id)->first();
             if($co==null){
+                if($content->type==0){
+                    $item=Goods::find($content->item_id);
+                }else{
+                    $item=Themes::find($content->item_id);
+                }
+                if($item==null){
+                    return (new BaseResponse(BaseResponse::CODE_ERROR_BUSINESS, '该项不存在'))->toJson();
+                }
                 $collection=new Collection();
                 $collection->user_id=$content->user_id;
                 $collection->type=$content->type;
@@ -188,6 +198,15 @@ class CollectionController extends Controller
                 ->where('type',$v->type)
                 ->where('item_id',$v->item_id)->first();
             if($co==null){
+                if($v->type==0){
+                    $item=Goods::find($v->item_id);
+                }else{
+                    $item=Themes::find($v->item_id);
+                }
+                if($item==null){
+                    DB::rollback();
+                    return (new BaseResponse(BaseResponse::CODE_ERROR_BUSINESS, '该项不存在'))->toJson();
+                }
                 $collection=new Collection();
                 $collection->user_id=$v->user_id;
                 $collection->type=$v->type;
