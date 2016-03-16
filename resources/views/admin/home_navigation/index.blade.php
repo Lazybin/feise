@@ -269,6 +269,7 @@
                         $("#tableName").html('商品列表');
                         tableItems.ajax.url("{{url('/')}}/goods/index").load();
 
+                        tableChoose.clear().draw();
                         $.each(recv.meta.data.goods, function (key, item) {
                             onChooseClick(item.goods.id,item.goods.name);
                         });
