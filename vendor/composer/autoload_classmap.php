@@ -24,6 +24,7 @@ return array(
     'CreateGoodsCategoryPropertiesTable' => $baseDir . '/database/migrations/2016_01_17_145454_create_goods_category_properties_table.php',
     'CreateGoodsImagesTable' => $baseDir . '/database/migrations/2016_01_18_144343_create_goods_images_table.php',
     'CreateGoodsTable' => $baseDir . '/database/migrations/2016_01_16_132553_create_goods_table.php',
+    'CreateHomeButtonGoodsBuyRecordsTable' => $baseDir . '/database/migrations/2016_03_16_150051_create_home_button_goods_buy_records_table.php',
     'CreateHomeButtonGoodsTable' => $baseDir . '/database/migrations/2016_02_26_213102_create_home_button_goods_table.php',
     'CreateHomeNavigationsTable' => $baseDir . '/database/migrations/2016_02_02_065607_create_home_navigations_table.php',
     'CreateHomesTable' => $baseDir . '/database/migrations/2016_01_20_081526_create_homes_table.php',

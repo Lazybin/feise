@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Model\ActivityClassificationGoods;
 use App\Model\ConversionGoods;
 use App\Model\FreePostGoods;
+use App\Model\HomeButtonGoods;
+use App\Model\HomeButtonGoodsBuyRecords;
 use App\Model\UseCouponRecords;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -149,6 +151,26 @@ class OrdersController extends Controller
         foreach ($goodsList as $g){
             $goods=Goods::find($g->goods_id);
             if($goods!=null){
+                //检查是否购买过新用户福利（0元福利）
+
+                //是否是新用户福利商品
+                $homeButtonGoods=HomeButtonGoods::where('goods_id',$goods->id)->first();
+                if($homeButtonGoods!=null){
+                    //判断是否购买过
+                    $homeButtonGoodsBuyRecords=HomeButtonGoodsBuyRecords::where('home_button_goods_id',$homeButtonGoods->id)->first();
+                    if($homeButtonGoodsBuyRecords!=null){
+                        $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
+                        $response->Message="商品".$goods->name."为新用户福利，只能购买一次，您已经购买过了";
+                        DB::rollback();
+                        return $response->toJson();
+                    }else{
+                        $newHomeButtonGoodsRecords=new HomeButtonGoodsBuyRecords();
+                        $newHomeButtonGoodsRecords->user_id=$content->user_id;
+                        $newHomeButtonGoodsRecords->home_button_goods_id=$homeButtonGoods->id;
+                        $newHomeButtonGoodsRecords->save();
+                    }
+                }
+
                 //如果在约惠列表里，不减去优惠金额 要扣券
                 if(ActivityClassificationGoods::where('goods_id',$goods->id)->count()>0||
                     FreePostGoods::where('goods_id',$goods->id)->count()>0||
@@ -922,6 +944,16 @@ class OrdersController extends Controller
                 }
                 $goods->num=$goods->num+$g['num'];
                 $goods->save();
+
+                //是否是新用户福利商品
+                $homeButtonGoods=HomeButtonGoods::where('goods_id',$goods->id)->first();
+                if($homeButtonGoods!=null){
+                    //判断是否购买过
+                    $homeButtonGoodsBuyRecords=HomeButtonGoodsBuyRecords::where('home_button_goods_id',$homeButtonGoods->id)->first();
+                    if($homeButtonGoodsBuyRecords!=null){
+                        $homeButtonGoodsBuyRecords->delete();
+                    }
+                }
             }
         }
         DB::commit();
