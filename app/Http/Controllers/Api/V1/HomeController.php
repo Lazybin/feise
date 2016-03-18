@@ -6,6 +6,7 @@ use App\Model\BaseResponse;
 use App\Model\Collection;
 use App\Model\Home;
 use App\Model\Order;
+use App\Model\ReadRecords;
 use App\Model\UserComment;
 use App\Model\UserLevel;
 use Illuminate\Http\Request;
@@ -42,6 +43,13 @@ class HomeController extends Controller
      *         type="integer",
      *         defaultValue=1
      *     ),@SWG\Parameter(
+     *         name="device_token",
+     *         description="设备号",
+     *         paramType="query",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer"
+     *     ),@SWG\Parameter(
      *         name="PerPage",
      *         description="取得长度",
      *         paramType="query",
@@ -67,6 +75,7 @@ class HomeController extends Controller
         $start=$request->input('PageNum', 0);
         $length=$request->input('PerPage', 5);
         $user_id=$request->input('user_id',-1);
+        $device_token=$request->input('device_token','');
         $start=($start-1)*$length;
         $response=new BaseResponse();
         $home=Home::skip($start)->take($length)->orderBy('sort')->orderBy('id','desc')->get()->toArray();
@@ -77,6 +86,14 @@ class HomeController extends Controller
                 $collection=Collection::where('user_id',$user_id)->where('type',1)->where('item_id',$v['item']['id'])->first();
                 if($collection!=null){
                     $v['item']['has_collection']=1;
+                }
+            }
+            if($device_token!=''){
+                $is_new=ReadRecords::where('device_token',$device_token)->where('home_id',$v['id'])->count();
+                if($is_new>0){
+                    $v['item']['is_new']=0;
+                }else{
+                    $v['item']['is_new']=1;
                 }
             }
         }
@@ -124,6 +141,13 @@ class HomeController extends Controller
      *         allowMultiple=false,
      *         type="integer",
      *     ),@SWG\Parameter(
+     *         name="device_token",
+     *         description="设备号",
+     *         paramType="query",
+     *         required=true,
+     *         allowMultiple=false,
+     *         type="integer"
+     *     ),@SWG\Parameter(
      *         name="user_id",
      *         description="用户id",
      *         paramType="query",
@@ -141,7 +165,20 @@ class HomeController extends Controller
         //
         $response=new BaseResponse();
         $user_id=$request->input('user_id',-1);
-        $home=Home::find($id)->toArray();
+        $device_token=$request->input('device_token','');
+        $home=Home::find($id);
+        if($home==null){
+            $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
+            $response->Message='数据不存在';
+            return $response->toJson();
+        }
+        if($device_token!=''){
+            $readRecords=new ReadRecords();
+            $readRecords->device_token=$device_token;
+            $readRecords->home_id=$id;
+            $readRecords->save();
+        }
+        $home=$home->toArray();
         if($home['type']==1){
             $home['has_collection']=0;
             if($user_id!=-1){
