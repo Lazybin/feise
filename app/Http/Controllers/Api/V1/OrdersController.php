@@ -157,7 +157,7 @@ class OrdersController extends Controller
                 $homeButtonGoods=HomeButtonGoods::where('goods_id',$goods->id)->first();
                 if($homeButtonGoods!=null){
                     //判断是否购买过
-                    $homeButtonGoodsBuyRecords=HomeButtonGoodsBuyRecords::where('home_button_goods_id',$goods->id)->first();
+                    $homeButtonGoodsBuyRecords=HomeButtonGoodsBuyRecords::where('home_button_goods_id',$homeButtonGoods->id)->first();
                     if($homeButtonGoodsBuyRecords!=null){
                         $response->Code=BaseResponse::CODE_ERROR_BUSINESS;
                         $response->Message="商品".$goods->name."为新用户福利，只能购买一次，您已经购买过了";
