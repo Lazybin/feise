@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Home;
 use App\Model\Subject;
 use App\Model\SubjectThemes;
 use Illuminate\Http\Request;
@@ -125,6 +126,13 @@ class SubjectController extends Controller
 
     public function delete($id)
     {
+        $home=Home::where('item_id',$id)->where('type',0)->first();
+        if($home!=null){
+            $ret['meta']['code']=0;
+            $ret['meta']['error']='删除失败，该专题已绑定到首页，对应id为'.$home->id;
+            echo json_encode($ret);
+            return;
+        }
         Subject::find($id)->delete();
         $ret['meta']['code']=1;
         echo json_encode($ret);

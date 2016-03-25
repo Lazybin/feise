@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Model\Category;
+use App\Model\Home;
 use App\Model\SubjectThemes;
 use App\Model\ThemeGoods;
 use App\Model\Themes;
@@ -166,6 +167,14 @@ class ThemesController extends Controller
         if($sub!=null){
             $ret['meta']['code']=0;
             $ret['meta']['error']='删除失败，该商品已绑定到专题，对应id为'.$sub->subject_id;
+            echo json_encode($ret);
+            return;
+        }
+
+        $home=Home::where('item_id',$id)->where('type',1)->first();
+        if($home!=null){
+            $ret['meta']['code']=0;
+            $ret['meta']['error']='删除失败，该主题已绑定到首页，对应id为'.$home->id;
             echo json_encode($ret);
             return;
         }
