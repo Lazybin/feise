@@ -25,7 +25,11 @@ class Home extends Model
     public function getItemAttribute()
     {
         if($this->type==0){
-            $subjects=Subject::find($this->item_id)->toArray();
+            $subjects=Subject::find($this->item_id);
+            if($subjects==null){
+                return null;
+            }
+            $subjects=$subjects->toArray();
             $themes=$subjects['themes'];
             $subjects['themes']=[];
             foreach($themes as $t){
@@ -33,7 +37,11 @@ class Home extends Model
             }
             return $subjects;
         }else{
-            return Themes::find($this->item_id)->toArray();
+            $themes=Themes::find($this->item_id);
+            if($themes==null){
+                return null;
+            }
+            return $themes->toArray();
         }
     }
 }
