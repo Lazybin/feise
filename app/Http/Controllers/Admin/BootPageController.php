@@ -30,6 +30,10 @@ class BootPageController extends Controller
             $bootPage=BootPage::findOrNew(1);
             $bootPage->path='/upload/'.$fileName;
             $bootPage->save();
+        }else{
+            $bootPage=BootPage::findOrNew(1);
+            $bootPage->path='';
+            $bootPage->save();
         }
         return redirect()->action('Admin\BootPageController@show');
     }
