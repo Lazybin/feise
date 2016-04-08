@@ -39,9 +39,6 @@
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
-                    <li>
-                        <a href="{{url('/home/')}}/"><i class="fa fa-dashboard fa-fw"></i> 控制台</a>
-                    </li>
                     @if(in_array(1,$authList))
                     <li>
                         <a href="#"><i class="fa  fa-gift fa-fw"></i> 商品管理<span class="fa arrow"></span></a>

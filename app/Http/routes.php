@@ -109,6 +109,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('admin/login', 'Admin\Auth\AuthController@postLogin');
     Route::get('admin/logout', 'Admin\Auth\AuthController@logout');
     Route::group(['middleware' => ['auth']], function () {
+        Route::get('/home_manage/', 'Admin\HomeManageController@show');
         Route::get('/', 'Admin\HomeController@index');
         Route::get('/home/', 'Admin\HomeController@index');
 
