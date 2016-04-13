@@ -65,7 +65,8 @@ class Goods extends Model
     {
         if(ActivityClassificationGoods::where('goods_id',$this->id)->count()>0||
             FreePostGoods::where('goods_id',$this->id)->count()>0||
-            ConversionGoods::where('goods_id',$this->id)->count()>0
+            ConversionGoods::where('goods_id',$this->id)->count()>0||
+            HomeButtonGoods::where('goods_id',$this->id)->count()>0
         ){
             return 1;
         }else{
